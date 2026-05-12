@@ -1,5 +1,6 @@
 #include "bsp_usart.h"
 #include <string.h>
+#include <stdio.h>
 
 /* 全局接收缓冲区 */
 uint8_t g_usart_rx_buf[USART_RX_BUF_SIZE];
@@ -83,4 +84,24 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
         /* 发生错误时（如溢出），尝试恢复接收 */
         HAL_UARTEx_ReceiveToIdle_DMA(&huart1, g_usart_rx_buf, USART_RX_BUF_SIZE);
     }
+}
+
+#ifdef __GNUC__
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif
+
+PUTCHAR_PROTOTYPE
+{
+    /* 
+       防止与 DMA 发送冲突：
+       在重定向 printf 时，必须先等待串口状态变为 READY。
+       否则，如果此时 DMA 正在发送数据，HAL_UART_Transmit 会直接返回 HAL_BUSY，
+       导致 printf 的字符被丢弃。
+    */
+    while (huart1.gState != HAL_UART_STATE_READY);
+
+    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
+    return ch;
 }

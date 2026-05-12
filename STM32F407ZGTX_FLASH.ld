@@ -48,6 +48,7 @@ MEMORY
   CCMRAM    (xrw)    : ORIGIN = 0x10000000,   LENGTH = 64K
   RAM    (xrw)    : ORIGIN = 0x20000000,   LENGTH = 128K
   FLASH    (rx)    : ORIGIN = 0x8000000,   LENGTH = 1024K
+  EXTSRAM  (xrw)    : ORIGIN = 0x68000000,   LENGTH = 1024K
 }
 
 /* Sections */
@@ -206,4 +207,15 @@ SECTIONS
   }
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
+
+  /* External SRAM section */
+  .ext_sram (NOLOAD) :
+  {
+    . = ALIGN(4);
+    _sextsram = .;
+    *(.ext_sram)
+    *(.ext_sram*)
+    . = ALIGN(4);
+    _eextsram = .;
+  } >EXTSRAM
 }
