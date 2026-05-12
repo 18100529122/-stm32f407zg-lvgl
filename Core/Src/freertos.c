@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "usart.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,7 +45,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+static uint8_t led_state=0;
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -57,7 +57,12 @@ const osThreadAttr_t defaultTask_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-
+static void led_toggle(void)
+{
+  HAL_GPIO_WritePin(GPIOF,GPIO_PIN_9 , led_state?GPIO_PIN_SET:GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOF,GPIO_PIN_10 , led_state?GPIO_PIN_SET:GPIO_PIN_RESET);
+  led_state=!led_state;
+}
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
@@ -129,7 +134,9 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    led_toggle();
+
+    osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */
 }
