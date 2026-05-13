@@ -1,0 +1,682 @@
+{
+  "name": "lvgl9_2_2",
+  "lvglVersion": "9.2.2",
+  "projectSettings": {
+    "orientation": "landscape",
+    "resolution": {
+      "width": 800,
+      "height": 480
+    },
+    "color_depth": 32,
+    "name": "Simulator",
+    "shape": "square"
+  },
+  "version": "",
+  "screens": [
+    {
+      "name": "screen",
+      "id": "scr_4439e87f-cd8c-4f91-ba4f-4818d42d88b7",
+      "type": "scr",
+      "version": 151,
+      "left": 0,
+      "top": 0,
+      "width": 800,
+      "height": 480,
+      "visible": true,
+      "scrollbar_mode": "OFF",
+      "display_kb": true,
+      "chinese_input": false,
+      "chinese_library": "mini",
+      "keyboard_font_type": "simsun",
+      "keyboard_font_size": "18",
+      "list": [
+        {
+          "name": "label_title",
+          "id": "d8a29b2d-8573-490b-9ef2-8496ca57b16a",
+          "type": "label",
+          "tag": "",
+          "visible": true,
+          "left": 100,
+          "left_unit": "pixel",
+          "top": 20,
+          "top_unit": "pixel",
+          "width": 600,
+          "width_unit": "pixel",
+          "height": 30,
+          "height_unit": "pixel",
+          "scrollbar_mode": "OFF",
+          "text": "LVGL TEST",
+          "long_mode": "LV_LABEL_LONG_WRAP",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false,
+              "text_font": "lv_font_montserrat_26",
+              "text_align": "LV_TEXT_ALIGN_CENTER"
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        },
+        {
+          "name": "chart",
+          "id": "08051f56-79b9-4e08-a9c9-4f69bc7133ab",
+          "type": "chart",
+          "left": 80,
+          "top": 48,
+          "visible": true,
+          "width": 640,
+          "height": 384,
+          "scrollbar_mode": "OFF",
+          "range_s": 0,
+          "range_e": 500,
+          "division_line_row": 3,
+          "division_line_col": 5,
+          "point_count": 5,
+          "chart_type": "LV_CHART_TYPE_LINE",
+          "chart_data": [
+            {
+              "chart_color": "#000000",
+              "chart_points": [
+                1,
+                20,
+                30,
+                40,
+                5,
+                300,
+                50,
+                80
+              ]
+            }
+          ],
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": [],
+          "width_unit": "pixel",
+          "height_unit": "pixel",
+          "left_unit": "pixel",
+          "top_unit": "pixel"
+        }
+      ],
+      "event": [],
+      "style": [
+        {
+          "part": "LV_PART_MAIN",
+          "state": "LV_STATE_DEFAULT",
+          "disable": false,
+          "bg_color": "#FFFFFF"
+        }
+      ],
+      "commCmds": [],
+      "commEvts": [],
+      "main": true
+    }
+  ],
+  "globalComponents": [
+    {
+      "version": 1,
+      "id": "statusbar_4934feb6-09d3-4a57-a5ca-afe45538180c",
+      "name": "statusbar_80bPTBPu",
+      "type": "statusbar",
+      "category": "global",
+      "visible": true,
+      "disabled": false,
+      "locked": true,
+      "scrollbar_mode": "OFF",
+      "left": 0,
+      "top": 0,
+      "width": 0,
+      "height": 30,
+      "child": [
+        {
+          "name": "label_OuYGRZRa",
+          "id": "label_e2f911d3-adac-4767-8370-23b31dea1fc4",
+          "type": "label",
+          "tag": "",
+          "visible": true,
+          "left": 10,
+          "left_unit": "pixel",
+          "top": 0,
+          "top_unit": "pixel",
+          "width": 80,
+          "width_unit": "content",
+          "height": 30,
+          "height_unit": "content",
+          "scrollbar_mode": "OFF",
+          "text": "12:00:00",
+          "long_mode": "LV_LABEL_LONG_WRAP",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "commEvts": [
+            {
+              "event": "EVT_TIME",
+              "code": "EVT_TIME_CHANGED",
+              "type": 3,
+              "len": 64
+            }
+          ],
+          "event": [],
+          "commCmds": []
+        },
+        {
+          "name": "label_9HCWbvse",
+          "id": "label_53778ea7-0a3a-4497-a7d0-cfa135e327d6",
+          "type": "label",
+          "tag": "",
+          "visible": false,
+          "left": 75,
+          "left_unit": "pixel",
+          "top": 10,
+          "top_unit": "pixel",
+          "width": 60,
+          "width_unit": "content",
+          "height": 30,
+          "height_unit": "content",
+          "scrollbar_mode": "OFF",
+          "text": "Label",
+          "long_mode": "LV_LABEL_LONG_WRAP",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        },
+        {
+          "name": "label_zE2baAGa",
+          "id": "label_65b220fb-6611-47ed-9313-c815d4b8b8ca",
+          "type": "label",
+          "tag": "",
+          "visible": false,
+          "left": 140,
+          "left_unit": "pixel",
+          "top": 10,
+          "top_unit": "pixel",
+          "width": 60,
+          "width_unit": "content",
+          "height": 30,
+          "height_unit": "content",
+          "scrollbar_mode": "OFF",
+          "text": "Label",
+          "long_mode": "LV_LABEL_LONG_WRAP",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        },
+        {
+          "name": "label_CT4Q1V7U",
+          "id": "label_9c51ab91-1d58-427a-911a-367b4beca178",
+          "type": "label",
+          "tag": "",
+          "visible": false,
+          "left": 205,
+          "left_unit": "pixel",
+          "top": 10,
+          "top_unit": "pixel",
+          "width": 60,
+          "width_unit": "content",
+          "height": 30,
+          "height_unit": "content",
+          "scrollbar_mode": "OFF",
+          "text": "Label",
+          "long_mode": "LV_LABEL_LONG_WRAP",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        },
+        {
+          "name": "label_NUv71tTa",
+          "id": "label_271f9a8d-fe24-4412-941e-d194637127fd",
+          "type": "label",
+          "tag": "",
+          "visible": false,
+          "left": 270,
+          "left_unit": "pixel",
+          "top": 10,
+          "top_unit": "pixel",
+          "width": 60,
+          "width_unit": "content",
+          "height": 30,
+          "height_unit": "content",
+          "scrollbar_mode": "OFF",
+          "text": "Label",
+          "long_mode": "LV_LABEL_LONG_WRAP",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        },
+        {
+          "name": "img_c47TakoY",
+          "id": "img_fd6c3c51-73ff-4b37-9b44-e15b19ba239a",
+          "type": "img",
+          "tag": "Image",
+          "left": 610,
+          "top": 5,
+          "visible": true,
+          "width": 20,
+          "height": 20,
+          "scrollbar_mode": "OFF",
+          "use_fs": false,
+          "fs_type": "flash",
+          "sd_path": "",
+          "img_path": "battery.png",
+          "rotate": 0,
+          "x": 50,
+          "y": 50,
+          "color_format": "true-color-alpha",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "commEvts": [
+            {
+              "event": "EVT_BATTERY",
+              "code": "EVT_BATTERY_CHANGED",
+              "type": 2,
+              "len": 1,
+              "actions": [
+                {
+                  "status": 0,
+                  "action": {
+                    "img_path": "battery_0.png",
+                    "type": "img"
+                  }
+                },
+                {
+                  "status": 1,
+                  "action": {
+                    "img_path": "battery_1.png",
+                    "type": "img"
+                  }
+                },
+                {
+                  "status": 2,
+                  "action": {
+                    "img_path": "battery_2.png",
+                    "type": "img"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "commCmds": []
+        },
+        {
+          "name": "img_X1BpwBPF",
+          "id": "img_cb7ef65b-21ef-4bc4-b846-e8ecaf4b505b",
+          "type": "img",
+          "tag": "Image",
+          "left": 585,
+          "top": 5,
+          "visible": true,
+          "width": 20,
+          "height": 20,
+          "scrollbar_mode": "OFF",
+          "use_fs": false,
+          "fs_type": "flash",
+          "sd_path": "",
+          "img_path": "WIFI.png",
+          "rotate": 0,
+          "x": 50,
+          "y": 50,
+          "color_format": "true-color-alpha",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        },
+        {
+          "name": "img_5bI1DQaj",
+          "id": "img_84ebb38a-a992-42b4-89de-568fe4512310",
+          "type": "img",
+          "tag": "Image",
+          "left": 560,
+          "top": 5,
+          "visible": true,
+          "width": 20,
+          "height": 20,
+          "scrollbar_mode": "OFF",
+          "use_fs": false,
+          "fs_type": "flash",
+          "sd_path": "",
+          "img_path": "bluetooth.png",
+          "rotate": 0,
+          "x": 50,
+          "y": 50,
+          "color_format": "true-color-alpha",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "commEvts": [
+            {
+              "event": "EVT_BT",
+              "code": "EVT_BT_CHANGED",
+              "type": 1,
+              "len": 1,
+              "actions": [
+                {
+                  "status": 0,
+                  "action": {
+                    "img_path": "no_bluetooth.png",
+                    "type": "img"
+                  }
+                },
+                {
+                  "status": 1,
+                  "action": {
+                    "img_path": "bluetooth.png",
+                    "type": "img"
+                  }
+                }
+              ]
+            }
+          ],
+          "event": [],
+          "commCmds": []
+        },
+        {
+          "name": "img_1RJysiba",
+          "id": "img_b348a70b-c6ba-483b-87b0-c08d84a2f0c6",
+          "type": "img",
+          "tag": "Image",
+          "left": 535,
+          "top": 5,
+          "visible": false,
+          "width": 20,
+          "height": 20,
+          "scrollbar_mode": "OFF",
+          "use_fs": false,
+          "fs_type": "flash",
+          "sd_path": "",
+          "img_path": "",
+          "rotate": 0,
+          "x": 50,
+          "y": 50,
+          "color_format": "true-color-alpha",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        },
+        {
+          "name": "img_ARkPF1ak",
+          "id": "img_b64b1a1c-fcc7-4d0e-9284-f62a70da646a",
+          "type": "img",
+          "tag": "Image",
+          "left": 510,
+          "top": 5,
+          "visible": false,
+          "width": 20,
+          "height": 20,
+          "scrollbar_mode": "OFF",
+          "use_fs": false,
+          "fs_type": "flash",
+          "sd_path": "",
+          "img_path": "",
+          "rotate": 0,
+          "x": 50,
+          "y": 50,
+          "color_format": "true-color-alpha",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        },
+        {
+          "name": "img_4EeacVUd",
+          "id": "img_35e6ddfd-9720-4ed9-8de3-ca25fea6906a",
+          "type": "img",
+          "tag": "Image",
+          "left": 485,
+          "top": 5,
+          "visible": false,
+          "width": 20,
+          "height": 20,
+          "scrollbar_mode": "OFF",
+          "use_fs": false,
+          "fs_type": "flash",
+          "sd_path": "",
+          "img_path": "",
+          "rotate": 0,
+          "x": 50,
+          "y": 50,
+          "color_format": "true-color-alpha",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        },
+        {
+          "name": "img_jd8H61ym",
+          "id": "img_55c9af40-95eb-4450-ad10-2f2848646d36",
+          "type": "img",
+          "tag": "Image",
+          "left": 460,
+          "top": 5,
+          "visible": false,
+          "width": 20,
+          "height": 20,
+          "scrollbar_mode": "OFF",
+          "use_fs": false,
+          "fs_type": "flash",
+          "sd_path": "",
+          "img_path": "",
+          "rotate": 0,
+          "x": 50,
+          "y": 50,
+          "color_format": "true-color-alpha",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        },
+        {
+          "name": "img_7VAa2zvo",
+          "id": "img_5554bd02-a9fd-47d6-b2a9-12f011bcef09",
+          "type": "img",
+          "tag": "Image",
+          "left": 435,
+          "top": 5,
+          "visible": false,
+          "width": 20,
+          "height": 20,
+          "scrollbar_mode": "OFF",
+          "use_fs": false,
+          "fs_type": "flash",
+          "sd_path": "",
+          "img_path": "",
+          "rotate": 0,
+          "x": 50,
+          "y": 50,
+          "color_format": "true-color-alpha",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        },
+        {
+          "name": "img_MBUkktP5",
+          "id": "img_a02627e0-0d32-4003-a2dd-56e9ecbab3c5",
+          "type": "img",
+          "tag": "Image",
+          "left": 410,
+          "top": 5,
+          "visible": false,
+          "width": 20,
+          "height": 20,
+          "scrollbar_mode": "OFF",
+          "use_fs": false,
+          "fs_type": "flash",
+          "sd_path": "",
+          "img_path": "",
+          "rotate": 0,
+          "x": 50,
+          "y": 50,
+          "color_format": "true-color-alpha",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        },
+        {
+          "name": "img_a50EbI38",
+          "id": "img_3d52b33f-eda2-464a-a070-cb603230ae4e",
+          "type": "img",
+          "tag": "Image",
+          "left": 385,
+          "top": 5,
+          "visible": false,
+          "width": 20,
+          "height": 20,
+          "scrollbar_mode": "OFF",
+          "use_fs": false,
+          "fs_type": "flash",
+          "sd_path": "",
+          "img_path": "signal.png",
+          "rotate": 0,
+          "x": 50,
+          "y": 50,
+          "color_format": "true-color-alpha",
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        },
+        {
+          "name": "cont_j3Xq9IkP",
+          "id": "cont_a750c17b-f0b3-47c9-a450-e19702ee514d",
+          "type": "cont",
+          "left": 0,
+          "top": 0,
+          "visible": true,
+          "width": 640,
+          "height": 30,
+          "scrollbar_mode": "OFF",
+          "layout": "LV_LAYOUT_NONE",
+          "flexFlow": "LV_FLEX_FLOW_ROW",
+          "mainAlign": "LV_FLEX_ALIGN_CENTER",
+          "crossAlign": "LV_FLEX_ALIGN_CENTER",
+          "trackAlign": "LV_FLEX_ALIGN_CENTER",
+          "child": [],
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false,
+              "bg_color": "#ffffff",
+              "border_width": 0,
+              "radius": 0,
+              "padding_left": 0,
+              "padding_right": 0,
+              "padding_top": 0,
+              "padding_bottom": 0
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": []
+        }
+      ],
+      "commCmds": [],
+      "event": []
+    }
+  ],
+  "animations": [],
+  "scrLoadAnimations": [],
+  "fontLibraries": []
+}
