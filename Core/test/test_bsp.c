@@ -1,5 +1,6 @@
 #include "test_bsp.h"
 #include <stdio.h>
+#include "lcd.h"
 
 
 #ifndef TEST_SRAM_DEBUG
@@ -100,6 +101,45 @@ void SRAM_Section_Test(void)
 
 #endif
 
+/**
+ * @brief LCD 显示测试
+ */
+void LCD_Test(void)
+{
+    printf("--- LCD Test Start ---\n");
+    printf("LCD ID: 0x%04X\n", lcddev.id);
+    printf("LCD Width: %u, Height: %u\n", lcddev.width, lcddev.height);
+
+    // 0. 设置显示方向
+    printf("Setting display direction...\n");
+    lcd_display_dir(1);
+    lcd_scan_dir(3);
+
+    // 1. 清屏测试
+    printf("Clearing screen to WHITE...\n");
+    lcd_clear(WHITE);
+    HAL_Delay(500);
+
+    // 2. 画点测试
+    printf("Drawing points...\n");
+    for (uint16_t i = 0; i < 100; i++)
+    {
+        lcd_draw_point(100 + i, 100 + i, RED);
+    }
+
+    // 3. 画线测试
+    printf("Drawing lines...\n");
+    lcd_draw_line(0, 0, lcddev.width - 1, lcddev.height - 1, GREEN);
+    lcd_draw_line(lcddev.width - 1, 0, 0, lcddev.height - 1, GREEN);
+
+    // 4. 文字显示测试
+    printf("Showing strings...\n");
+    lcd_show_string(10, 10, 200, 32, 32, "STM32F407 LCD TEST", BLACK);
+    lcd_show_string(10, 60, 200, 32, 32, "By Gemini Code Assistant", BLACK);
+
+    printf("--- LCD Test End ---\n");
+}
+
 
 /**
  * @brief 测试BSP函数，包含SRAM_Test和SRAM_Section_Test
@@ -110,6 +150,8 @@ void Test_BSP(void)
     SRAM_Test();     //test SRAM access
     SRAM_Section_Test();//test SRAM section
 #endif
+
+    LCD_Test();      // test LCD
 
     printf("Test_BSP done!\n");
 }

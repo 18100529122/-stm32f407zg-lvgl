@@ -56,6 +56,7 @@
 									<listOptionValue builtIn="false" value="../Core/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/BSP/bsp/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/BSP/usart/Inc"/>
+									<listOptionValue builtIn="false" value="../Core/BSP/lcd/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/test"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>

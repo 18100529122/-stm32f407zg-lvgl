@@ -27,6 +27,7 @@
 /* USER CODE BEGIN Includes */
 #include "bsp.h"
 #include "test_bsp.h"
+#include "lcd.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 
@@ -143,8 +144,8 @@ void StartDefaultTask(void *argument)
   for(;;)
   {
     led_toggle();
-
     osDelay(1000);
+    
   }
   /* USER CODE END StartDefaultTask */
 }
