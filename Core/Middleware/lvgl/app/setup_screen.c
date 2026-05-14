@@ -14,7 +14,7 @@
 
 #include "setup_ui.h"
 
-#if 0
+#if 1
 
 lv_obj_t * screen = NULL;
 lv_obj_t * screen_chart = NULL;

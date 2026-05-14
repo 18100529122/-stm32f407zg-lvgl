@@ -7,7 +7,7 @@
  */
 void test_lvgl_widgets(void)
 {
-#if 0
+#if 1
     printf("Running LVGL Test Widgets...\n");
 
     /* 创建一个屏幕对象 */

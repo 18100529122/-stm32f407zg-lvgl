@@ -31,6 +31,7 @@
 #include "middleware.h"
 #include "test_middleware.h"
 #include <stdio.h>
+#include "setup_ui.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -98,8 +99,8 @@ void MX_FREERTOS_Init(void) {
   printf("System Init...\r\n");
   BSP_Init();
   printf("BSP Init Done\r\n");
-  // middleware_init();
-  printf("Middleware Init Done\r\n");
+  HAL_Delay(1000);
+
   /* USER CODE END Init */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -142,15 +143,20 @@ void MX_FREERTOS_Init(void) {
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
+  middleware_init();
+  printf("Middleware Init Done\r\n");
+  HAL_Delay(1000);
 #if 1 
-  printf("\r\n--- System Restart ---\r\n");
-  Test_BSP();
+  // printf("\r\n--- System Restart ---\r\n");
+  // Test_BSP();
   // test_lvgl_widgets();
+  setupUi();
 #endif
   printf("Task Running...\r\n");
   /* Infinite loop */
   for(;;)
   {
+    lv_timer_handler();
     led_toggle();
     osDelay(1000);
     

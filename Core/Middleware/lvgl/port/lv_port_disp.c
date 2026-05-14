@@ -79,10 +79,10 @@ void lv_port_disp_init(void)
 /*Initialize your display and the required peripherals.*/
 static void disp_init(void)
 {
-    /* 初始化 LCD 硬件 */
-    lcd_init();
+    /* 初始化 LCD 硬件 已经在BSP中初始化过了,这里只需要设置方向即可 */
     /* 设置为横屏 (根据 800*480 需求) */
     lcd_display_dir(1);
+    lcd_scan_dir(3);
 }
 
 volatile bool disp_flush_enabled = true;

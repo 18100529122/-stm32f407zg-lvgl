@@ -14,7 +14,7 @@
 
 #include "setup_ui.h"
 
-#if 0
+#if 1
 void setupUi(void) {
     lv_obj_t * screen = setup_screen();
     lv_scr_load(screen);
