@@ -26,6 +26,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "bsp.h"
+#include "bsp_adc.h"
+#include "bsp_dac.h"
+
 #include "middleware.h"
 
 #include "lv_freeRTOS.h"
@@ -159,10 +162,16 @@ void StartDefaultTask(void *argument)
 
   printf("Task Running...\r\n");
   /* Infinite loop */
-  uint32_t count = 0;
+  uint16_t count = 100;
   for(;;)
   {
     led_toggle();
+    bsp_dac_set_value(count+=10);
+    if(count>4095)
+    {
+      count=0;
+    }
+    printf("adc average: %d\r\n", bsp_adc_get_average_voltage());
     osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */
