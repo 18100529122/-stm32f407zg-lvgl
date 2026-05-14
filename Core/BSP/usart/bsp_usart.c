@@ -69,8 +69,8 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
         /* 5. 禁用半传输中断，只处理 IDLE 或传输完成中断，防止干扰 */
         __HAL_DMA_DISABLE_IT(huart->hdmarx, DMA_IT_HT);
 
-        /* 6. 启动发送 */
-        BSP_USART_Send_DMA(g_usart_tx_buf, Size);
+        /* 6. 启动发送 (暂时禁用回显，排除乱码干扰) */
+        // BSP_USART_Send_DMA(g_usart_tx_buf, Size);
     }
 }
 

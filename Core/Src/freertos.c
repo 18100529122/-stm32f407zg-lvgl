@@ -28,6 +28,8 @@
 #include "bsp.h"
 #include "test_bsp.h"
 #include "lcd.h"
+#include "middleware.h"
+#include "test_middleware.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 
@@ -93,7 +95,11 @@ void vApplicationStackOverflowHook(xTaskHandle xTask, signed char *pcTaskName)
   */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
+  printf("System Init...\r\n");
   BSP_Init();
+  printf("BSP Init Done\r\n");
+  // middleware_init();
+  printf("Middleware Init Done\r\n");
   /* USER CODE END Init */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -136,10 +142,12 @@ void MX_FREERTOS_Init(void) {
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
-#if TEST_DEBUG
-  printf("StartDefaultTask\n");
+#if 1 
+  printf("\r\n--- System Restart ---\r\n");
   Test_BSP();
+  // test_lvgl_widgets();
 #endif
+  printf("Task Running...\r\n");
   /* Infinite loop */
   for(;;)
   {

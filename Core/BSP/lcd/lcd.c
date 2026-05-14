@@ -575,6 +575,8 @@ void lcd_display_off(void)
  */
 void lcd_init(void)
 {
+    LCD_BL(1);          /* 优先点亮背光，方便观察是否卡死 */
+    printf("LCD Init Start...\r\n");
     HAL_Delay(50);
     
     lcd_wr_regno(0xD3);
@@ -583,6 +585,7 @@ void lcd_init(void)
     lcddev.id = lcd_rd_data();  /* 读取93 */
     lcddev.id <<= 8;
     lcddev.id |= lcd_rd_data(); /* 读取41 */
+    printf("LCD Read ID Done: %x\r\n", lcddev.id);
 
     do
     {

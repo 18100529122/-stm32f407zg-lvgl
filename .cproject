@@ -57,6 +57,12 @@
 									<listOptionValue builtIn="false" value="../Core/BSP/bsp/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/BSP/usart/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/BSP/lcd/Inc"/>
+									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl"/>
+									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/app"/>
+									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/port"/>
+									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/src"/>
+									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/sdk"/>
+									<listOptionValue builtIn="false" value="../Core/Middleware/middleware/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/test"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy"/>
@@ -205,5 +211,12 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/lvgl_test"/>
+		</configuration>
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/lvgl_test"/>
+		</configuration>
+	</storageModule>
 </cproject>
