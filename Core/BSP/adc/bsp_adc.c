@@ -1,9 +1,16 @@
 #include "bsp_adc.h"
+#include "bsp_adc_fifo.h"
 #include "adc.h"
 #include "tim.h"
+#include <string.h>
 
 uint16_t g_adc_buff[ADC_BUFF_SIZE];
 volatile uint16_t g_adc_average = 0;
+
+/* FIFO 设备定义 */
+bsp_adc_fifo_t g_adc_fifo_dev = {0};
+/* 信号量定义 */
+SemaphoreHandle_t g_adc_data_sem = NULL;
 
 /**
  * @brief 初始化ADC并开启DMA采集
@@ -11,7 +18,12 @@ volatile uint16_t g_adc_average = 0;
  */
 void bsp_adc_init(void)
 {
-    /* 动态调整 ADC1 配置以支持 Timer2 触发和 DMA 连续请求 */
+    /* 创建信号量 */
+    if (g_adc_data_sem == NULL) {
+        g_adc_data_sem = xSemaphoreCreateBinary();
+    }
+
+    /* 动态调整 ADC1 配置以支持 Timer2 触发 and DMA 连续请求 */
     hadc1.Instance->CR2 &= ~ADC_CR2_CONT;      /* 关闭连续转换模式，改为触发模式 */
     hadc1.Instance->CR2 |= ADC_CR2_DDS;       /* 开启 DMA 连续请求 (DDS位) */
     
@@ -52,11 +64,22 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
     if (hadc->Instance == ADC1)
     {
-        uint32_t sum = 0;
-        for (int i = 0; i < ADC_BUFF_SIZE; i++)
-        {
-            sum += g_adc_buff[i];
+        uint8_t w_idx = g_adc_fifo_dev.write_idx;
+        
+        /* 拷贝数据到固定 FIFO 块 */
+        memcpy(g_adc_fifo_dev.data[w_idx], g_adc_buff, ADC_DMA_BUFF_SIZE * 2);
+        
+        /* 标记该块已满 */
+        g_adc_fifo_dev.status[w_idx].is_full = 1;
+        
+        /* 更新写入索引 */
+        g_adc_fifo_dev.write_idx = (w_idx + 1) % ADC_FIFO_NUM;
+        
+        /* 发送信号量给后台任务 */
+        if (g_adc_data_sem != NULL) {
+            BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+            xSemaphoreGiveFromISR(g_adc_data_sem, &xHigherPriorityTaskWoken);
+            portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
         }
-        g_adc_average = (uint16_t)(sum / ADC_BUFF_SIZE);
     }
 }

@@ -25,11 +25,12 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "bsp.h"
 #include "bsp_adc.h"
 #include "bsp_dac.h"
 
+#include "app.h"
 #include "middleware.h"
+#include "bsp.h"
 
 #include "lv_freeRTOS.h"
 
@@ -153,6 +154,8 @@ void StartDefaultTask(void *argument)
   middleware_init();
   printf("Middleware Init Done\r\n");
   HAL_Delay(500);
+  app_init();
+  printf("App Init Done\r\n");
 #if TEST_BSP_DEBUG 
   Test_BSP();
 #endif
@@ -171,7 +174,7 @@ void StartDefaultTask(void *argument)
     {
       count=0;
     }
-    printf("adc average: %d\r\n", bsp_adc_get_average_voltage());
+    printf("Average Voltage: %d mV\r\n", bsp_adc_get_average_voltage());
     osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */
