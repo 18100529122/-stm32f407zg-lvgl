@@ -26,12 +26,14 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "bsp.h"
-#include "test_bsp.h"
-#include "lcd.h"
 #include "middleware.h"
+
+#include "lv_freeRTOS.h"
+
+#include "test_bsp.h"
 #include "test_middleware.h"
+
 #include <stdio.h>
-#include "setup_ui.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,8 +43,11 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#ifndef TEST_DEBUG
-#define TEST_DEBUG 1
+#ifndef TEST_BSP_DEBUG
+#define TEST_BSP_DEBUG 0
+#endif
+#ifndef TEST_MIDDLEWARE_DEBUG
+#define TEST_MIDDLEWARE_DEBUG 0
 #endif
 /* USER CODE END PD */
 
@@ -99,7 +104,6 @@ void MX_FREERTOS_Init(void) {
   printf("System Init...\r\n");
   BSP_Init();
   printf("BSP Init Done\r\n");
-  HAL_Delay(1000);
 
   /* USER CODE END Init */
 
@@ -125,6 +129,7 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+  lv_freertos_init();
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -146,17 +151,17 @@ void StartDefaultTask(void *argument)
   middleware_init();
   printf("Middleware Init Done\r\n");
   HAL_Delay(1000);
-#if 1 
-  // printf("\r\n--- System Restart ---\r\n");
-  // Test_BSP();
-  // test_lvgl_widgets();
-  setupUi();
+#if TEST_BSP_DEBUG 
+  Test_BSP();
 #endif
+#if TEST_MIDDLEWARE_DEBUG 
+  Test_Middleware();
+#endif
+
   printf("Task Running...\r\n");
   /* Infinite loop */
   for(;;)
   {
-    lv_timer_handler();
     led_toggle();
     osDelay(1000);
     

@@ -14,4 +14,11 @@ void test_lvgl_widgets(void);
 }
 #endif
 
+/**
+ * @brief 测试Middleware函数，包含lvgl_widgets
+ */
+void Test_Middleware(void);
+
+
+
 #endif /* __TEST_MIDDLEWARE_H */
