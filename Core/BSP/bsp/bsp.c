@@ -1,6 +1,7 @@
 #include "bsp.h"
 #include "bsp_usart.h"
 #include "lcd.h"
+#include "touch.h"
 
 /**
  * @brief 硬件抽象层初始化 (板级支持包初始化)
@@ -12,6 +13,9 @@ void BSP_Init(void)
     
     /* 初始化 LCD */
     lcd_init();
+
+    /* 初始化触摸屏 */
+    tp_init();
 }
 
 /**

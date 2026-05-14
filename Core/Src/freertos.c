@@ -28,8 +28,8 @@
 #include "bsp.h"
 #include "middleware.h"
 
+#include "setup_ui.h"
 #include "lv_freeRTOS.h"
-
 #include "test_bsp.h"
 #include "test_middleware.h"
 
@@ -101,9 +101,6 @@ void vApplicationStackOverflowHook(xTaskHandle xTask, signed char *pcTaskName)
   */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
-  printf("System Init...\r\n");
-  BSP_Init();
-  printf("BSP Init Done\r\n");
 
   /* USER CODE END Init */
 
@@ -148,9 +145,14 @@ void MX_FREERTOS_Init(void) {
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
+  /* 在任务中初始化触摸屏，确保 HAL_Delay 正常工作 */
+  printf("System Init...\r\n");
+  BSP_Init();
+  printf("BSP Init Done\r\n");
+  HAL_Delay(500);
   middleware_init();
   printf("Middleware Init Done\r\n");
-  HAL_Delay(1000);
+  HAL_Delay(500);
 #if TEST_BSP_DEBUG 
   Test_BSP();
 #endif
@@ -160,11 +162,18 @@ void StartDefaultTask(void *argument)
 
   printf("Task Running...\r\n");
   /* Infinite loop */
+  uint32_t count = 0;
   for(;;)
   {
-    led_toggle();
-    osDelay(1000);
+    Touch_Test();  /* 提高扫描频率 (每 20ms 一次) */
     
+    if(++count >= 50) /* 约 1000ms 翻转一次 LED (50 * 20ms) */
+    {
+        led_toggle();
+        count = 0;
+    }
+    
+    osDelay(20);
   }
   /* USER CODE END StartDefaultTask */
 }

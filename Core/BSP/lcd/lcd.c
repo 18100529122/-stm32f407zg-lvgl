@@ -667,7 +667,7 @@ void lcd_init(void)
         lcd_ssd_backlight_set(100); /* 背光设置为最亮 */
     }
 
-    lcd_display_dir(0); /* 默认为竖屏 */
+    lcd_display_dir(1); /* 默认为横屏 (800x480) */
     LCD_BL(1);          /* 点亮背光 */
     lcd_clear(WHITE);
 }
