@@ -31,6 +31,38 @@
       "keyboard_font_size": "18",
       "list": [
         {
+          "name": "btn_1",
+          "id": "9435eaa4-1bae-43a3-ae49-fcaad00ce5fe",
+          "type": "btn",
+          "left": 10,
+          "top": 10,
+          "visible": true,
+          "width": 50,
+          "height": 50,
+          "scrollbar_mode": "OFF",
+          "text": "1",
+          "mode": true,
+          "text_width": "60",
+          "text_height": "20",
+          "long_mode": "LV_LABEL_LONG_WRAP",
+          "toggle": false,
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false,
+              "text_color": "#ffffff",
+              "text_align": "LV_TEXT_ALIGN_CENTER"
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": [],
+          "width_unit": "pixel",
+          "left_unit": "pixel",
+          "objStates": []
+        },
+        {
           "name": "label_title",
           "id": "d8a29b2d-8573-490b-9ef2-8496ca57b16a",
           "type": "label",
@@ -104,7 +136,13 @@
           "width_unit": "pixel",
           "height_unit": "pixel",
           "left_unit": "pixel",
-          "top_unit": "pixel"
+          "top_unit": "pixel",
+          "objFlags": [
+            {
+              "flag": "LV_OBJ_FLAG_CLICKABLE",
+              "action": "remove"
+            }
+          ]
         }
       ],
       "event": [],

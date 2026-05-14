@@ -28,10 +28,7 @@
 #include "bsp.h"
 #include "middleware.h"
 
-#include "setup_ui.h"
 #include "lv_freeRTOS.h"
-#include "test_bsp.h"
-#include "test_middleware.h"
 
 #include <stdio.h>
 /* USER CODE END Includes */
@@ -165,15 +162,8 @@ void StartDefaultTask(void *argument)
   uint32_t count = 0;
   for(;;)
   {
-    Touch_Test();  /* 提高扫描频率 (每 20ms 一次) */
-    
-    if(++count >= 50) /* 约 1000ms 翻转一次 LED (50 * 20ms) */
-    {
-        led_toggle();
-        count = 0;
-    }
-    
-    osDelay(20);
+    led_toggle();
+    osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */
 }

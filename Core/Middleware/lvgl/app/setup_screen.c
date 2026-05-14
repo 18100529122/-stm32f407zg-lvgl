@@ -13,12 +13,14 @@
  */
 
 #include "setup_ui.h"
+#include "lv_ui_event.h"
 
-#if 1
 
 lv_obj_t * screen = NULL;
 lv_obj_t * screen_chart = NULL;
 lv_obj_t * screen_label_title = NULL;
+lv_obj_t * screen_btn_1 = NULL;
+lv_obj_t * screen_btn_1_label = NULL;
 static event_table_t screen_event_table = {0};
 static void register_sys_events(event_table_t *table);
 static void init_states(void);
@@ -33,6 +35,7 @@ static void init_states(void) {
     set_current_event_table(&screen_event_table);
 }
 static void register_ui_events(void) {
+    lv_obj_add_event_cb(screen_btn_1, screen_btn_1_event_cb, LV_EVENT_CLICKED, NULL);
 }
 static lv_obj_t * create_ui(void) {
     LV_LOG_USER("Initializing screen ...");
@@ -60,6 +63,7 @@ static lv_obj_t * create_ui(void) {
     lv_chart_set_next_value(screen_chart, screen_chart_series0, 300);
     lv_chart_set_next_value(screen_chart, screen_chart_series0, 50);
     lv_chart_set_next_value(screen_chart, screen_chart_series0, 80);
+    ui_flag_modify(screen_chart, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
     // Create screen_label_title
     screen_label_title = lv_label_create(screen);
     lv_obj_set_x(screen_label_title, 100);
@@ -71,6 +75,21 @@ static lv_obj_t * create_ui(void) {
     lv_label_set_long_mode(screen_label_title, LV_LABEL_LONG_WRAP);
     lv_obj_set_style_text_font(screen_label_title, &lv_font_montserrat_26, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(screen_label_title, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    // Create screen_btn_1
+    screen_btn_1 = lv_btn_create(screen);
+    lv_obj_set_x(screen_btn_1, 10);
+    lv_obj_set_y(screen_btn_1, 10);
+    lv_obj_set_width(screen_btn_1, 50);
+    lv_obj_set_height(screen_btn_1, 50);
+    screen_btn_1_label = lv_label_create(screen_btn_1);
+    lv_obj_set_scrollbar_mode(screen_btn_1, LV_SCROLLBAR_MODE_OFF);
+    lv_label_set_text(screen_btn_1_label, "1");
+    lv_obj_set_style_pad_all(screen_btn_1, 0, LV_STATE_DEFAULT);
+    lv_obj_align(screen_btn_1_label, LV_ALIGN_CENTER, 0, 0);
+    // Add style for screen_btn_1 - LV_PART_MAIN | LV_STATE_DEFAULT
+    lv_obj_set_style_text_color(screen_btn_1, lv_color_hex(0xffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(screen_btn_1, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(screen_btn_1, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     return screen;
 }
 lv_obj_t * setup_screen(void) {
@@ -84,5 +103,3 @@ lv_obj_t * setup_screen(void) {
     init_states();
     return screen;
 }
-
-#endif
