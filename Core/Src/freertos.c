@@ -74,7 +74,7 @@ const osThreadAttr_t defaultTask_attributes = {
 /* USER CODE BEGIN FunctionPrototypes */
 static void led_toggle(void)
 {
-  HAL_GPIO_WritePin(GPIOF,GPIO_PIN_9 , led_state?GPIO_PIN_SET:GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOF,GPIO_PIN_9 , GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOF,GPIO_PIN_10 , led_state?GPIO_PIN_SET:GPIO_PIN_RESET);
   led_state=!led_state;
 }
@@ -169,14 +169,6 @@ void StartDefaultTask(void *argument)
   for(;;)
   {
     led_toggle();
-    
-    /* 打印 FFT 计算结果 (由 adc_process 任务更新) */
-    printf("\r\n--- FFT Frequency Components (Fs=5kHz) ---\r\n");
-    for(int i = 0; i < FREQ_COMP_NUM; i++) {
-        printf("%3d Hz: %8.2f\r\n", (i + 1) * 50, g_fft_result.freq_values[i]);
-    }
-    printf("------------------------------------------\r\n");
-
     osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */

@@ -31,7 +31,49 @@
       "keyboard_font_size": "18",
       "list": [
         {
-          "name": "chart",
+          "name": "chart_bar",
+          "id": "chart_6f393b83-f3d3-4658-a165-9932c7e39879",
+          "type": "chart",
+          "left": 190,
+          "top": 48,
+          "visible": true,
+          "width": 600,
+          "height": 384,
+          "scrollbar_mode": "OFF",
+          "range_s": 0,
+          "range_e": 3000,
+          "division_line_row": 10,
+          "division_line_col": 10,
+          "point_count": 10,
+          "chart_type": "LV_CHART_TYPE_BAR",
+          "chart_data": [],
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": [],
+          "width_unit": "pixel",
+          "height_unit": "pixel",
+          "left_unit": "pixel",
+          "top_unit": "pixel",
+          "objFlags": [
+            {
+              "flag": "LV_OBJ_FLAG_HIDDEN",
+              "action": "add"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_CLICKABLE",
+              "action": "remove"
+            }
+          ]
+        },
+        {
+          "name": "chart_line",
           "id": "08051f56-79b9-4e08-a9c9-4f69bc7133ab",
           "type": "chart",
           "left": 190,
@@ -41,26 +83,12 @@
           "height": 384,
           "scrollbar_mode": "OFF",
           "range_s": 0,
-          "range_e": 500,
-          "division_line_row": 3,
-          "division_line_col": 5,
-          "point_count": 5,
+          "range_e": 3000,
+          "division_line_row": 10,
+          "division_line_col": 10,
+          "point_count": 100,
           "chart_type": "LV_CHART_TYPE_LINE",
-          "chart_data": [
-            {
-              "chart_color": "#000000",
-              "chart_points": [
-                1,
-                20,
-                30,
-                40,
-                5,
-                300,
-                50,
-                80
-              ]
-            }
-          ],
+          "chart_data": [],
           "style": [
             {
               "part": "LV_PART_MAIN",
@@ -108,7 +136,7 @@
               "width": 100,
               "height": 50,
               "scrollbar_mode": "OFF",
-              "text": "折线图",
+              "text": "line",
               "mode": true,
               "text_width": "60",
               "text_height": "20",
@@ -139,7 +167,7 @@
               "width": 100,
               "height": 50,
               "scrollbar_mode": "OFF",
-              "text": "柱状图",
+              "text": "bar",
               "mode": true,
               "text_width": "60",
               "text_height": "20",

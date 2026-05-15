@@ -82,3 +82,13 @@ void app_data_fft_init(void) {
     /* 初始化 CMSIS-DSP 实数 FFT 实例 */
     arm_rfft_fast_init_f32(&fft_instance, FFT_LENGTH);
 }
+
+/**
+ * @brief 获取指定索引的频率分量值
+ */
+float app_data_fft_get_freq_value(int index) {
+    if (index >= 0 && index < FREQ_COMP_NUM) {
+        return g_fft_result.freq_values[index];
+    }
+    return 0.0f;
+}

@@ -2,6 +2,8 @@
 #define __APP_DATA_PROCESS_H__
 
 #include "main.h"
+#include "app_data_fft.h"
+
 
 /**
  * @brief 数据处理任务初始化

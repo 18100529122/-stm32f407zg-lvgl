@@ -81,7 +81,7 @@
 | `0x68000000` | ~160KB | LVGL 显存 (Display Buffer) | `lv_port_disp.c` |
 | `0x68040000` | 128KB | LVGL 动态内存池 (Memory Pool) | `lv_conf.h` |
 | `0x68080000` | ~2KB | ADC 原始采样缓冲区 (`g_adc_buff`) | `bsp_adc.c` |
-| `0x68080800` | ~4KB | ADC FIFO 结构体 (`g_adc_fifo_dev`) | `bsp_adc.c` |
+| `0x68080800` | ~4KB | ADC FIFO 结构体 (通过 `bsp_adc_get_fifo_dev()` 访问) | `bsp_adc.c` |
 | `0x68082000` | ~5KB | FFT 实例与计算缓存 (`fft_input_buf` 等) | `app_data_fft.c` |
 
 | 功能 | 引脚 | FSMC 定义 |

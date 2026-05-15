@@ -17,4 +17,11 @@ extern fft_result_t g_fft_result;
 void app_data_fft_init(void);
 void app_data_fft_compute(uint16_t *input_data, uint32_t length);
 
+/**
+ * @brief 获取指定索引的频率分量值
+ * @param index 索引 (0-9)
+ * @return float 频率分量值
+ */
+float app_data_fft_get_freq_value(int index);
+
 #endif /* __APP_DATA_FFT_H__ */
