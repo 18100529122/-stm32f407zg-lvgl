@@ -65,7 +65,7 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_height(screen_chart_btn_bar, 50);
     screen_chart_btn_bar_label = lv_label_create(screen_chart_btn_bar);
     lv_obj_set_scrollbar_mode(screen_chart_btn_bar, LV_SCROLLBAR_MODE_OFF);
-    lv_label_set_text(screen_chart_btn_bar_label, "折线图");
+    lv_label_set_text(screen_chart_btn_bar_label, "柱状图");
     lv_obj_set_style_pad_all(screen_chart_btn_bar, 0, LV_STATE_DEFAULT);
     lv_obj_align(screen_chart_btn_bar_label, LV_ALIGN_CENTER, 0, 0);
     // Add style for screen_chart_btn_bar - LV_PART_MAIN | LV_STATE_DEFAULT
