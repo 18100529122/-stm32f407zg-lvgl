@@ -14,9 +14,7 @@
 
 #include "setup_ui.h"
 
-#if 1
 void setupUi(void) {
-    lv_obj_t * screen = setup_screen();
-    lv_scr_load(screen);
+    lv_obj_t * screen_chart = setup_screen_chart();
+    lv_scr_load(screen_chart);
 }
-#endif

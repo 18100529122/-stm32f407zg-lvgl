@@ -18,8 +18,8 @@
 extern "C" {
 #endif
 
-#include "../lvgl.h"
-#include "../sdk/sdk.h"
+#include "lvgl.h"
+#include "sdk.h"
 #include "animations.h"
 
 
@@ -27,7 +27,7 @@ extern "C" {
 
 
 
-lv_obj_t * setup_screen(void);
+lv_obj_t * setup_screen_chart(void);
 
 
 
