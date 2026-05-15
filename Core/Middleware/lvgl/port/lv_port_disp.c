@@ -58,6 +58,7 @@ void lv_port_disp_init(void)
      * Initialize your display
      * -----------------------*/
     disp_init();
+    lcd_dma_init();
 
     /*------------------------------------
      * Create a display and set a flush_cb
@@ -65,11 +66,13 @@ void lv_port_disp_init(void)
     lv_display_t * disp = lv_display_create(MY_DISP_HOR_RES, MY_DISP_VER_RES);
     lv_display_set_flush_cb(disp, disp_flush);
 
-    /* 使用外部 SRAM 显存缓冲区 (Example 1: One buffer for partial rendering) */
-    uint8_t * buf_1_1 = (uint8_t *)EXTERNAL_SRAM_BASE;
-    uint32_t buf_size = MY_DISP_HOR_RES * 100 * BYTE_PER_PIXEL; // 100 行缓冲区
+    /* 使用外部 SRAM 缓冲区以解决内部 RAM 不足的问题 */
+    /* 80 行双缓冲区: 800 * 80 * 2 = 128000 字节 */
+    uint32_t buf_size = MY_DISP_HOR_RES * 80 * BYTE_PER_PIXEL;
+    uint8_t * buf_2_1 = (uint8_t *)(EXTERNAL_SRAM_BASE);
+    uint8_t * buf_2_2 = (uint8_t *)(EXTERNAL_SRAM_BASE + buf_size);
     
-    lv_display_set_buffers(disp, buf_1_1, NULL, buf_size, LV_DISPLAY_RENDER_MODE_PARTIAL);
+    lv_display_set_buffers(disp, buf_2_1, buf_2_2, buf_size, LV_DISPLAY_RENDER_MODE_PARTIAL);
 }
 
 /**********************
@@ -108,8 +111,20 @@ void disp_disable_update(void)
 static void disp_flush(lv_display_t * disp_drv, const lv_area_t * area, uint8_t * px_map)
 {
     if(disp_flush_enabled) {
-        /* 使用正点原子提供的高效区域填充函数 */
-        lcd_color_fill(area->x1, area->y1, area->x2, area->y2, (uint16_t *)px_map);
+        /* 得到填充的宽度和高度 */
+        uint16_t width = area->x2 - area->x1 + 1;
+        uint16_t height = area->y2 - area->y1 + 1;
+
+        /* 设置LCD窗口并准备写入 */
+        lcd_set_window(area->x1, area->y1, width, height);
+        lcd_write_ram_prepare();
+
+        /* 改用 CPU 直接写入，排除 DMA 故障 */
+        uint32_t size = width * height;
+        uint16_t *p = (uint16_t *)px_map;
+        while(size--) {
+            LCD->LCD_RAM = *p++;
+        }
     }
 
     /*IMPORTANT!!!

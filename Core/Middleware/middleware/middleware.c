@@ -2,6 +2,7 @@
 #include "lvgl.h"
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
+#include "lv_freeRTOS.h"
 
 /**
  * @brief 初始化中间件 (LVGL 等)
