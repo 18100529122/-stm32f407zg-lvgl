@@ -3,6 +3,7 @@
 #include "adc.h"
 #include "tim.h"
 #include <string.h>
+#include <stdio.h>
 
 /* 定义外部 SRAM 地址 (避开 LVGL 显存 0x68000000 和内存池 0x68040000) */
 #define EXT_SRAM_ADDR  0x68080000
@@ -42,12 +43,32 @@ void bsp_adc_init(void)
 
     /* 清空外部 SRAM 中的 FIFO 状态 (防止随机数据导致采样停止) */
     memset(g_adc_fifo_dev_ptr, 0, sizeof(bsp_adc_fifo_t));
+}
 
+/**
+ * @brief 启动ADC采集
+ */
+void bsp_adc_start(void)
+{
     /* 启动 ADC DMA 采集 */
     HAL_ADC_Start_DMA(&hadc1, (uint32_t *)g_adc_buff, ADC_BUFF_SIZE);
     
     /* 启动 Timer2 产生触发信号 */
     HAL_TIM_Base_Start(&htim2);
+}
+
+/**
+ * @brief 停止ADC采集
+ */
+void bsp_adc_stop(void)
+{
+    /* 停止 Timer2 触发 */
+    HAL_TIM_Base_Stop(&htim2);
+
+    /* 停止 ADC DMA 采集 */
+    HAL_ADC_Stop_DMA(&hadc1);
+
+    printf("ADC Stop: FIFO Full!\r\n");
 }
 
 /**
@@ -72,11 +93,17 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
         
         uint8_t w_idx = g_adc_fifo_dev.write_idx;
 
-        /* 如果当前待写入的块已经是满的，跳过该块并尝试下一个 */
+        /* 如果当前待写入的块已经是满的，说明后台处理太慢，停止采集 */
         if (g_adc_fifo_dev.status[w_idx].is_full)
         {
-            /* 不再直接 Stop，而是累计未处理点数，等待后台任务释放空间 */
-            s_rem = (s_rem + ADC_BUFF_SIZE) % 200;
+            bsp_adc_stop();
+            printf("ADC Stop: FIFO Full!\r\n");
+            // 重置当前块的采样点索引
+            s_sample_idx = 0;
+            // 重置偏移量
+            s_rem = 0;
+            //清除dma的buff
+            memset(g_adc_buff, 0, ADC_BUFF_SIZE);
             return;
         }
         

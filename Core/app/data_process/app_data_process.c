@@ -7,6 +7,7 @@
 #include "task.h"
 #include "cmsis_os.h"
 #include "main.h"
+#include <stdio.h>
 
 static void app_data_process_task(void *argument);
 
@@ -25,6 +26,10 @@ void app_data_process_init(void)
  */
 static void app_data_process_task(void *argument)
 {
+    /* 启动 ADC 采样 (此时任务已启动，可以接收信号量) */
+    bsp_adc_start();
+    printf("ADC Start from Task Done\r\n");
+
     while (1)
     {
         /* 等待 DMA 传输完成信号 */
@@ -45,6 +50,9 @@ static void app_data_process_task(void *argument)
                 r_idx = (r_idx + 1) % ADC_FIFO_NUM;
                 g_adc_fifo_dev.read_idx = r_idx;
             }
+
+            /* 处理完当前所有数据块后，重新开启 ADC 采样 (如果之前因为溢出停止了) */
+            bsp_adc_start();
         }
     }
 }
