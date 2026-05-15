@@ -5,7 +5,7 @@
 #include "FreeRTOS.h"
 #include "semphr.h"
 
-#define ADC_DMA_BUFF_SIZE 1024
+#define ADC_DMA_BUFF_SIZE 512
 #define ADC_FIFO_NUM       4
 
 #pragma pack(1)
@@ -22,7 +22,8 @@ typedef struct {
 } bsp_adc_fifo_t;
 #pragma pack()
 
-extern bsp_adc_fifo_t g_adc_fifo_dev;
+extern bsp_adc_fifo_t *g_adc_fifo_dev_ptr;
+#define g_adc_fifo_dev (*g_adc_fifo_dev_ptr)
 extern SemaphoreHandle_t g_adc_data_sem;
 
 #endif /* __BSP_ADC_FIFO_H__ */

@@ -1,6 +1,8 @@
 #include "app_data_process.h"
 #include "bsp_adc_fifo.h"
 #include "bsp_adc.h"
+#include "app_data_fft.h"
+#include "app_data_create.h"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "cmsis_os.h"
@@ -13,6 +15,8 @@ static void app_data_process_task(void *argument);
  */
 void app_data_process_init(void)
 {
+    app_data_fft_init();
+    app_data_create_init();
     xTaskCreate(app_data_process_task, "adc_process", 1024, NULL, osPriorityNormal, NULL);
 }
 
@@ -31,17 +35,8 @@ static void app_data_process_task(void *argument)
             /* 检查是否有未处理的已满块 */
             while (g_adc_fifo_dev.status[r_idx].is_full)
             {
-                uint32_t sum = 0;
-                
-                /* 求平均值逻辑 */
-                for (int i = 0; i < ADC_DMA_BUFF_SIZE; i++)
-                {
-                    sum += g_adc_fifo_dev.data[r_idx][i];
-                }
-                
-                /* 更新全局平均值 */
-                extern volatile uint16_t g_adc_average;
-                g_adc_average = (uint16_t)(sum / ADC_DMA_BUFF_SIZE);
+                /* 执行 FFT 计算 */
+                app_data_fft_compute(g_adc_fifo_dev.data[r_idx], ADC_DMA_BUFF_SIZE);
                 
                 /* 清除该块的已满标志 */
                 g_adc_fifo_dev.status[r_idx].is_full = 0;

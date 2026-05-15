@@ -4,11 +4,18 @@
 #include "tim.h"
 #include <string.h>
 
-uint16_t g_adc_buff[ADC_BUFF_SIZE];
-volatile uint16_t g_adc_average = 0;
+/* 定义外部 SRAM 地址 (避开 LVGL 显存 0x68000000 和内存池 0x68040000) */
+#define EXT_SRAM_ADDR  0x68080000
+#define ADC_BUFF_ADDR  (EXT_SRAM_ADDR)
+#define ADC_FIFO_ADDR  (ADC_BUFF_ADDR + ADC_BUFF_SIZE * 2)
 
-/* FIFO 设备定义 */
-bsp_adc_fifo_t g_adc_fifo_dev = {0};
+/* 使用绝对地址指向外部 SRAM */
+uint16_t *g_adc_buff = (uint16_t *)ADC_BUFF_ADDR;
+bsp_adc_fifo_t *g_adc_fifo_dev_ptr = (bsp_adc_fifo_t *)ADC_FIFO_ADDR;
+
+/* 宏定义兼容旧代码引用 */
+#define g_adc_fifo_dev (*g_adc_fifo_dev_ptr)
+
 /* 信号量定义 */
 SemaphoreHandle_t g_adc_data_sem = NULL;
 
@@ -33,6 +40,9 @@ void bsp_adc_init(void)
     hadc1.Instance->CR2 &= ~ADC_CR2_EXTEN;
     hadc1.Instance->CR2 |= ADC_EXTERNALTRIGCONVEDGE_RISING;
 
+    /* 清空外部 SRAM 中的 FIFO 状态 (防止随机数据导致采样停止) */
+    memset(g_adc_fifo_dev_ptr, 0, sizeof(bsp_adc_fifo_t));
+
     /* 启动 ADC DMA 采集 */
     HAL_ADC_Start_DMA(&hadc1, (uint32_t *)g_adc_buff, ADC_BUFF_SIZE);
     
@@ -49,37 +59,58 @@ uint32_t bsp_adc_get_voltage(uint16_t raw_value)
 }
 
 /**
- * @brief 获取平均电压值 (单位: mV)
- */
-uint32_t bsp_adc_get_average_voltage(void)
-{
-    return bsp_adc_get_voltage(g_adc_average);
-}
-
-/**
  * @brief ADC DMA 传输完成回调函数
- * @note  当 DMA 缓冲区填满时由 HAL 库自动调用
+ * @note  当 DMA 缓冲区填满时由 HAL 库自动调用。
+ *        通过累计偏移量实现大跨度抽取（1/200），而不增加 DMA 缓冲区大小。
  */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
     if (hadc->Instance == ADC1)
     {
+        static uint32_t s_rem = 0;             /* 累计未抽取的点数偏移 */
+        static uint32_t s_sample_idx = 0;      /* 当前 FIFO 块内的采样点索引 */
+        
         uint8_t w_idx = g_adc_fifo_dev.write_idx;
-        
-        /* 拷贝数据到固定 FIFO 块 */
-        memcpy(g_adc_fifo_dev.data[w_idx], g_adc_buff, ADC_DMA_BUFF_SIZE * 2);
-        
-        /* 标记该块已满 */
-        g_adc_fifo_dev.status[w_idx].is_full = 1;
-        
-        /* 更新写入索引 */
-        g_adc_fifo_dev.write_idx = (w_idx + 1) % ADC_FIFO_NUM;
-        
-        /* 发送信号量给后台任务 */
-        if (g_adc_data_sem != NULL) {
-            BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-            xSemaphoreGiveFromISR(g_adc_data_sem, &xHigherPriorityTaskWoken);
-            portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+
+        /* 如果当前待写入的块已经是满的，跳过该块并尝试下一个 */
+        if (g_adc_fifo_dev.status[w_idx].is_full)
+        {
+            /* 不再直接 Stop，而是累计未处理点数，等待后台任务释放空间 */
+            s_rem = (s_rem + ADC_BUFF_SIZE) % 200;
+            return;
         }
+        
+        /* 
+         * 优化逻辑：不再遍历 1024 个点，而是直接计算下一个采样点的索引。
+         * 循环次数从 1024 次降低到 5~6 次，显著减轻 ISR 负担。
+         */
+        for (int i = (200 - 1 - s_rem); i < ADC_BUFF_SIZE; i += 200)
+        {
+            g_adc_fifo_dev.data[w_idx][s_sample_idx] = g_adc_buff[i];
+            s_sample_idx++;
+            
+            /* 如果当前块存满了 (512个点) */
+            if (s_sample_idx >= ADC_DMA_BUFF_SIZE)
+            {
+                s_sample_idx = 0;
+                
+                /* 标记该块已满 */
+                g_adc_fifo_dev.status[w_idx].is_full = 1;
+                
+                /* 更新写入索引 */
+                w_idx = (w_idx + 1) % ADC_FIFO_NUM;
+                g_adc_fifo_dev.write_idx = w_idx;
+                
+                /* 发送信号量给后台任务 */
+                if (g_adc_data_sem != NULL) {
+                    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+                    xSemaphoreGiveFromISR(g_adc_data_sem, &xHigherPriorityTaskWoken);
+                    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+                }
+            }
+        }
+        
+        /* 更新偏移量：将本轮多出的点数带入下一轮计算 */
+        s_rem = (s_rem + ADC_BUFF_SIZE) % 200;
     }
 }

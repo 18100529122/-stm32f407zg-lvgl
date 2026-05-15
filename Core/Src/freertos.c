@@ -33,6 +33,7 @@
 #include "bsp.h"
 
 #include "lv_freeRTOS.h"
+#include "app_data_fft.h"
 
 #include <stdio.h>
 /* USER CODE END Includes */
@@ -165,16 +166,17 @@ void StartDefaultTask(void *argument)
 
   printf("Task Running...\r\n");
   /* Infinite loop */
-  uint16_t count = 100;
   for(;;)
   {
     led_toggle();
-    bsp_dac_set_value(count+=10);
-    if(count>4095)
-    {
-      count=0;
+    
+    /* 打印 FFT 计算结果 (由 adc_process 任务更新) */
+    printf("\r\n--- FFT Frequency Components (Fs=5kHz) ---\r\n");
+    for(int i = 0; i < FREQ_COMP_NUM; i++) {
+        printf("%3d Hz: %8.2f\r\n", (i + 1) * 50, g_fft_result.freq_values[i]);
     }
-    printf("Average Voltage: %d mV\r\n", bsp_adc_get_average_voltage());
+    printf("------------------------------------------\r\n");
+
     osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */
