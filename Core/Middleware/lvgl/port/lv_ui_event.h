@@ -32,7 +32,7 @@ void lv_ui_update_bar_chart_data(float * data, int len);
 /**
  * @brief 更新折线图数据
  */
-void lv_ui_update_line_chart_data(int32_t * data, int series_index);
+void lv_ui_update_line_chart_data(float * data);
 
 /**
  * @brief 刷新 UI 界面显示 (总刷新入口)

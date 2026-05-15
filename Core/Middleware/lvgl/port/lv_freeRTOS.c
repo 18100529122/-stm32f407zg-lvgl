@@ -38,13 +38,14 @@ static void lvgl_data_thread(void *argument)
 {
     (void)argument;
     /* 延长等待时间，确保 UI 彻底初始化完成 */
-    osDelay(2000);
+    osDelay(3000);
     printf("LVGL Data Thread Started\r\n");
     
     while(1) {
         /* 等待数据处理完成信号 */
         if (xSemaphoreTake(g_lv_ui_data_sem, portMAX_DELAY) == pdTRUE) {
             //更新图表数据
+            lv_ui_update_line_chart_data(g_fft_result.freq_values);
             lv_ui_update_bar_chart_data(g_fft_result.freq_values, FREQ_COMP_NUM);
         }
     }
@@ -61,10 +62,6 @@ static void lvgl_thread(void *argument)
     osDelay(2000);
     printf("LVGL Thread: Initializing Widgets...\r\n");
     
-    /* 初始化控件和 UI */
-    lv_widgets_init();
-    printf("LVGL Thread: Widgets Init Done\r\n");
-
     while(1) {
 
         lv_timer_handler();
@@ -80,6 +77,10 @@ static void lvgl_thread(void *argument)
  */
 void lv_freertos_init(void)
 {
+    /* 初始化控件和 UI */
+    lv_widgets_init();
+    printf("LVGL Thread: Widgets Init Done\r\n");
+
     /* 创建 UI 数据同步信号量 (二值信号量) */
     g_lv_ui_data_sem = xSemaphoreCreateBinary();
     

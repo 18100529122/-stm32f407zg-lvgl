@@ -128,7 +128,6 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-  lv_freertos_init();
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -164,7 +163,6 @@ void StartDefaultTask(void *argument)
   Test_Middleware();
 #endif
 
-  printf("Task Running...\r\n");
   /* Infinite loop */
   for(;;)
   {

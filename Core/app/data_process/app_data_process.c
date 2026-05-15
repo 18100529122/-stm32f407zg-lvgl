@@ -30,8 +30,9 @@ void app_data_process_init(void)
 static void app_data_process_task(void *argument)
 {
     /* 启动 ADC 采样 (此时任务已启动，可以接收信号量) */
-    bsp_adc_start();
     printf("ADC Start from Task Done\r\n");
+    osDelay(500);
+    bsp_adc_start();
 
     while (1)
     {

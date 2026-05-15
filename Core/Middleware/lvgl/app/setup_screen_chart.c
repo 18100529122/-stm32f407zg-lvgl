@@ -100,7 +100,7 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_scrollbar_mode(screen_chart_chart_line, LV_SCROLLBAR_MODE_OFF);
     lv_chart_set_type(screen_chart_chart_line, LV_CHART_TYPE_LINE);
     lv_chart_set_div_line_count(screen_chart_chart_line, 10, 10);
-    lv_chart_set_point_count(screen_chart_chart_line, 100);
+    lv_chart_set_point_count(screen_chart_chart_line, 50);
     lv_chart_set_range(screen_chart_chart_line, LV_CHART_AXIS_PRIMARY_Y, 0, 3000);
     ui_flag_modify(screen_chart_chart_line, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_chart_bar

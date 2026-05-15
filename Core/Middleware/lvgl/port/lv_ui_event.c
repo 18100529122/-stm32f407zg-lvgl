@@ -10,6 +10,7 @@ static lv_chart_series_t * chart_line_series[10] = {NULL};
 static lv_chart_series_t * chart_bar_series = NULL;
 
 static int32_t * chart_line_data[10] = {NULL};
+static uint8_t chart_line_data_index = 0;
 static int32_t * chart_bar_data = NULL;
 
 /**
@@ -103,11 +104,22 @@ void lv_ui_update_bar_chart_data(float * data, int len)
 /**
  * @brief 更新折线图数据
  */
-void lv_ui_update_line_chart_data(int32_t * data, int series_index)
+void lv_ui_update_line_chart_data(float * data)
 {
-    if(series_index >= 0 && series_index < 10 && chart_line_series[series_index] != NULL && screen_chart_chart_line!=NULL)
+    if(screen_chart_chart_line!=NULL)
     {
-        lv_chart_set_next_value(screen_chart_chart_line,chart_line_series[series_index],data[0]);
+        chart_line_data[0][chart_line_data_index]=data[0];
+        chart_line_data[1][chart_line_data_index]=data[1];
+        chart_line_data[2][chart_line_data_index]=data[2];
+        // chart_line_data[3][chart_line_data_index]=data[3];
+        // chart_line_data[4][chart_line_data_index]=data[4];
+        // chart_line_data[5][chart_line_data_index]=data[5];
+        // chart_line_data[6][chart_line_data_index]=data[6];
+        // chart_line_data[7][chart_line_data_index]=data[7];
+        // chart_line_data[8][chart_line_data_index]=data[8];
+        // chart_line_data[9][chart_line_data_index]=data[9];
+
+        chart_line_data_index = (chart_line_data_index + 1) % 50;
     }
 }
 

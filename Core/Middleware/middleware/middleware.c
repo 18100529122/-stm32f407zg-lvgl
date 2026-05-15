@@ -16,4 +16,7 @@ void middleware_init(void)
     
     /* 初始化触摸接口 */
     lv_port_indev_init();
+
+    /* 初始化 FreeRTOS 任务 */
+    lv_freertos_init();
 }
