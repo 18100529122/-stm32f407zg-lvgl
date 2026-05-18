@@ -7,9 +7,6 @@ extern "C" {
 
 #include "cmsis_os.h"
 #include "FreeRTOS.h"
-#include "semphr.h"
-
-extern SemaphoreHandle_t g_lv_ui_data_sem;
 
 
 /**

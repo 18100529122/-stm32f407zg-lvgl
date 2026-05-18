@@ -5,13 +5,12 @@
 #include <string.h>
 #include <stdio.h>
 
-/* 定义外部 SRAM 地址 (避开 LVGL 显存 0x68000000 和内存池 0x68040000) */
-#define EXT_SRAM_ADDR  0x68080000
-#define ADC_BUFF_ADDR  (EXT_SRAM_ADDR)
-#define ADC_FIFO_ADDR  (ADC_BUFF_ADDR + ADC_BUFF_SIZE * 2)
+/* 使用片内 SRAM 存储缓冲区 */
+static uint16_t s_adc_buff[ADC_BUFF_SIZE];
+static bsp_adc_fifo_t s_adc_fifo;
 
-/* 使用绝对地址指向外部 SRAM */
-uint16_t *g_adc_buff = (uint16_t *)ADC_BUFF_ADDR;
+/* 对外接口指针指向片内数组 */
+uint16_t *g_adc_buff = s_adc_buff;
 
 /**
  * @brief 获取 ADC FIFO 设备指针
@@ -19,7 +18,7 @@ uint16_t *g_adc_buff = (uint16_t *)ADC_BUFF_ADDR;
  */
 bsp_adc_fifo_t* bsp_adc_get_fifo_dev(void)
 {
-    return (bsp_adc_fifo_t *)ADC_FIFO_ADDR;
+    return &s_adc_fifo;
 }
 
 /* 信号量定义 */
@@ -46,7 +45,7 @@ void bsp_adc_init(void)
     hadc1.Instance->CR2 &= ~ADC_CR2_EXTEN;
     hadc1.Instance->CR2 |= ADC_EXTERNALTRIGCONVEDGE_RISING;
 
-    /* 清空外部 SRAM 中的 FIFO 状态 (防止随机数据导致采样停止) */
+    /* 清空片内 SRAM 中的 FIFO 状态 */
     memset(bsp_adc_get_fifo_dev(), 0, sizeof(bsp_adc_fifo_t));
 }
 
@@ -100,18 +99,18 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
         uint8_t w_idx = fifo->write_idx;
 
         /* 如果当前待写入的块已经是满的，说明后台处理太慢，停止采集 */
-        if (fifo->status[w_idx].is_full)
-        {
-            bsp_adc_stop();
-            printf("ADC Stop: FIFO Full!\r\n");
-            // 重置当前块的采样点索引
-            s_sample_idx = 0;
-            // 重置偏移量
-            s_rem = 0;
-            //清除dma的buff
-            memset(g_adc_buff, 0, ADC_BUFF_SIZE);
-            return;
-        }
+        // if (fifo->status[w_idx].is_full)
+        // {
+        //     bsp_adc_stop();
+        //     printf("ADC Stop: FIFO Full!\r\n");
+        //     // 重置当前块的采样点索引
+        //     s_sample_idx = 0;
+        //     // 重置偏移量
+        //     s_rem = 0;
+        //     //清除dma的buff
+        //     memset(g_adc_buff, 0, ADC_BUFF_SIZE);
+        //     return;
+        // }
         
         /* 
          * 优化逻辑：不再遍历 1024 个点，而是直接计算下一个采样点的索引。

@@ -6,14 +6,10 @@
 #include "main.h"
 #include "lv_ui_event.h"
 #include "app_data_fft.h"
-#include "app_data_process.h"
 
 /* LVGL 刷新任务句柄 */
 osThreadId_t lvglTaskHandle;
 osThreadId_t lvglDataTaskHandle;
-
-/* UI 数据同步信号量 */
-SemaphoreHandle_t g_lv_ui_data_sem;
 
 
 /* LVGL 刷新任务属性 */
@@ -27,7 +23,7 @@ const osThreadAttr_t lvglTask_attributes = {
 const osThreadAttr_t lvglDataTask_attributes = {
   .name = "lvglDataTask",
   .stack_size = 1024 * 2,
-  .priority = (osPriority_t) osPriorityBelowNormal,
+  .priority = (osPriority_t) osPriorityLow, // 降低优先级，确保不干扰 ADC 处理
 };
 
 /**
@@ -39,18 +35,18 @@ static void lvgl_data_thread(void *argument)
     (void)argument;
     /* 延长等待时间，确保 UI 彻底初始化完成 */
     osDelay(3000);
-    printf("LVGL Data Thread Started\r\n");
+    printf("LVGL Data Thread Started (Polling Mode 500ms)\r\n");
     
     while(1) {
-        /* 等待数据处理完成信号 */
-        if (xSemaphoreTake(g_lv_ui_data_sem, portMAX_DELAY) == pdTRUE) {
-            //更新图表数据
-            lv_ui_update_line_chart_data(g_fft_result.freq_values);
-            lv_ui_update_bar_chart_data(g_fft_result.freq_values, FREQ_COMP_NUM);
-            
-            /* 数据更新后才刷新图表，避免无谓的 CPU 消耗 */
-            lv_ui_refresh();
-        }
+        // 每隔 500ms 获取一次数据并更新 UI
+        osDelay(500);
+        lv_lock();
+        // 更新图表数据
+        lv_ui_update_line_chart_data(g_fft_result.freq_values);
+        lv_ui_update_bar_chart_data(g_fft_result.freq_values, FREQ_COMP_NUM);
+        lv_unlock();
+        /* 刷新图表 */
+        lv_ui_refresh();
     }
 }
 
@@ -69,8 +65,8 @@ static void lvgl_thread(void *argument)
 
         lv_timer_handler();
         
-        /* 延时 5ms，保证界面流畅度 */
-        osDelay(5);
+        /* 延时 15ms，降低对 SRAM 总线的占用，给 ADC DMA 留出带宽 */
+        osDelay(15);
     }
 }
 
@@ -83,9 +79,6 @@ void lv_freertos_init(void)
     lv_widgets_init();
     printf("LVGL Thread: Widgets Init Done\r\n");
 
-    /* 创建 UI 数据同步信号量 (二值信号量) */
-    g_lv_ui_data_sem = xSemaphoreCreateBinary();
-    
     /* 创建 LVGL 刷新线程 */
     lvglTaskHandle = osThreadNew(lvgl_thread, NULL, &lvglTask_attributes);
     

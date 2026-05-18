@@ -166,8 +166,16 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
+    // 打印fft计算的数据
+    // printf("FFT Result: ");
+    // for (int i = 0; i < FREQ_COMP_NUM; i++)
+    // {
+    //     printf("%.2f ", g_fft_result.freq_values[i]);
+    // }
+    // printf("\r\n");
+
     led_toggle();
-    osDelay(1000);
+    osDelay(2000);
   }
   /* USER CODE END StartDefaultTask */
 }

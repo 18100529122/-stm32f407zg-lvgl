@@ -7,7 +7,6 @@
 #include "task.h"
 #include "cmsis_os.h"
 #include "main.h"
-#include "lv_freeRTOS.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -21,7 +20,8 @@ void app_data_process_init(void)
 {
     app_data_fft_init();
     app_data_create_init();
-    xTaskCreate(app_data_process_task, "adc_process", 1024, NULL, osPriorityNormal, NULL);
+    /* 将优先级设为 AboveNormal，确保它能抢占 LVGL 的数据更新任务 */
+    xTaskCreate(app_data_process_task, "adc_process", 2048, NULL, osPriorityAboveNormal, NULL);
 }
 
 /**
@@ -42,16 +42,16 @@ static void app_data_process_task(void *argument)
             bsp_adc_fifo_t *fifo = bsp_adc_get_fifo_dev();
             uint8_t r_idx = fifo->read_idx;
             
-            /* 检查是否有未处理的已满块 */
+            /* 检查是否有未处理 of 已满块 */
             while (fifo->status[r_idx].is_full)
             {
+                static uint32_t process_count = 0;
+                if (++process_count % 5 == 0) {
+                    printf("Task Processed Index: %d\r\n", r_idx);
+                }
+                
                 /* 执行 FFT 计算 */
                 app_data_fft_compute(fifo->data[r_idx], ADC_DMA_BUFF_SIZE);
-                
-                /* 通知 UI 更新数据 */
-                if (g_lv_ui_data_sem != NULL) {
-                    xSemaphoreGive(g_lv_ui_data_sem);
-                }
                 
                 /* 清除该块的已满标志 */
                 fifo->status[r_idx].is_full = 0;

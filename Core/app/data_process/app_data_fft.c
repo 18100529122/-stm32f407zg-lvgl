@@ -5,16 +5,10 @@
 
 fft_result_t g_fft_result;
 
-/* 定义外部 SRAM 地址 (避开 LVGL 显存、内存池以及 ADC 缓冲区) */
-#define FFT_SRAM_ADDR_BASE  0x68082000
-#define FFT_INPUT_ADDR      (FFT_SRAM_ADDR_BASE)
-#define FFT_OUTPUT_ADDR     (FFT_INPUT_ADDR + FFT_LENGTH * 4)
-
-/* 实例结构体放回内部 SRAM，确保稳定性 */
+/* 实例结构体和计算大缓存均放在片内 SRAM */
 static arm_rfft_fast_instance_f32 fft_instance;
-/* 计算大缓存留在外部 SRAM */
-static float32_t *fft_input_buf = (float32_t *)FFT_INPUT_ADDR;
-static float32_t *fft_output_buf = (float32_t *)FFT_OUTPUT_ADDR;
+static float32_t fft_input_buf[FFT_LENGTH];
+static float32_t fft_output_buf[FFT_LENGTH];
 
 /**
  * @brief 使用 arm_math 库进行实数 FFT 计算
