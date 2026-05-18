@@ -947,7 +947,7 @@ void lcd_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t
         LCD->LCD_RAM = color[i];           /* 写入数据 */
     }
 }
-
+#if 0
 /**
  * @brief       LCD DMA初始化
  * @param       无
@@ -972,6 +972,10 @@ void lcd_dma_init(void)
     g_lcd_dma_handle.Init.PeriphBurst = DMA_PBURST_SINGLE;
 
     HAL_DMA_Init(&g_lcd_dma_handle);
+
+    /* 开启 DMA2_Stream1 中断 */
+    HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
 }
 
 /**
@@ -984,8 +988,8 @@ void lcd_dma_show(uint16_t *color, uint32_t size)
 {
     /* 清除标志位 */
     __HAL_DMA_CLEAR_FLAG(&g_lcd_dma_handle, DMA_FLAG_TCIF1_5);
-    /* 启动DMA传输 */
-    HAL_DMA_Start(&g_lcd_dma_handle, (uint32_t)color, (uint32_t)&LCD->LCD_RAM, size);
+    /* 启动DMA传输并开启中断 */
+    HAL_DMA_Start_IT(&g_lcd_dma_handle, (uint32_t)color, (uint32_t)&LCD->LCD_RAM, size);
 }
 
 /**
@@ -998,5 +1002,6 @@ void lcd_dma_wait_done(void)
     /* 等待传输完成 */
     HAL_DMA_PollForTransfer(&g_lcd_dma_handle, HAL_DMA_FULL_TRANSFER, 1000);
 }
+#endif
 
 

@@ -47,6 +47,9 @@ static void lvgl_data_thread(void *argument)
             //更新图表数据
             lv_ui_update_line_chart_data(g_fft_result.freq_values);
             lv_ui_update_bar_chart_data(g_fft_result.freq_values, FREQ_COMP_NUM);
+            
+            /* 数据更新后才刷新图表，避免无谓的 CPU 消耗 */
+            lv_ui_refresh();
         }
     }
 }
@@ -65,7 +68,6 @@ static void lvgl_thread(void *argument)
     while(1) {
 
         lv_timer_handler();
-        lv_ui_refresh();
         
         /* 延时 5ms，保证界面流畅度 */
         osDelay(5);
