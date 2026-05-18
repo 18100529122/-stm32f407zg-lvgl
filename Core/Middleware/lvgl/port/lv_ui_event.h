@@ -25,14 +25,18 @@ void screen_chart_btn_line_event_cb(lv_event_t * e);
 void lv_ui_init(void);
 
 /**
- * @brief 更新柱状图数据
+ * @brief 更新图表数据
+ * @param rms RMS 值
+ * @param max 最大值
+ * @param data50hz 50Hz 值
+ * @param data100hz 100Hz 值
+ * @param rms_data RMS 值数据
+ * @param max_data 最大值数据
+ * @param data50hz_data 50Hz 值数据
+ * @param data100hz_data 100Hz 值数据
  */
-void lv_ui_update_bar_chart_data(float * data, int len);
+void lv_ui_data_update(uint8_t rms,uint8_t max,uint8_t data50hz,uint8_t data100hz,char * rms_data,char * max_data,char * data50hz_data,char * data100hz_data);
 
-/**
- * @brief 更新折线图数据
- */
-void lv_ui_update_line_chart_data(float * data);
 
 /**
  * @brief 刷新 UI 界面显示 (总刷新入口)
