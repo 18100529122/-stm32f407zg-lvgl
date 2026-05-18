@@ -31,86 +31,6 @@
       "keyboard_font_size": "18",
       "list": [
         {
-          "name": "chart_bar",
-          "id": "chart_6f393b83-f3d3-4658-a165-9932c7e39879",
-          "type": "chart",
-          "left": 190,
-          "top": 48,
-          "visible": true,
-          "width": 600,
-          "height": 384,
-          "scrollbar_mode": "OFF",
-          "range_s": 0,
-          "range_e": 3000,
-          "division_line_row": 10,
-          "division_line_col": 10,
-          "point_count": 10,
-          "chart_type": "LV_CHART_TYPE_BAR",
-          "chart_data": [],
-          "style": [
-            {
-              "part": "LV_PART_MAIN",
-              "state": "LV_STATE_DEFAULT",
-              "disable": false
-            }
-          ],
-          "event": [],
-          "commCmds": [],
-          "commEvts": [],
-          "width_unit": "pixel",
-          "height_unit": "pixel",
-          "left_unit": "pixel",
-          "top_unit": "pixel",
-          "objFlags": [
-            {
-              "flag": "LV_OBJ_FLAG_HIDDEN",
-              "action": "add"
-            },
-            {
-              "flag": "LV_OBJ_FLAG_CLICKABLE",
-              "action": "remove"
-            }
-          ]
-        },
-        {
-          "name": "chart_line",
-          "id": "08051f56-79b9-4e08-a9c9-4f69bc7133ab",
-          "type": "chart",
-          "left": 190,
-          "top": 48,
-          "visible": true,
-          "width": 600,
-          "height": 384,
-          "scrollbar_mode": "OFF",
-          "range_s": 0,
-          "range_e": 3000,
-          "division_line_row": 10,
-          "division_line_col": 10,
-          "point_count": 50,
-          "chart_type": "LV_CHART_TYPE_LINE",
-          "chart_data": [],
-          "style": [
-            {
-              "part": "LV_PART_MAIN",
-              "state": "LV_STATE_DEFAULT",
-              "disable": false
-            }
-          ],
-          "event": [],
-          "commCmds": [],
-          "commEvts": [],
-          "width_unit": "pixel",
-          "height_unit": "pixel",
-          "left_unit": "pixel",
-          "top_unit": "pixel",
-          "objFlags": [
-            {
-              "flag": "LV_OBJ_FLAG_CLICKABLE",
-              "action": "remove"
-            }
-          ]
-        },
-        {
           "name": "cont_title",
           "id": "f3c1779c-9168-49be-b1ea-cac426b1170e",
           "type": "cont",
@@ -126,6 +46,35 @@
           "crossAlign": "LV_FLEX_ALIGN_CENTER",
           "trackAlign": "LV_FLEX_ALIGN_CENTER",
           "child": [
+            {
+              "name": "label_btn",
+              "id": "93b385ad-752e-4512-8460-68576204e086",
+              "type": "label",
+              "tag": "",
+              "visible": true,
+              "left": 35,
+              "left_unit": "pixel",
+              "top": 245,
+              "top_unit": "pixel",
+              "width": 100,
+              "width_unit": "pixel",
+              "height": 50,
+              "height_unit": "pixel",
+              "scrollbar_mode": "OFF",
+              "text": "show bar",
+              "long_mode": "LV_LABEL_LONG_WRAP",
+              "style": [
+                {
+                  "part": "LV_PART_MAIN",
+                  "state": "LV_STATE_DEFAULT",
+                  "disable": false,
+                  "text_font": "lv_font_montserrat_14"
+                }
+              ],
+              "event": [],
+              "commCmds": [],
+              "commEvts": []
+            },
             {
               "name": "btn_line",
               "id": "btn_6627ed2b-a875-48dd-a99a-c9ad7117134a",
@@ -148,7 +97,8 @@
                   "state": "LV_STATE_DEFAULT",
                   "disable": false,
                   "text_color": "#ffffff",
-                  "text_align": "LV_TEXT_ALIGN_CENTER"
+                  "text_align": "LV_TEXT_ALIGN_CENTER",
+                  "text_font": "lv_font_montserrat_14"
                 }
               ],
               "event": [],
@@ -162,7 +112,7 @@
               "id": "47b0680f-6107-4e6e-b7ce-41fb98eed0c0",
               "type": "btn",
               "left": 35,
-              "top": 135,
+              "top": 145,
               "visible": true,
               "width": 100,
               "height": 50,
@@ -179,12 +129,733 @@
                   "state": "LV_STATE_DEFAULT",
                   "disable": false,
                   "text_color": "#ffffff",
-                  "text_align": "LV_TEXT_ALIGN_CENTER"
+                  "text_align": "LV_TEXT_ALIGN_CENTER",
+                  "text_font": "lv_font_montserrat_14"
                 }
               ],
               "event": [],
               "commCmds": [],
               "commEvts": [],
+              "left_unit": "pixel",
+              "top_unit": "pixel"
+            }
+          ],
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false,
+              "border_width": 0,
+              "padding_left": 0,
+              "padding_right": 0,
+              "padding_top": 0,
+              "padding_bottom": 0,
+              "radius": 0
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": [],
+          "width_unit": "pixel",
+          "height_unit": "pixel",
+          "left_unit": "pixel"
+        },
+        {
+          "name": "cont_show",
+          "id": "87ba95f0-7350-4b28-8fa7-376720aea26e",
+          "type": "cont",
+          "left": 180,
+          "top": 0,
+          "visible": true,
+          "width": 620,
+          "height": 480,
+          "scrollbar_mode": "OFF",
+          "layout": "LV_LAYOUT_NONE",
+          "flexFlow": "LV_FLEX_FLOW_ROW",
+          "mainAlign": "LV_FLEX_ALIGN_CENTER",
+          "crossAlign": "LV_FLEX_ALIGN_CENTER",
+          "trackAlign": "LV_FLEX_ALIGN_CENTER",
+          "child": [
+            {
+              "name": "cont_rms",
+              "id": "b342ffca-70d7-4270-b462-be6283940be4",
+              "type": "cont",
+              "left": 0,
+              "top": 0,
+              "visible": true,
+              "width": 620,
+              "height": 120,
+              "scrollbar_mode": "OFF",
+              "layout": "LV_LAYOUT_NONE",
+              "flexFlow": "LV_FLEX_FLOW_ROW",
+              "mainAlign": "LV_FLEX_ALIGN_CENTER",
+              "crossAlign": "LV_FLEX_ALIGN_CENTER",
+              "trackAlign": "LV_FLEX_ALIGN_CENTER",
+              "child": [
+                {
+                  "name": "label_rms_title",
+                  "id": "59727a08-ffef-4c3b-8c26-d647effd6925",
+                  "type": "label",
+                  "tag": "",
+                  "visible": true,
+                  "left": 200,
+                  "left_unit": "pixel",
+                  "top": 80,
+                  "top_unit": "pixel",
+                  "width": 150,
+                  "width_unit": "pixel",
+                  "height": 30,
+                  "height_unit": "pixel",
+                  "scrollbar_mode": "OFF",
+                  "text": "virtual valu [mV]",
+                  "long_mode": "LV_LABEL_LONG_WRAP",
+                  "style": [
+                    {
+                      "part": "LV_PART_MAIN",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "text_font": "lv_font_montserrat_14"
+                    }
+                  ],
+                  "event": [],
+                  "commCmds": [],
+                  "commEvts": []
+                },
+                {
+                  "name": "label_rms",
+                  "id": "7bfcda9f-a41c-4edd-8636-510b3fc6dab4",
+                  "type": "label",
+                  "tag": "",
+                  "visible": true,
+                  "left": 535,
+                  "left_unit": "pixel",
+                  "top": 30,
+                  "top_unit": "pixel",
+                  "width": 60,
+                  "width_unit": "pixel",
+                  "height": 20,
+                  "height_unit": "pixel",
+                  "scrollbar_mode": "OFF",
+                  "text": "number",
+                  "long_mode": "LV_LABEL_LONG_WRAP",
+                  "style": [
+                    {
+                      "part": "LV_PART_MAIN",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "text_font": "lv_font_montserrat_14"
+                    }
+                  ],
+                  "event": [],
+                  "commCmds": [],
+                  "commEvts": [],
+                  "objFlags": [
+                    {
+                      "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                      "action": "remove"
+                    }
+                  ]
+                },
+                {
+                  "name": "bar_rms",
+                  "id": "f821054d-9af2-478a-b57a-6e09755c2e7c",
+                  "type": "bar",
+                  "left": 30,
+                  "top": 30,
+                  "visible": true,
+                  "width": 500,
+                  "height": 20,
+                  "scrollbar_mode": "OFF",
+                  "animtime": 1000,
+                  "bar_value": 20,
+                  "anim": false,
+                  "mode": "LV_BAR_MODE_NORMAL",
+                  "style": [
+                    {
+                      "part": "LV_PART_MAIN",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "radius": 0
+                    },
+                    {
+                      "part": "LV_PART_INDICATOR",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "radius": 0
+                    }
+                  ],
+                  "event": [],
+                  "commCmds": [],
+                  "commEvts": [],
+                  "left_unit": "pixel",
+                  "top_unit": "pixel",
+                  "width_unit": "pixel",
+                  "height_unit": "pixel",
+                  "objFlags": [
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICKABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                      "action": "remove"
+                    }
+                  ]
+                }
+              ],
+              "style": [
+                {
+                  "part": "LV_PART_MAIN",
+                  "state": "LV_STATE_DEFAULT",
+                  "disable": false,
+                  "border_width": 0,
+                  "padding_left": 0,
+                  "padding_right": 0,
+                  "padding_top": 0,
+                  "padding_bottom": 0,
+                  "radius": 0
+                }
+              ],
+              "event": [],
+              "commCmds": [],
+              "commEvts": [],
+              "height_unit": "pixel",
+              "left_unit": "pixel"
+            },
+            {
+              "name": "cont_max",
+              "id": "cont_1effb782-1deb-4e91-a10d-65678ff3561e",
+              "type": "cont",
+              "left": 0,
+              "top": 120,
+              "visible": true,
+              "width": 620,
+              "height": 120,
+              "scrollbar_mode": "OFF",
+              "layout": "LV_LAYOUT_NONE",
+              "flexFlow": "LV_FLEX_FLOW_ROW",
+              "mainAlign": "LV_FLEX_ALIGN_CENTER",
+              "crossAlign": "LV_FLEX_ALIGN_CENTER",
+              "trackAlign": "LV_FLEX_ALIGN_CENTER",
+              "child": [
+                {
+                  "name": "label_max_title",
+                  "id": "label_c69ce185-2846-4267-98d5-66264e937c23",
+                  "type": "label",
+                  "tag": "",
+                  "visible": true,
+                  "left": 200,
+                  "left_unit": "pixel",
+                  "top": 80,
+                  "top_unit": "pixel",
+                  "width": 150,
+                  "width_unit": "pixel",
+                  "height": 30,
+                  "height_unit": "pixel",
+                  "scrollbar_mode": "OFF",
+                  "text": "max [mV]",
+                  "long_mode": "LV_LABEL_LONG_WRAP",
+                  "style": [
+                    {
+                      "part": "LV_PART_MAIN",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "text_font": "lv_font_montserrat_14"
+                    }
+                  ],
+                  "event": [],
+                  "commCmds": [],
+                  "commEvts": []
+                },
+                {
+                  "name": "label_max",
+                  "id": "label_5501000e-0637-41d4-9b3f-b27833ec69bf",
+                  "type": "label",
+                  "tag": "",
+                  "visible": true,
+                  "left": 535,
+                  "left_unit": "pixel",
+                  "top": 30,
+                  "top_unit": "pixel",
+                  "width": 60,
+                  "width_unit": "pixel",
+                  "height": 20,
+                  "height_unit": "pixel",
+                  "scrollbar_mode": "OFF",
+                  "text": "number",
+                  "long_mode": "LV_LABEL_LONG_WRAP",
+                  "style": [
+                    {
+                      "part": "LV_PART_MAIN",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "text_font": "lv_font_montserrat_14"
+                    }
+                  ],
+                  "event": [],
+                  "commCmds": [],
+                  "commEvts": [],
+                  "objFlags": [
+                    {
+                      "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                      "action": "remove"
+                    }
+                  ]
+                },
+                {
+                  "name": "bar_max",
+                  "id": "bar_ddfdd1b1-5a30-46c9-9006-6894dc36a894",
+                  "type": "bar",
+                  "left": 30,
+                  "top": 30,
+                  "visible": true,
+                  "width": 500,
+                  "height": 20,
+                  "scrollbar_mode": "OFF",
+                  "animtime": 1000,
+                  "bar_value": 20,
+                  "anim": false,
+                  "mode": "LV_BAR_MODE_NORMAL",
+                  "style": [
+                    {
+                      "part": "LV_PART_MAIN",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "radius": 0
+                    },
+                    {
+                      "part": "LV_PART_INDICATOR",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "radius": 0
+                    }
+                  ],
+                  "event": [],
+                  "commCmds": [],
+                  "commEvts": [],
+                  "left_unit": "pixel",
+                  "top_unit": "pixel",
+                  "width_unit": "pixel",
+                  "height_unit": "pixel",
+                  "objFlags": [
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICKABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                      "action": "remove"
+                    }
+                  ]
+                }
+              ],
+              "style": [
+                {
+                  "part": "LV_PART_MAIN",
+                  "state": "LV_STATE_DEFAULT",
+                  "disable": false,
+                  "border_width": 0,
+                  "padding_left": 0,
+                  "padding_right": 0,
+                  "padding_top": 0,
+                  "padding_bottom": 0,
+                  "radius": 0
+                }
+              ],
+              "event": [],
+              "commCmds": [],
+              "commEvts": [],
+              "height_unit": "pixel",
+              "left_unit": "pixel",
+              "top_unit": "pixel"
+            },
+            {
+              "name": "cont_50hz",
+              "id": "cont_02bbcb4e-06ae-480d-85dc-0ddcda909218",
+              "type": "cont",
+              "left": 0,
+              "top": 240,
+              "visible": true,
+              "width": 620,
+              "height": 120,
+              "scrollbar_mode": "OFF",
+              "layout": "LV_LAYOUT_NONE",
+              "flexFlow": "LV_FLEX_FLOW_ROW",
+              "mainAlign": "LV_FLEX_ALIGN_CENTER",
+              "crossAlign": "LV_FLEX_ALIGN_CENTER",
+              "trackAlign": "LV_FLEX_ALIGN_CENTER",
+              "child": [
+                {
+                  "name": "label_50hz_title",
+                  "id": "label_d5d1b898-0c59-4ed7-91e0-747f61c7328d",
+                  "type": "label",
+                  "tag": "",
+                  "visible": true,
+                  "left": 200,
+                  "left_unit": "pixel",
+                  "top": 80,
+                  "top_unit": "pixel",
+                  "width": 150,
+                  "width_unit": "pixel",
+                  "height": 30,
+                  "height_unit": "pixel",
+                  "scrollbar_mode": "OFF",
+                  "text": "frequency[50] [mV]",
+                  "long_mode": "LV_LABEL_LONG_WRAP",
+                  "style": [
+                    {
+                      "part": "LV_PART_MAIN",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "text_font": "lv_font_montserrat_14"
+                    }
+                  ],
+                  "event": [],
+                  "commCmds": [],
+                  "commEvts": []
+                },
+                {
+                  "name": "label_50hz",
+                  "id": "label_3cbbfdc8-6673-4cd1-bbdd-1c8da4b32bb6",
+                  "type": "label",
+                  "tag": "",
+                  "visible": true,
+                  "left": 535,
+                  "left_unit": "pixel",
+                  "top": 30,
+                  "top_unit": "pixel",
+                  "width": 60,
+                  "width_unit": "pixel",
+                  "height": 20,
+                  "height_unit": "pixel",
+                  "scrollbar_mode": "OFF",
+                  "text": "number",
+                  "long_mode": "LV_LABEL_LONG_WRAP",
+                  "style": [
+                    {
+                      "part": "LV_PART_MAIN",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "text_font": "lv_font_montserrat_14"
+                    }
+                  ],
+                  "event": [],
+                  "commCmds": [],
+                  "commEvts": [],
+                  "objFlags": [
+                    {
+                      "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                      "action": "remove"
+                    }
+                  ]
+                },
+                {
+                  "name": "bar_50hz",
+                  "id": "bar_5b0b4c0d-dea6-4247-9820-d3113b92ca11",
+                  "type": "bar",
+                  "left": 30,
+                  "top": 30,
+                  "visible": true,
+                  "width": 500,
+                  "height": 20,
+                  "scrollbar_mode": "OFF",
+                  "animtime": 1000,
+                  "bar_value": 20,
+                  "anim": false,
+                  "mode": "LV_BAR_MODE_NORMAL",
+                  "style": [
+                    {
+                      "part": "LV_PART_MAIN",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "radius": 0
+                    },
+                    {
+                      "part": "LV_PART_INDICATOR",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "radius": 0
+                    }
+                  ],
+                  "event": [],
+                  "commCmds": [],
+                  "commEvts": [],
+                  "left_unit": "pixel",
+                  "top_unit": "pixel",
+                  "width_unit": "pixel",
+                  "height_unit": "pixel",
+                  "objFlags": [
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICKABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                      "action": "remove"
+                    }
+                  ]
+                }
+              ],
+              "style": [
+                {
+                  "part": "LV_PART_MAIN",
+                  "state": "LV_STATE_DEFAULT",
+                  "disable": false,
+                  "border_width": 0,
+                  "padding_left": 0,
+                  "padding_right": 0,
+                  "padding_top": 0,
+                  "padding_bottom": 0,
+                  "radius": 0
+                }
+              ],
+              "event": [],
+              "commCmds": [],
+              "commEvts": [],
+              "height_unit": "pixel",
+              "left_unit": "pixel",
+              "top_unit": "pixel"
+            },
+            {
+              "name": "cont_100hz",
+              "id": "cont_d309e4d1-2b0f-47f9-adca-70e9e0e34f5d",
+              "type": "cont",
+              "left": 0,
+              "top": 360,
+              "visible": true,
+              "width": 620,
+              "height": 120,
+              "scrollbar_mode": "OFF",
+              "layout": "LV_LAYOUT_NONE",
+              "flexFlow": "LV_FLEX_FLOW_ROW",
+              "mainAlign": "LV_FLEX_ALIGN_CENTER",
+              "crossAlign": "LV_FLEX_ALIGN_CENTER",
+              "trackAlign": "LV_FLEX_ALIGN_CENTER",
+              "child": [
+                {
+                  "name": "label_100hz_title",
+                  "id": "label_bea46d7f-5539-4f30-8569-eea307083da7",
+                  "type": "label",
+                  "tag": "",
+                  "visible": true,
+                  "left": 200,
+                  "left_unit": "pixel",
+                  "top": 80,
+                  "top_unit": "pixel",
+                  "width": 150,
+                  "width_unit": "pixel",
+                  "height": 30,
+                  "height_unit": "pixel",
+                  "scrollbar_mode": "OFF",
+                  "text": "frequency[100] [mV]",
+                  "long_mode": "LV_LABEL_LONG_WRAP",
+                  "style": [
+                    {
+                      "part": "LV_PART_MAIN",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "text_font": "lv_font_montserrat_14"
+                    }
+                  ],
+                  "event": [],
+                  "commCmds": [],
+                  "commEvts": []
+                },
+                {
+                  "name": "label_100hz",
+                  "id": "label_f6471d82-0dd9-479e-8b58-f0d01a3866f9",
+                  "type": "label",
+                  "tag": "",
+                  "visible": true,
+                  "left": 535,
+                  "left_unit": "pixel",
+                  "top": 30,
+                  "top_unit": "pixel",
+                  "width": 60,
+                  "width_unit": "pixel",
+                  "height": 20,
+                  "height_unit": "pixel",
+                  "scrollbar_mode": "OFF",
+                  "text": "number",
+                  "long_mode": "LV_LABEL_LONG_WRAP",
+                  "style": [
+                    {
+                      "part": "LV_PART_MAIN",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "text_font": "lv_font_montserrat_14"
+                    }
+                  ],
+                  "event": [],
+                  "commCmds": [],
+                  "commEvts": [],
+                  "objFlags": [
+                    {
+                      "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                      "action": "remove"
+                    }
+                  ]
+                },
+                {
+                  "name": "bar_100hz",
+                  "id": "bar_bdc7fc91-704c-44ff-9726-6ae35c721ea5",
+                  "type": "bar",
+                  "left": 30,
+                  "top": 30,
+                  "visible": true,
+                  "width": 500,
+                  "height": 20,
+                  "scrollbar_mode": "OFF",
+                  "animtime": 1000,
+                  "bar_value": 20,
+                  "anim": false,
+                  "mode": "LV_BAR_MODE_NORMAL",
+                  "style": [
+                    {
+                      "part": "LV_PART_MAIN",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "radius": 0
+                    },
+                    {
+                      "part": "LV_PART_INDICATOR",
+                      "state": "LV_STATE_DEFAULT",
+                      "disable": false,
+                      "radius": 0
+                    }
+                  ],
+                  "event": [],
+                  "commCmds": [],
+                  "commEvts": [],
+                  "left_unit": "pixel",
+                  "top_unit": "pixel",
+                  "width_unit": "pixel",
+                  "height_unit": "pixel",
+                  "objFlags": [
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICKABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                      "action": "remove"
+                    }
+                  ]
+                }
+              ],
+              "style": [
+                {
+                  "part": "LV_PART_MAIN",
+                  "state": "LV_STATE_DEFAULT",
+                  "disable": false,
+                  "border_width": 0,
+                  "padding_left": 0,
+                  "padding_right": 0,
+                  "padding_top": 0,
+                  "padding_bottom": 0,
+                  "radius": 0
+                }
+              ],
+              "event": [],
+              "commCmds": [],
+              "commEvts": [],
+              "height_unit": "pixel",
               "left_unit": "pixel",
               "top_unit": "pixel"
             }
@@ -204,9 +875,10 @@
           "event": [],
           "commCmds": [],
           "commEvts": [],
+          "left_unit": "pixel",
+          "top_unit": "pixel",
           "width_unit": "pixel",
-          "height_unit": "pixel",
-          "left_unit": "pixel"
+          "height_unit": "pixel"
         }
       ],
       "event": [],
