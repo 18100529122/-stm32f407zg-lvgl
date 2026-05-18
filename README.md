@@ -78,10 +78,11 @@
 
 | 起始地址 | 长度 | 用途 | 模块引用 |
 | :--- | :--- | :--- | :--- |
-| `0x68000000` | ~160KB | LVGL 显存 (Display Buffer) | `lv_port_disp.c` |
-| `0x68040000` | 128KB | LVGL 动态内存池 (Memory Pool) | `lv_conf.h` |
+| `0x68000000` | 64KB | LVGL 动态内存池 (Memory Pool) | `lv_conf.h` |
+| `0x68010000` | 750KB | LVGL 显存 (Display Buffer - Full Screen) | `lv_port_disp.c` |
+| `0x680D0000` | 192KB | 编译器管理区域 (.ext_sram) | `FLASH.ld` |
 
-**注**：ADC 缓冲区及 FFT 计算缓存已迁移至 **片内 SRAM**，以避免与 LCD 刷屏产生 FSMC 总线竞争。
+**注**：为了防止冲突，链接脚本 `STM32F407ZGTX_FLASH.ld` 已将 `EXTSRAM` 的起始地址偏移至 `0x680D0000`。
 
 | 功能 | 引脚 | FSMC 定义 |
 | :--- | :--- | :--- |
@@ -226,7 +227,7 @@
 - **图形库**: LVGL v9.2.2
   - **功能全面**: 已启用所有常用控件（Slider, Switch, Roller, List, Keyboard 等）及高级布局引擎 (Flex, Grid)。
   - **交互体验**: 已对接电容触摸输入，支持点击、滑动等标准交互动作。
-  - **显存管理**: 使用外部 1MB SRAM 中的 128KB 空间作为 LVGL 动态内存池 (0x68040000)。
+  - **显存管理**: 使用外部 1MB SRAM 中的 64KB 空间作为 LVGL 动态内存池 (起始于 0x68000000)。
 - **硬件驱动 (BSP)**:
   - **显示**: ILI9806 (800x480) MCU 并行接口驱动，支持横屏显示。
   - **触摸**: GT9xxx 电容触摸驱动，极致精简优化，仅保留核心通信逻辑。

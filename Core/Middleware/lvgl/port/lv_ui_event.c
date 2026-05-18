@@ -49,6 +49,11 @@ static void ui_chart_init(void)
     lv_chart_set_update_mode(screen_chart_chart_line, LV_CHART_UPDATE_MODE_CIRCULAR);// 循环更新模式
     lv_chart_set_update_mode(screen_chart_chart_bar, LV_CHART_UPDATE_MODE_CIRCULAR);// 循环更新模式
 
+    
+    lv_obj_set_style_line_width(screen_chart_chart_line, 0, LV_PART_ITEMS);// 隐藏折线图的连线，只保留散点 (打点)
+    lv_obj_set_style_size(screen_chart_chart_line, 3, 3, LV_PART_INDICATOR); // 缩小点到 3x3
+    lv_obj_set_style_radius(screen_chart_chart_line, 0, LV_PART_INDICATOR); // 禁用圆角，大幅提升绘制速度
+
     //数据颜色
     lv_color_t colors[10] = {
         lv_palette_main(LV_PALETTE_RED),
@@ -118,6 +123,11 @@ void lv_ui_update_line_chart_data(float * data)
         // chart_line_data[7][chart_line_data_index]=data[7];
         // chart_line_data[8][chart_line_data_index]=data[8];
         // chart_line_data[9][chart_line_data_index]=data[9];
+
+        // 告诉图表循环起始点的位置，这能帮助 LVGL 更高效地管理内部刷新
+        for(int i = 0; i < 10; i++) {
+            lv_chart_set_x_start_point(screen_chart_chart_line, chart_line_series[i], chart_line_data_index);
+        }
 
         chart_line_data_index = (chart_line_data_index + 1) % 50;
     }

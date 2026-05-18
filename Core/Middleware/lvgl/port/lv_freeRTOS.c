@@ -40,11 +40,13 @@ static void lvgl_data_thread(void *argument)
     while(1) {
         // 每隔 500ms 获取一次数据并更新 UI
         osDelay(500);
+        
         lv_lock();
         // 更新图表数据
         lv_ui_update_line_chart_data(g_fft_result.freq_values);
         lv_ui_update_bar_chart_data(g_fft_result.freq_values, FREQ_COMP_NUM);
         lv_unlock();
+        
         /* 刷新图表 */
         lv_ui_refresh();
     }
