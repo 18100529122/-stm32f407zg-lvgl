@@ -6,7 +6,7 @@
 #include "semphr.h"
 
 #define ADC_DMA_BUFF_SIZE 2048
-#define ADC_FIFO_NUM       4
+#define ADC_FIFO_NUM       8
 
 #pragma pack(1)
 typedef struct {

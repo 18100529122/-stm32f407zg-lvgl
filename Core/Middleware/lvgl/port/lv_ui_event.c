@@ -139,7 +139,8 @@ void lv_ui_data_update(lv_ui_data_t * data)
     }
     else if(screen_show_type == 1)
     {
-        if(screen_chart2_chart)
+        static uint8_t screen_update_count=0;
+        if(screen_chart2_chart && screen_update_count == 0)// 每 5 次更新一次图表数据
         {
             /* 填充 ADC 波形数据 (作为相位参考基准) */
             lv_chart_series_t * ser_sine = lv_chart_get_series_next(screen_chart2_chart, NULL);
@@ -155,6 +156,7 @@ void lv_ui_data_update(lv_ui_data_t * data)
             /* 仅需使图表无效，触发 LV_EVENT_DRAW_MAIN_END 事件进行自定义绘图 */
             lv_obj_invalidate(screen_chart2_chart);
         }
+        screen_update_count = (screen_update_count + 1) % 5;
     }
 }
 
