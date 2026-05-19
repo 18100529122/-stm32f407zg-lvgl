@@ -12,6 +12,8 @@ extern lv_obj_t * screen_chart_label_max;
 extern lv_obj_t * screen_chart_bar_rms;
 extern lv_obj_t * screen_chart_label_rms;
 
+static uint8_t screen_show_type = 0;// 0: 柱状图, 1: 折线图
+
 /**
  * @brief 切换为柱状图事件回调
  * @param e 事件对象
@@ -20,7 +22,14 @@ void screen_chart_btn_bar_event_cb(lv_event_t * e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     if(code == LV_EVENT_CLICKED) {
-        lv_label_set_text(screen_chart_label_btn, "show bar");
+        //切换屏幕
+        if(screen_show_type == 0)
+        {
+            return;
+        }
+        lv_obj_t * screen_chart = setup_screen_chart();
+        screen_show_type = 0;
+        lv_scr_load(screen_chart);
     }
 }
 
@@ -32,7 +41,14 @@ void screen_chart_btn_line_event_cb(lv_event_t * e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     if(code == LV_EVENT_CLICKED) {
-        lv_label_set_text(screen_chart_label_btn, "show line");
+        //切换屏幕
+        if(screen_show_type == 1)
+        {
+            return;
+        }
+        lv_obj_t * screen_chart = setup_screen_chart2();
+        screen_show_type = 1;
+        lv_scr_load(screen_chart);
     }
 }
 
@@ -49,15 +65,22 @@ void screen_chart_btn_line_event_cb(lv_event_t * e)
  */
 void lv_ui_data_update(uint8_t rms,uint8_t max,uint8_t data50hz,uint8_t data100hz,char * rms_data,char * max_data,char * data50hz_data,char * data100hz_data)
 {
-    lv_bar_set_value(screen_chart_bar_rms, rms, LV_ANIM_OFF);
-    lv_bar_set_value(screen_chart_bar_max, max, LV_ANIM_OFF);
-    lv_bar_set_value(screen_chart_bar_50hz, data50hz, LV_ANIM_OFF);
-    lv_bar_set_value(screen_chart_bar_100hz, data100hz, LV_ANIM_OFF);
-    
-    lv_label_set_text(screen_chart_label_rms, rms_data);
-    lv_label_set_text(screen_chart_label_max, max_data);
-    lv_label_set_text(screen_chart_label_50hz, data50hz_data);
-    lv_label_set_text(screen_chart_label_100hz, data100hz_data);
+    if(screen_show_type == 0)
+    {
+        lv_bar_set_value(screen_chart_bar_rms, rms, LV_ANIM_OFF);
+        lv_bar_set_value(screen_chart_bar_max, max, LV_ANIM_OFF);
+        lv_bar_set_value(screen_chart_bar_50hz, data50hz, LV_ANIM_OFF);
+        lv_bar_set_value(screen_chart_bar_100hz, data100hz, LV_ANIM_OFF);
+        
+        lv_label_set_text(screen_chart_label_rms, rms_data);
+        lv_label_set_text(screen_chart_label_max, max_data);
+        lv_label_set_text(screen_chart_label_50hz, data50hz_data);
+        lv_label_set_text(screen_chart_label_100hz, data100hz_data);
+    }
+    else
+    {
+        // 折线图数据更新
+    }
 }
 
 /**

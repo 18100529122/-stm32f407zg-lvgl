@@ -63,6 +63,10 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_scrollbar_mode(screen_chart, LV_SCROLLBAR_MODE_OFF);
     // Add style for screen_chart - LV_PART_MAIN | LV_STATE_DEFAULT
     lv_obj_set_style_bg_color(screen_chart, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_cont_show
     screen_chart_cont_show = lv_obj_create(screen_chart);
     lv_obj_set_x(screen_chart_cont_show, 180);
@@ -77,6 +81,11 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_style_pad_bottom(screen_chart_cont_show, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(screen_chart_cont_show, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(screen_chart_cont_show, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart_cont_show, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_show, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_show, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_show, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_show, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_cont_100hz
     screen_chart_cont_100hz = lv_obj_create(screen_chart_cont_show);
     lv_obj_set_x(screen_chart_cont_100hz, 0);
@@ -92,6 +101,11 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_style_pad_bottom(screen_chart_cont_100hz, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(screen_chart_cont_100hz, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(screen_chart_cont_100hz, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart_cont_100hz, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_100hz, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_100hz, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_100hz, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_100hz, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_bar_100hz
     screen_chart_bar_100hz = lv_bar_create(screen_chart_cont_100hz);
     lv_obj_set_x(screen_chart_bar_100hz, 30);
@@ -135,6 +149,10 @@ static lv_obj_t * create_ui(void) {
     lv_label_set_long_mode(screen_chart_label_100hz_title, LV_LABEL_LONG_WRAP);
     lv_obj_set_style_text_font(screen_chart_label_100hz_title, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(screen_chart_label_100hz_title, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart_label_100hz_title, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_100hz_title, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_100hz_title, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_100hz_title, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_cont_50hz
     screen_chart_cont_50hz = lv_obj_create(screen_chart_cont_show);
     lv_obj_set_x(screen_chart_cont_50hz, 0);
@@ -150,6 +168,11 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_style_pad_bottom(screen_chart_cont_50hz, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(screen_chart_cont_50hz, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(screen_chart_cont_50hz, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart_cont_50hz, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_50hz, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_50hz, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_50hz, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_50hz, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_bar_50hz
     screen_chart_bar_50hz = lv_bar_create(screen_chart_cont_50hz);
     lv_obj_set_x(screen_chart_bar_50hz, 30);
@@ -193,6 +216,10 @@ static lv_obj_t * create_ui(void) {
     lv_label_set_long_mode(screen_chart_label_50hz_title, LV_LABEL_LONG_WRAP);
     lv_obj_set_style_text_font(screen_chart_label_50hz_title, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(screen_chart_label_50hz_title, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart_label_50hz_title, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_50hz_title, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_50hz_title, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_50hz_title, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_cont_max
     screen_chart_cont_max = lv_obj_create(screen_chart_cont_show);
     lv_obj_set_x(screen_chart_cont_max, 0);
@@ -208,6 +235,11 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_style_pad_bottom(screen_chart_cont_max, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(screen_chart_cont_max, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(screen_chart_cont_max, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart_cont_max, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_max, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_max, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_max, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_max, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_bar_max
     screen_chart_bar_max = lv_bar_create(screen_chart_cont_max);
     lv_obj_set_x(screen_chart_bar_max, 30);
@@ -251,6 +283,10 @@ static lv_obj_t * create_ui(void) {
     lv_label_set_long_mode(screen_chart_label_max_title, LV_LABEL_LONG_WRAP);
     lv_obj_set_style_text_font(screen_chart_label_max_title, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(screen_chart_label_max_title, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart_label_max_title, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_max_title, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_max_title, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_max_title, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_cont_rms
     screen_chart_cont_rms = lv_obj_create(screen_chart_cont_show);
     lv_obj_set_x(screen_chart_cont_rms, 0);
@@ -266,6 +302,11 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_style_pad_bottom(screen_chart_cont_rms, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(screen_chart_cont_rms, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(screen_chart_cont_rms, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart_cont_rms, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_rms, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_rms, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_rms, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_rms, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_bar_rms
     screen_chart_bar_rms = lv_bar_create(screen_chart_cont_rms);
     lv_obj_set_x(screen_chart_bar_rms, 30);
@@ -309,6 +350,10 @@ static lv_obj_t * create_ui(void) {
     lv_label_set_long_mode(screen_chart_label_rms_title, LV_LABEL_LONG_WRAP);
     lv_obj_set_style_text_font(screen_chart_label_rms_title, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(screen_chart_label_rms_title, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart_label_rms_title, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_rms_title, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_rms_title, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_rms_title, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_cont_title
     screen_chart_cont_title = lv_obj_create(screen_chart);
     lv_obj_set_x(screen_chart_cont_title, 0);
@@ -324,6 +369,11 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_style_pad_bottom(screen_chart_cont_title, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(screen_chart_cont_title, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(screen_chart_cont_title, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart_cont_title, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_title, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_title, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_title, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_cont_title, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_btn_bar
     screen_chart_btn_bar = lv_btn_create(screen_chart_cont_title);
     lv_obj_set_x(screen_chart_btn_bar, 35);
@@ -339,6 +389,10 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_style_text_color(screen_chart_btn_bar, lv_color_hex(0xffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(screen_chart_btn_bar, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(screen_chart_btn_bar, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart_btn_bar, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_btn_bar, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_btn_bar, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_btn_bar, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_btn_line
     screen_chart_btn_line = lv_btn_create(screen_chart_cont_title);
     lv_obj_set_x(screen_chart_btn_line, 35);
@@ -354,6 +408,10 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_style_text_color(screen_chart_btn_line, lv_color_hex(0xffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(screen_chart_btn_line, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(screen_chart_btn_line, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart_btn_line, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_btn_line, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_btn_line, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_btn_line, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart_label_btn
     screen_chart_label_btn = lv_label_create(screen_chart_cont_title);
     lv_obj_set_x(screen_chart_label_btn, 35);
@@ -365,6 +423,10 @@ static lv_obj_t * create_ui(void) {
     lv_label_set_long_mode(screen_chart_label_btn, LV_LABEL_LONG_WRAP);
     lv_obj_set_style_text_font(screen_chart_label_btn, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(screen_chart_label_btn, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_flag_modify(screen_chart_label_btn, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_btn, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_btn, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
+    ui_flag_modify(screen_chart_label_btn, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
     return screen_chart;
 }
 lv_obj_t * setup_screen_chart(void) {

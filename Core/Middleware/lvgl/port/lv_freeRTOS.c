@@ -15,7 +15,7 @@ osThreadId_t lvglTaskHandle;
 /* LVGL 刷新任务属性 */
 const osThreadAttr_t lvglTask_attributes = {
   .name = "lvglTask",
-  .stack_size = 1024 * 4,
+  .stack_size = 1024 * 8,
   .priority = (osPriority_t) osPriorityNormal,
 };
 
