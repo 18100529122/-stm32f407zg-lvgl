@@ -121,6 +121,15 @@ static void bsp_adc_extract_to_fifo(uint32_t start_idx)
     bsp_adc_fifo_t *fifo = bsp_adc_get_fifo_dev();
     uint8_t w_idx = fifo->write_idx;
 
+    if(fifo->status[w_idx].is_full)
+    {
+        bsp_adc_stop();// 停止采集，防止数据溢出
+        memset(bsp_adc_get_fifo_dev(), 0, sizeof(bsp_adc_fifo_t));// 清空 FIFO 状态
+        s_rem = 0;// 重置累计偏移
+        s_sample_idx = 0;// 重置采样点索引
+        return;
+    }
+
     /* 处理半个缓冲区的数据量 */
     uint32_t process_len = ADC_BUFF_SIZE / 2;
     

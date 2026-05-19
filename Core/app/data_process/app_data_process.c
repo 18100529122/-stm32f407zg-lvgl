@@ -188,6 +188,9 @@ static void app_data_process_task(void *argument)
                 /* 移动读取索引 */
                 r_idx = (r_idx + 1) % ADC_FIFO_NUM;
                 fifo->read_idx = r_idx;
+
+                //开启adc采集
+                bsp_adc_start();
             }
         }
     }
