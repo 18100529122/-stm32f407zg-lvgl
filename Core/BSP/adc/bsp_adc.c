@@ -122,7 +122,7 @@ static void bsp_adc_extract_to_fifo(uint32_t start_idx)
     /* 处理半个缓冲区的数据量 */
     uint32_t process_len = ADC_BUFF_SIZE / 2;
     
-    for (int i = (200 - 1 - s_rem); i < process_len; i += 200)
+    for (int i = (10 - 1 - s_rem); i < process_len; i += 10)
     {
         fifo->data[w_idx][s_sample_idx] = g_adc_buff[start_idx + i];
         s_sample_idx++;
@@ -143,7 +143,7 @@ static void bsp_adc_extract_to_fifo(uint32_t start_idx)
     }
     
     /* 更新偏移量 */
-    s_rem = (s_rem + process_len) % 200;
+    s_rem = (s_rem + process_len) % 10;
 }
 
 /**

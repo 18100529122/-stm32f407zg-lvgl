@@ -160,6 +160,7 @@ static void app_data_process_task(void *argument)
                 g_app_data_result.freq_100hz = app_data_fft_get_freq_value(1);
 
                 /* 更新 ADC 波形数据 (用于 UI 显示) */
+                /* 100kHz 采样下，不抽点显示前 512 个点 (即前 1/4 缓冲区，约 5.12ms) */
                 memcpy(g_app_data_result.adc_wave, fifo->data[r_idx], sizeof(g_app_data_result.adc_wave));
 
                 /* 更新飞行图谱 (ToF) */
@@ -209,8 +210,9 @@ static void app_data_process_update_tof(uint16_t *data, uint32_t len)
                 if (data[i] > data[i - 1] && data[i] >= data[i + 1]) {
                     /* 检测到有效脉冲峰值 */
                     
-                    /* 计算相位索引 (采样率 5000Hz, 工频 50Hz -> 每周期 100 个点) */
-                    int phase_idx = total_sample_cnt % 100; 
+                    /* 计算相位索引 (采样率 100,000Hz, 工频 50Hz -> 每周期 2000 个点) */
+                    /* 映射到 100 个 Time Bins，即每 20 个采样点为一个 Bin */
+                    int phase_idx = (total_sample_cnt % 2000) / 20; 
                     
                     /* 映射到幅值矩阵索引 (0-20mV -> 40 bins, 0.5mV/bin) */
                     int amp_idx = (int)(mv / 0.5f);

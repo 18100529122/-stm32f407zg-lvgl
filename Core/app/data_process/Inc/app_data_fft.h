@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-#define FFT_LENGTH      512
+#define FFT_LENGTH      2048
 #define FREQ_COMP_NUM   10
 
 /* 结果结构体 */

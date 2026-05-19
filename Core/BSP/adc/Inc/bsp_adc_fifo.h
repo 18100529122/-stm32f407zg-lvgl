@@ -5,7 +5,7 @@
 #include "FreeRTOS.h"
 #include "semphr.h"
 
-#define ADC_DMA_BUFF_SIZE 512
+#define ADC_DMA_BUFF_SIZE 2048
 #define ADC_FIFO_NUM       4
 
 #pragma pack(1)

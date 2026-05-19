@@ -58,8 +58,8 @@ void app_data_fft_compute(uint16_t *input_data, uint32_t length) {
     /* 强制将 DC 设为 0 以便观察交流分量 */
     g_fft_result.magnitudes[0] = 0.0f;
 
-    /* 6. 提取 50Hz - 500Hz 频率分量 (Fs = 5000Hz, N = 512, Bin_Res = 9.765Hz) */
-    float32_t fs = 5000.0f;
+    /* 6. 提取 50Hz - 500Hz 频率分量 (Fs = 100000Hz, N = 2048, Bin_Res = 48.8Hz) */
+    float32_t fs = 100000.0f;
     float32_t bin_res = fs / FFT_LENGTH;
     for (int i = 0; i < FREQ_COMP_NUM; i++) {
         float32_t target_freq = 50.0f * (i + 1);
