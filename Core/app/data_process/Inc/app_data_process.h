@@ -6,6 +6,12 @@
 
 
 /**
+ * @brief 飞行图谱配置
+ */
+#define TOF_AMP_BINS    40   /* Y轴: 0-20mV, 每 0.5mV 一个区间 */
+#define TOF_TIME_BINS   100  /* X轴: 0-200ms, 每 2ms 一个区间 */
+
+/**
  * @brief 数据处理结果结构体
  */
 typedef struct {
@@ -13,6 +19,12 @@ typedef struct {
     float peak;          /* 周期最大值 */
     float freq_50hz;     /* 50Hz 分量 */
     float freq_100hz;    /* 100Hz 分量 */
+    
+    /* 飞行图谱相关数据 */
+    uint16_t tof_matrix[TOF_AMP_BINS][TOF_TIME_BINS]; /* 飞行图谱统计矩阵 */
+    uint32_t tof_point_cnt;                           /* 飞行图谱总点数 */
+    uint32_t last_pulse_sample_idx;                   /* 上一个脉冲的采样点索引 */
+    float trigger_thr_mv;                             /* 触发阈值(mV) */
 } app_data_result_t;
 
 extern app_data_result_t g_app_data_result;
@@ -21,6 +33,11 @@ extern app_data_result_t g_app_data_result;
  * @brief 数据处理任务初始化
  */
 void app_data_process_init(void);
+
+/**
+ * @brief 重置飞行图谱矩阵
+ */
+void app_data_process_reset_tof(void);
 
 /**
  * @brief 获取数据处理结果
@@ -35,6 +52,11 @@ char *app_data_process_get_rms_str(void);
 char *app_data_process_get_peak_str(void);
 char *app_data_process_get_freq_50hz_str(void);
 char *app_data_process_get_freq_100hz_str(void);
+char *app_data_process_get_threshold_str(void);
 
+/**
+ * @brief 获取飞行图谱矩阵中指定区间的值
+ */
+uint16_t app_data_process_get_tof_bin(uint8_t amp_idx, uint8_t time_idx);
 
 #endif /* __APP_DATA_PROCESS_H__ */

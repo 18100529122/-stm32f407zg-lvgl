@@ -1,6 +1,7 @@
 #include "bsp_dac.h"
 #include "dac.h"
 #include <math.h>
+#include <stdlib.h>
 
 #ifndef PI
 #define PI 3.14159265358979323846f
@@ -17,7 +18,12 @@ void bsp_dac_set_sine_wave(uint32_t frequency)
     /* 1. 生成正弦波数据表 (0 - 4095) */
     for (int i = 0; i < DAC_BUFF_SIZE; i++) {
         /* 1.65V 偏置，约 1.5V 幅值的正弦波 (避免满量程削波) */
-        g_dac_buff[i] = (uint16_t)((sinf(2.0f * PI * i / DAC_BUFF_SIZE) + 1.0f) * 2047.0f * 0.9f + 200.0f);
+        float sine_val = (sinf(2.0f * PI * i / DAC_BUFF_SIZE) + 1.0f) * 2047.0f * 0.9f + 200.0f;
+        
+        /* 增加随机噪声模拟真实环境 (约 +/- 8mV 的抖动) */
+        int16_t noise = (int16_t)((rand() % 21) - 10); 
+        
+        g_dac_buff[i] = (uint16_t)(sine_val + (float)noise);
     }
 
     /* 2. 配置定时器 6 (TIM6) 作为触发源 */

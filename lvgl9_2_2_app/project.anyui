@@ -1397,11 +1397,11 @@
           "name": "chart",
           "id": "25149f97-fac2-4c86-8a54-35e7dcc0252f",
           "type": "chart",
-          "left": 180,
-          "top": 0,
+          "left": 240,
+          "top": 40,
           "visible": true,
-          "width": 620,
-          "height": 480,
+          "width": 500,
+          "height": 400,
           "scrollbar_mode": "OFF",
           "range_s": 0,
           "range_e": 100,
@@ -1409,19 +1409,7 @@
           "division_line_col": 8,
           "point_count": 50,
           "chart_type": "LV_CHART_TYPE_LINE",
-          "chart_data": [
-            {
-              "chart_color": "#000000",
-              "chart_points": [
-                0,
-                10,
-                0,
-                20,
-                0,
-                30
-              ]
-            }
-          ],
+          "chart_data": [],
           "style": [
             {
               "part": "LV_PART_MAIN",
@@ -1455,7 +1443,9 @@
               "flag": "LV_OBJ_FLAG_PRESS_LOCK",
               "action": "remove"
             }
-          ]
+          ],
+          "width_unit": "pixel",
+          "left_unit": "pixel"
         }
       ],
       "event": [],

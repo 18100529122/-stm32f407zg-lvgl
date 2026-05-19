@@ -11,6 +11,7 @@ extern lv_obj_t * screen_chart_bar_max;
 extern lv_obj_t * screen_chart_label_max;
 extern lv_obj_t * screen_chart_bar_rms;
 extern lv_obj_t * screen_chart_label_rms;
+extern lv_obj_t * screen_chart2_chart;
 
 static uint8_t screen_show_type = 0;// 0: 柱状图, 1: 折线图
 
@@ -72,9 +73,35 @@ void lv_ui_data_update(lv_ui_data_t * data)
         lv_label_set_text(screen_chart_label_50hz, data->data50hz_data);
         lv_label_set_text(screen_chart_label_100hz, data->data100hz_data);
     }
-    else
+    else if(screen_show_type == 1)
     {
-        // 折线图数据更新
+        if(screen_chart2_chart && data->tof_matrix)
+        {
+            lv_chart_series_t * ser = lv_chart_get_series_next(screen_chart2_chart, NULL);
+            if(ser)
+            {
+                /* 清除当前图表点 */
+                lv_chart_set_all_value(screen_chart2_chart, ser, LV_CHART_POINT_NONE);
+
+                /* 遍历 ToF 矩阵，将有放电计数的 bin 显示在散点图上 */
+                uint32_t point_idx = 0;
+                for(int a = 0; a < 40; a++) {
+                    for(int t = 0; t < 100; t++) {
+                        if(data->tof_matrix[a * 100 + t] > 0) {
+                            /* X轴: 时间间隔(0-200ms)
+                               Y轴: 幅值(0-200, 对应 0-20.0mV)
+                               a 是 0.5mV 的索引，所以 a * 5 对应 10倍的 mV 值
+                            */
+                            lv_chart_set_value_by_id2(screen_chart2_chart, ser, point_idx, t * 2, a * 5);
+                            point_idx++;
+                            if(point_idx >= 500) break; 
+                        }
+                    }
+                    if(point_idx >= 500) break;
+                }
+                lv_chart_refresh(screen_chart2_chart);
+            }
+        }
     }
 }
 
@@ -92,7 +119,9 @@ void screen_chart_init(void)
         .rms_data = "0",
         .max_data = "0",
         .data50hz_data = "0",
-        .data100hz_data = "0"
+        .data100hz_data = "0",
+        .threshold_data = "0.00",
+        .tof_matrix = NULL
     };
     lv_ui_data_update(&init_data);// 初始化图表数据
 }

@@ -38,10 +38,14 @@ static void lvgl_data_update_timer_cb(lv_timer_t * timer)
     ui_data.max_data = app_data_process_get_peak_str();
     ui_data.data50hz_data = app_data_process_get_freq_50hz_str();
     ui_data.data100hz_data = app_data_process_get_freq_100hz_str();
+    ui_data.threshold_data = app_data_process_get_threshold_str();
+    ui_data.tof_matrix = (uint16_t *)app_data_process_get_result()->tof_matrix;
+    uint32_t tof_points = app_data_process_get_result()->tof_point_cnt;
     
-    printf("rms: %d-%s, max: %d-%s, 50Hz: %d-%s, 100Hz: %d-%s\r\n",
+    printf("rms: %d-%s, max: %d-%s, 50Hz: %d-%s, 100Hz: %d-%s, points: %d\r\n",
         ui_data.rms, ui_data.rms_data, ui_data.max, ui_data.max_data, 
-        ui_data.data50hz, ui_data.data50hz_data, ui_data.data100hz, ui_data.data100hz_data); 
+        ui_data.data50hz, ui_data.data50hz_data, ui_data.data100hz, ui_data.data100hz_data,
+        tof_points); 
     
     // 更新图表和标签数据
     lv_ui_data_update(&ui_data);

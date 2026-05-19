@@ -31,6 +31,8 @@ typedef struct {
     char * max_data;        /**< 最大值数据字符串 */
     char * data50hz_data;   /**< 50Hz 值数据字符串 */
     char * data100hz_data;  /**< 100Hz 值数据字符串 */
+    char * threshold_data;  /**< 触发阈值数据字符串 */
+    uint16_t * tof_matrix;  /**< 飞行图谱矩阵数据指针 */
 } lv_ui_data_t;
 
 /**

@@ -48,22 +48,15 @@ static lv_obj_t * create_ui(void) {
     ui_flag_modify(screen_chart2, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
     // Create screen_chart2_chart
     screen_chart2_chart = lv_chart_create(screen_chart2);
-    lv_obj_set_x(screen_chart2_chart, 180);
-    lv_obj_set_y(screen_chart2_chart, 0);
-    lv_obj_set_width(screen_chart2_chart, 620);
-    lv_obj_set_height(screen_chart2_chart, 480);
+    lv_obj_set_x(screen_chart2_chart, 240);
+    lv_obj_set_y(screen_chart2_chart, 40);
+    lv_obj_set_width(screen_chart2_chart, 500);
+    lv_obj_set_height(screen_chart2_chart, 400);
     lv_obj_set_scrollbar_mode(screen_chart2_chart, LV_SCROLLBAR_MODE_OFF);
     lv_chart_set_type(screen_chart2_chart, LV_CHART_TYPE_LINE);
     lv_chart_set_div_line_count(screen_chart2_chart, 8, 8);
     lv_chart_set_point_count(screen_chart2_chart, 50);
     lv_chart_set_range(screen_chart2_chart, LV_CHART_AXIS_PRIMARY_Y, 0, 100);
-    lv_chart_series_t * screen_chart2_chart_series0 = lv_chart_add_series(screen_chart2_chart, lv_color_hex(0x000000), LV_CHART_AXIS_PRIMARY_Y);
-    lv_chart_set_next_value(screen_chart2_chart, screen_chart2_chart_series0, 0);
-    lv_chart_set_next_value(screen_chart2_chart, screen_chart2_chart_series0, 10);
-    lv_chart_set_next_value(screen_chart2_chart, screen_chart2_chart_series0, 0);
-    lv_chart_set_next_value(screen_chart2_chart, screen_chart2_chart_series0, 20);
-    lv_chart_set_next_value(screen_chart2_chart, screen_chart2_chart_series0, 0);
-    lv_chart_set_next_value(screen_chart2_chart, screen_chart2_chart_series0, 30);
     ui_flag_modify(screen_chart2_chart, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
     ui_flag_modify(screen_chart2_chart, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
     ui_flag_modify(screen_chart2_chart, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
