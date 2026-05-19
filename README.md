@@ -79,10 +79,10 @@
 | 起始地址 | 长度 | 用途 | 模块引用 |
 | :--- | :--- | :--- | :--- |
 | `0x68000000` | 64KB | LVGL 动态内存池 (Memory Pool) | `lv_conf.h` |
-| `0x68010000` | 750KB | LVGL 显存 (Display Buffer - Full Screen) | `lv_port_disp.c` |
-| `0x680D0000` | 192KB | 编译器管理区域 (.ext_sram) | `FLASH.ld` |
+| `0x68010000` | 375KB | LVGL 双缓冲区 (800*120 * 2) | `lv_port_disp.c` |
+| `0x68070000` | 576KB | 编译器管理区域 (.ext_sram) | `FLASH.ld` |
 
-**注**：为了防止冲突，链接脚本 `STM32F407ZGTX_FLASH.ld` 已将 `EXTSRAM` 的起始地址偏移至 `0x680D0000`。
+**注**：为了防止冲突，链接脚本 `STM32F407ZGTX_FLASH.ld` 已将 `EXTSRAM` 的起始地址偏移至 `0x68070000`。
 
 | 功能 | 引脚 | FSMC 定义 |
 | :--- | :--- | :--- |

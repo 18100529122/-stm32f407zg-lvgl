@@ -48,9 +48,9 @@ MEMORY
   CCMRAM    (xrw)    : ORIGIN = 0x10000000,   LENGTH = 64K
   RAM    (xrw)    : ORIGIN = 0x20000000,   LENGTH = 128K
   FLASH    (rx)    : ORIGIN = 0x8000000,   LENGTH = 1024K
-  /* 外部 SRAM 总计 1024KB: 前 832KB 留给 LVGL (64KB Heap + 750KB Disp), 剩余 192KB 供编译器使用 */
-  LVGL_RAM (xrw)    : ORIGIN = 0x68000000,   LENGTH = 832K
-  EXTSRAM  (xrw)    : ORIGIN = 0x680D0000,   LENGTH = 192K
+  /* 外部 SRAM 总计 1024KB: 前 448KB 留给 LVGL (64KB Heap + 187.5KB * 2 Disp), 剩余 576KB 供编译器使用 */
+  LVGL_RAM (xrw)    : ORIGIN = 0x68000000,   LENGTH = 448K
+  EXTSRAM  (xrw)    : ORIGIN = 0x68070000,   LENGTH = 576K
 }
 
 /* Sections */

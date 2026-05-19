@@ -10,9 +10,9 @@
 
 #if TEST_SRAM_DEBUG
 
-/* 避开 LVGL 使用的区域 (0x68000000 - 0x680D0000) */
-#define EXT_SRAM_ADDR    ((uint32_t)0x680D0000)
-#define EXT_SRAM_SIZE    (192 * 1024) // 剩余 192KB
+/* 避开 LVGL 使用的区域 (0x68000000 - 0x68070000) */
+#define EXT_SRAM_ADDR    ((uint32_t)0x68070000)
+#define EXT_SRAM_SIZE    (576 * 1024) // 剩余 576KB
 
 void SRAM_Test(void)
 {

@@ -73,7 +73,25 @@
               ],
               "event": [],
               "commCmds": [],
-              "commEvts": []
+              "commEvts": [],
+              "objFlags": [
+                {
+                  "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                  "action": "remove"
+                }
+              ]
             },
             {
               "name": "btn_line",
@@ -105,7 +123,25 @@
               "commCmds": [],
               "commEvts": [],
               "left_unit": "pixel",
-              "top_unit": "pixel"
+              "top_unit": "pixel",
+              "objFlags": [
+                {
+                  "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                  "action": "remove"
+                }
+              ]
             },
             {
               "name": "btn_bar",
@@ -137,7 +173,25 @@
               "commCmds": [],
               "commEvts": [],
               "left_unit": "pixel",
-              "top_unit": "pixel"
+              "top_unit": "pixel",
+              "objFlags": [
+                {
+                  "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                  "action": "remove"
+                }
+              ]
             }
           ],
           "style": [
@@ -158,7 +212,29 @@
           "commEvts": [],
           "width_unit": "pixel",
           "height_unit": "pixel",
-          "left_unit": "pixel"
+          "left_unit": "pixel",
+          "objFlags": [
+            {
+              "flag": "LV_OBJ_FLAG_CLICKABLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_SNAPPABLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+              "action": "remove"
+            }
+          ]
         },
         {
           "name": "cont_show",
@@ -219,7 +295,25 @@
                   ],
                   "event": [],
                   "commCmds": [],
-                  "commEvts": []
+                  "commEvts": [],
+                  "objFlags": [
+                    {
+                      "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                      "action": "remove"
+                    }
+                  ]
                 },
                 {
                   "name": "label_rms",
@@ -344,7 +438,29 @@
               "commCmds": [],
               "commEvts": [],
               "height_unit": "pixel",
-              "left_unit": "pixel"
+              "left_unit": "pixel",
+              "objFlags": [
+                {
+                  "flag": "LV_OBJ_FLAG_CLICKABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                  "action": "remove"
+                }
+              ]
             },
             {
               "name": "cont_max",
@@ -389,7 +505,25 @@
                   ],
                   "event": [],
                   "commCmds": [],
-                  "commEvts": []
+                  "commEvts": [],
+                  "objFlags": [
+                    {
+                      "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                      "action": "remove"
+                    }
+                  ]
                 },
                 {
                   "name": "label_max",
@@ -515,7 +649,29 @@
               "commEvts": [],
               "height_unit": "pixel",
               "left_unit": "pixel",
-              "top_unit": "pixel"
+              "top_unit": "pixel",
+              "objFlags": [
+                {
+                  "flag": "LV_OBJ_FLAG_CLICKABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                  "action": "remove"
+                }
+              ]
             },
             {
               "name": "cont_50hz",
@@ -560,7 +716,25 @@
                   ],
                   "event": [],
                   "commCmds": [],
-                  "commEvts": []
+                  "commEvts": [],
+                  "objFlags": [
+                    {
+                      "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                      "action": "remove"
+                    }
+                  ]
                 },
                 {
                   "name": "label_50hz",
@@ -686,7 +860,29 @@
               "commEvts": [],
               "height_unit": "pixel",
               "left_unit": "pixel",
-              "top_unit": "pixel"
+              "top_unit": "pixel",
+              "objFlags": [
+                {
+                  "flag": "LV_OBJ_FLAG_CLICKABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                  "action": "remove"
+                }
+              ]
             },
             {
               "name": "cont_100hz",
@@ -731,7 +927,25 @@
                   ],
                   "event": [],
                   "commCmds": [],
-                  "commEvts": []
+                  "commEvts": [],
+                  "objFlags": [
+                    {
+                      "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                      "action": "remove"
+                    },
+                    {
+                      "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                      "action": "remove"
+                    }
+                  ]
                 },
                 {
                   "name": "label_100hz",
@@ -857,7 +1071,29 @@
               "commEvts": [],
               "height_unit": "pixel",
               "left_unit": "pixel",
-              "top_unit": "pixel"
+              "top_unit": "pixel",
+              "objFlags": [
+                {
+                  "flag": "LV_OBJ_FLAG_CLICKABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                  "action": "remove"
+                }
+              ]
             }
           ],
           "style": [
@@ -878,7 +1114,29 @@
           "left_unit": "pixel",
           "top_unit": "pixel",
           "width_unit": "pixel",
-          "height_unit": "pixel"
+          "height_unit": "pixel",
+          "objFlags": [
+            {
+              "flag": "LV_OBJ_FLAG_CLICKABLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_SNAPPABLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+              "action": "remove"
+            }
+          ]
         }
       ],
       "event": [],
@@ -892,7 +1150,342 @@
       ],
       "commCmds": [],
       "commEvts": [],
-      "main": true
+      "main": true,
+      "objFlags": [
+        {
+          "flag": "LV_OBJ_FLAG_CLICKABLE",
+          "action": "remove"
+        },
+        {
+          "flag": "LV_OBJ_FLAG_SNAPPABLE",
+          "action": "remove"
+        },
+        {
+          "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+          "action": "remove"
+        },
+        {
+          "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+          "action": "remove"
+        }
+      ]
+    },
+    {
+      "name": "screen_chart2",
+      "id": "scr_90cf22ea-81f4-45f0-bf80-8176b1e2d3a3",
+      "type": "scr",
+      "version": 151,
+      "left": 0,
+      "top": 0,
+      "width": 800,
+      "height": 480,
+      "visible": true,
+      "scrollbar_mode": "OFF",
+      "display_kb": true,
+      "chinese_input": false,
+      "chinese_library": "mini",
+      "keyboard_font_type": "simsun",
+      "keyboard_font_size": "18",
+      "list": [
+        {
+          "name": "cont_title",
+          "id": "cont_ea63e059-8199-40e2-8b1f-1a4aa05e06da",
+          "type": "cont",
+          "left": 0,
+          "top": 0,
+          "visible": true,
+          "width": 180,
+          "height": 480,
+          "scrollbar_mode": "OFF",
+          "layout": "LV_LAYOUT_NONE",
+          "flexFlow": "LV_FLEX_FLOW_ROW",
+          "mainAlign": "LV_FLEX_ALIGN_CENTER",
+          "crossAlign": "LV_FLEX_ALIGN_CENTER",
+          "trackAlign": "LV_FLEX_ALIGN_CENTER",
+          "child": [
+            {
+              "name": "label_btn",
+              "id": "label_b87f8654-c1e6-4566-98a9-473a74792762",
+              "type": "label",
+              "tag": "",
+              "visible": true,
+              "left": 35,
+              "left_unit": "pixel",
+              "top": 245,
+              "top_unit": "pixel",
+              "width": 100,
+              "width_unit": "pixel",
+              "height": 50,
+              "height_unit": "pixel",
+              "scrollbar_mode": "OFF",
+              "text": "show line",
+              "long_mode": "LV_LABEL_LONG_WRAP",
+              "style": [
+                {
+                  "part": "LV_PART_MAIN",
+                  "state": "LV_STATE_DEFAULT",
+                  "disable": false,
+                  "text_font": "lv_font_montserrat_14"
+                }
+              ],
+              "event": [],
+              "commCmds": [],
+              "commEvts": [],
+              "objFlags": [
+                {
+                  "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                  "action": "remove"
+                }
+              ]
+            },
+            {
+              "name": "btn_line",
+              "id": "btn_d3ebe510-ad43-40b1-836e-3435a4a5453a",
+              "type": "btn",
+              "left": 35,
+              "top": 45,
+              "visible": true,
+              "width": 100,
+              "height": 50,
+              "scrollbar_mode": "OFF",
+              "text": "line",
+              "mode": true,
+              "text_width": "60",
+              "text_height": "20",
+              "long_mode": "LV_LABEL_LONG_WRAP",
+              "toggle": false,
+              "style": [
+                {
+                  "part": "LV_PART_MAIN",
+                  "state": "LV_STATE_DEFAULT",
+                  "disable": false,
+                  "text_color": "#ffffff",
+                  "text_align": "LV_TEXT_ALIGN_CENTER",
+                  "text_font": "lv_font_montserrat_14"
+                }
+              ],
+              "event": [],
+              "commCmds": [],
+              "commEvts": [],
+              "left_unit": "pixel",
+              "top_unit": "pixel",
+              "objFlags": [
+                {
+                  "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                  "action": "remove"
+                }
+              ]
+            },
+            {
+              "name": "btn_bar",
+              "id": "btn_c6bc1dc4-89f0-4989-8beb-483cabc39d06",
+              "type": "btn",
+              "left": 35,
+              "top": 145,
+              "visible": true,
+              "width": 100,
+              "height": 50,
+              "scrollbar_mode": "OFF",
+              "text": "bar",
+              "mode": true,
+              "text_width": "60",
+              "text_height": "20",
+              "long_mode": "LV_LABEL_LONG_WRAP",
+              "toggle": false,
+              "style": [
+                {
+                  "part": "LV_PART_MAIN",
+                  "state": "LV_STATE_DEFAULT",
+                  "disable": false,
+                  "text_color": "#ffffff",
+                  "text_align": "LV_TEXT_ALIGN_CENTER",
+                  "text_font": "lv_font_montserrat_14"
+                }
+              ],
+              "event": [],
+              "commCmds": [],
+              "commEvts": [],
+              "left_unit": "pixel",
+              "top_unit": "pixel",
+              "objFlags": [
+                {
+                  "flag": "LV_OBJ_FLAG_SNAPPABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+                  "action": "remove"
+                },
+                {
+                  "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+                  "action": "remove"
+                }
+              ]
+            }
+          ],
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false,
+              "border_width": 0,
+              "padding_left": 0,
+              "padding_right": 0,
+              "padding_top": 0,
+              "padding_bottom": 0,
+              "radius": 0
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": [],
+          "width_unit": "pixel",
+          "height_unit": "pixel",
+          "left_unit": "pixel",
+          "objFlags": [
+            {
+              "flag": "LV_OBJ_FLAG_CLICKABLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_SNAPPABLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+              "action": "remove"
+            }
+          ]
+        },
+        {
+          "name": "chart",
+          "id": "25149f97-fac2-4c86-8a54-35e7dcc0252f",
+          "type": "chart",
+          "left": 180,
+          "top": 0,
+          "visible": true,
+          "width": 620,
+          "height": 480,
+          "scrollbar_mode": "OFF",
+          "range_s": 0,
+          "range_e": 100,
+          "division_line_row": 8,
+          "division_line_col": 8,
+          "point_count": 50,
+          "chart_type": "LV_CHART_TYPE_LINE",
+          "chart_data": [
+            {
+              "chart_color": "#000000",
+              "chart_points": [
+                0,
+                10,
+                0,
+                20,
+                0,
+                30
+              ]
+            }
+          ],
+          "style": [
+            {
+              "part": "LV_PART_MAIN",
+              "state": "LV_STATE_DEFAULT",
+              "disable": false
+            }
+          ],
+          "event": [],
+          "commCmds": [],
+          "commEvts": [],
+          "height_unit": "pixel",
+          "top_unit": "pixel",
+          "objFlags": [
+            {
+              "flag": "LV_OBJ_FLAG_CLICKABLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_SNAPPABLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+              "action": "remove"
+            },
+            {
+              "flag": "LV_OBJ_FLAG_PRESS_LOCK",
+              "action": "remove"
+            }
+          ]
+        }
+      ],
+      "event": [],
+      "style": [
+        {
+          "part": "LV_PART_MAIN",
+          "state": "LV_STATE_DEFAULT",
+          "disable": false
+        }
+      ],
+      "commCmds": [],
+      "commEvts": [],
+      "objFlags": [
+        {
+          "flag": "LV_OBJ_FLAG_CLICKABLE",
+          "action": "remove"
+        },
+        {
+          "flag": "LV_OBJ_FLAG_SNAPPABLE",
+          "action": "remove"
+        },
+        {
+          "flag": "LV_OBJ_FLAG_CLICK_FOCUSABLE",
+          "action": "remove"
+        },
+        {
+          "flag": "LV_OBJ_FLAG_GESTURE_BUBBLE",
+          "action": "remove"
+        }
+      ]
     }
   ],
   "globalComponents": [

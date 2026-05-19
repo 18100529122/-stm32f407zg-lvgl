@@ -27,11 +27,15 @@
 
 #define BYTE_PER_PIXEL (LV_COLOR_FORMAT_GET_SIZE(LV_COLOR_FORMAT_RGB565)) /*will be 2 for RGB565 */
 
-/* 定义缓冲区大小：800 * 480 = 384,000 像素 (约 750KB)，使用全屏缓冲区 */
-#define DISP_BUF_SIZE (MY_DISP_HOR_RES * MY_DISP_VER_RES)
+/* 定义缓冲区大小：800 * 120 = 96,000 像素 (约 187.5KB)，使用双缓冲 */
+#define DISP_BUF_SIZE (MY_DISP_HOR_RES * 120)
 
-/* 使用片外 SRAM 地址，紧随 64KB 动态内存池之后 (0x68000000 + 64KB = 0x68010000) */
+/* 使用片外 SRAM 地址
+ * Buffer 1: 紧随 64KB 动态内存池之后 (0x68000000 + 64KB = 0x68010000)
+ * Buffer 2: 紧随 Buffer 1 之后 (0x68010000 + 187.5KB = 0x6803EE00)
+ */
 static lv_color_t *buf_1 = (lv_color_t *)0x68010000;
+static lv_color_t *buf_2 = (lv_color_t *)0x6803EE00;
 
 /**********************
  *      TYPEDEFS
@@ -71,8 +75,8 @@ void lv_port_disp_init(void)
     lv_display_t * disp = lv_display_create(MY_DISP_HOR_RES, MY_DISP_VER_RES);
     lv_display_set_flush_cb(disp, disp_flush);
 
-    /* 设置绘制缓冲区 (已迁移至片外 SRAM) */
-    lv_display_set_buffers(disp, buf_1, NULL, DISP_BUF_SIZE * sizeof(lv_color_t), LV_DISPLAY_RENDER_MODE_PARTIAL);
+    /* 设置绘制双缓冲区 (已迁移至片外 SRAM) */
+    lv_display_set_buffers(disp, buf_1, buf_2, DISP_BUF_SIZE * sizeof(lv_color_t), LV_DISPLAY_RENDER_MODE_PARTIAL);
 
     /* 注册 DMA 完成回调 */
     hdma_memtomem_dma2_stream1.XferCpltCallback = disp_dma_callback;
