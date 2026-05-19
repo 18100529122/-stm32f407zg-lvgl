@@ -28,25 +28,18 @@ static void lvgl_data_update_timer_cb(lv_timer_t * timer)
     (void)timer;
     
     // 获取数据
-    app_data_result_t *result = app_data_process_get_result();
+    uint8_t rms = app_data_process_get_rms_uint8();
+    uint8_t max = app_data_process_get_peak_uint8();
+    uint8_t data50hz = app_data_process_get_freq_50hz_uint8();
+    uint8_t data100hz = app_data_process_get_freq_100hz_uint8();
     
-    uint8_t rms = (uint8_t)(result->rms * 0.01f);
-    uint8_t max = (uint8_t)(result->peak * 0.01f);
-    uint8_t data50hz = (uint8_t)(result->freq_50hz * 0.01f);
-    uint8_t data100hz = (uint8_t)(result->freq_100hz * 0.01f);
+    char * rms_data = app_data_process_get_rms_str();
+    char * max_data = app_data_process_get_peak_str();
+    char * data50hz_data = app_data_process_get_freq_50hz_str();
+    char * data100hz_data = app_data_process_get_freq_100hz_str();
     
-    char rms_data[10];
-    char max_data[10];
-    char data50hz_data[10];
-    char data100hz_data[10];
-
-    snprintf(rms_data, sizeof(rms_data), "%.2f", result->rms);
-    snprintf(max_data, sizeof(max_data), "%.2f", result->peak);
-    snprintf(data50hz_data, sizeof(data50hz_data), "%.2f", result->freq_50hz);
-    snprintf(data100hz_data, sizeof(data100hz_data), "%.2f", result->freq_100hz);
-    
-    // printf("rms: %d-%s, max: %d-%s, 50Hz: %d-%s, 100Hz: %d-%s\r\n",
-    //     rms, rms_data, max, max_data, data50hz, data50hz_data, data100hz, data100hz_data); 
+    printf("rms: %d-%s, max: %d-%s, 50Hz: %d-%s, 100Hz: %d-%s\r\n",
+        rms, rms_data, max, max_data, data50hz, data50hz_data, data100hz, data100hz_data); 
     
     // 更新图表和标签数据
     lv_ui_data_update(rms, max, data50hz, data100hz, rms_data, max_data, data50hz_data, data100hz_data);

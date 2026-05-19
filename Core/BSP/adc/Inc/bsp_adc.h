@@ -4,7 +4,7 @@
 #include "main.h"
 #include "bsp_adc_fifo.h"
 
-#define ADC_BUFF_SIZE 1024
+#define ADC_BUFF_SIZE 8192
 
 extern uint16_t *g_adc_buff;
 

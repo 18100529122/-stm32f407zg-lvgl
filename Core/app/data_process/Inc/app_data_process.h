@@ -27,5 +27,14 @@ void app_data_process_init(void);
  * @return app_data_result_t 数据处理结果
  */
 app_data_result_t* app_data_process_get_result(void);
+uint8_t app_data_process_get_rms_uint8(void);
+uint8_t app_data_process_get_peak_uint8(void);
+uint8_t app_data_process_get_freq_50hz_uint8(void);
+uint8_t app_data_process_get_freq_100hz_uint8(void);
+char *app_data_process_get_rms_str(void);
+char *app_data_process_get_peak_str(void);
+char *app_data_process_get_freq_50hz_str(void);
+char *app_data_process_get_freq_100hz_str(void);
+
 
 #endif /* __APP_DATA_PROCESS_H__ */

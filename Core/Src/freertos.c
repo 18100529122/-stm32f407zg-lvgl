@@ -166,16 +166,11 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    // 打印fft计算的数据
-    // printf("FFT Result: ");
-    // for (int i = 0; i < FREQ_COMP_NUM; i++)
-    // {
-    //     printf("%.2f ", g_fft_result.freq_values[i]);
-    // }
-    // printf("\r\n");
+    // 打印 heartbeat
+    // printf("System Heartbeat\r\n");
 
     led_toggle();
-    osDelay(2000);
+    osDelay(1000); // 缩短到 1s
   }
   /* USER CODE END StartDefaultTask */
 }
