@@ -10,7 +10,6 @@
 
 /* LVGL 刷新任务句柄 */
 osThreadId_t lvglTaskHandle;
-osThreadId_t lvglDataTaskHandle;
 
 
 /* LVGL 刷新任务属性 */
@@ -20,55 +19,40 @@ const osThreadAttr_t lvglTask_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
 };
 
-/* LVGL 数据更新任务属性 */
-const osThreadAttr_t lvglDataTask_attributes = {
-  .name = "lvglDataTask",
-  .stack_size = 1024 * 2,
-  .priority = (osPriority_t) osPriorityLow, // 降低优先级，确保不干扰 ADC 处理
-};
-
 /**
- * @brief LVGL 数据更新任务函数
- * @param argument 未使用
+ * @brief LVGL 数据更新定时器回调
+ * @param timer 定时器对象
  */
-static void lvgl_data_thread(void *argument)
+static void lvgl_data_update_timer_cb(lv_timer_t * timer)
 {
-    (void)argument;
-    /* 延长等待时间，确保 UI 彻底初始化完成 */
-    osDelay(3000);
-    printf("LVGL Data Thread Started (Polling Mode 500ms)\r\n");
+    (void)timer;
     
-    while(1) {
-        // 每隔 500ms 获取一次数据并更新 UI
-        osDelay(1000);
-        // 获取数据
-        uint8_t rms =0;
-        uint8_t max =0;
-        uint8_t data50hz =0;
-        uint8_t data100hz =0;
-        char rms_data[10];
-        char max_data[10];
-        char data50hz_data[10];
-        char data100hz_data[10];
-        // 计算数据
-        app_data_result_t *result = app_data_process_get_result();
-        rms = (uint8_t)(result->rms*0.01f);
-        max = (uint8_t)(result->peak*0.01f);
-        data50hz = (uint8_t)(result->freq_50hz*0.01f);
-        data100hz = (uint8_t)(result->freq_100hz*0.01f);
+    // 获取数据
+    app_data_result_t *result = app_data_process_get_result();
+    
+    uint8_t rms = (uint8_t)(result->rms * 0.01f);
+    uint8_t max = (uint8_t)(result->peak * 0.01f);
+    uint8_t data50hz = (uint8_t)(result->freq_50hz * 0.01f);
+    uint8_t data100hz = (uint8_t)(result->freq_100hz * 0.01f);
+    
+    char rms_data[10];
+    char max_data[10];
+    char data50hz_data[10];
+    char data100hz_data[10];
 
-        snprintf(rms_data, sizeof(rms_data), "%.2f", result->rms);
-        snprintf(max_data, sizeof(max_data), "%.2f", result->peak);
-        snprintf(data50hz_data, sizeof(data50hz_data), "%.2f", result->freq_50hz);
-        snprintf(data100hz_data, sizeof(data100hz_data), "%.2f", result->freq_100hz);
-        printf("rms: %d-%s, max: %d-%s, 50Hz: %d-%s, 100Hz: %d-%s\r\n",
-            rms, rms_data, max, max_data, data50hz, data50hz_data,data100hz, data100hz_data); 
-        // 更新图表数据
-        lv_ui_data_update(rms,max,data50hz,data100hz,rms_data,max_data,data50hz_data,data100hz_data);
-        
-        /* 刷新图表 */
-        lv_ui_refresh();
-    }
+    snprintf(rms_data, sizeof(rms_data), "%.2f", result->rms);
+    snprintf(max_data, sizeof(max_data), "%.2f", result->peak);
+    snprintf(data50hz_data, sizeof(data50hz_data), "%.2f", result->freq_50hz);
+    snprintf(data100hz_data, sizeof(data100hz_data), "%.2f", result->freq_100hz);
+    
+    // printf("rms: %d-%s, max: %d-%s, 50Hz: %d-%s, 100Hz: %d-%s\r\n",
+    //     rms, rms_data, max, max_data, data50hz, data50hz_data, data100hz, data100hz_data); 
+    
+    // 更新图表和标签数据
+    lv_ui_data_update(rms, max, data50hz, data100hz, rms_data, max_data, data50hz_data, data100hz_data);
+    
+    /* 刷新 UI (如果需要) */
+    lv_ui_refresh();
 }
 
 /**
@@ -82,12 +66,15 @@ static void lvgl_thread(void *argument)
     osDelay(2000);
     printf("LVGL Thread: Initializing Widgets...\r\n");
     
+    /* 创建数据更新定时器 (1秒一次) */
+    lv_timer_create(lvgl_data_update_timer_cb, 1000, NULL);
+    
     while(1) {
 
         lv_timer_handler();
         
         /* 延时 15ms，降低对 SRAM 总线的占用，给 ADC DMA 留出带宽 */
-        osDelay(30);
+        osDelay(15);
     }
 }
 
@@ -102,9 +89,6 @@ void lv_freertos_init(void)
 
     /* 创建 LVGL 刷新线程 */
     lvglTaskHandle = osThreadNew(lvgl_thread, NULL, &lvglTask_attributes);
-    
-    /* 创建 LVGL 数据更新线程 */
-    lvglDataTaskHandle = osThreadNew(lvgl_data_thread, NULL, &lvglDataTask_attributes);
 }
 
 /**
