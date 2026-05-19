@@ -159,6 +159,9 @@ static void app_data_process_task(void *argument)
                 g_app_data_result.freq_50hz = app_data_fft_get_freq_value(0);
                 g_app_data_result.freq_100hz = app_data_fft_get_freq_value(1);
 
+                /* 更新 ADC 波形数据 (用于 UI 显示) */
+                memcpy(g_app_data_result.adc_wave, fifo->data[r_idx], sizeof(g_app_data_result.adc_wave));
+
                 /* 更新飞行图谱 (ToF) */
                 app_data_process_update_tof(fifo->data[r_idx], ADC_DMA_BUFF_SIZE);
 
@@ -205,24 +208,21 @@ static void app_data_process_update_tof(uint16_t *data, uint32_t len)
             if (i > 0 && i < len - 1) {
                 if (data[i] > data[i - 1] && data[i] >= data[i + 1]) {
                     /* 检测到有效脉冲峰值 */
-                    if (g_app_data_result.last_pulse_sample_idx != 0) {
-                        /* 计算时间间隔 (有效采样率 5000Hz -> 每个点 0.2ms) */
-                        uint32_t interval_samples = total_sample_cnt - g_app_data_result.last_pulse_sample_idx;
-                        float32_t interval_ms = (float32_t)interval_samples * 0.2f;
-                        
-                        /* 映射到矩阵索引 */
-                        int amp_idx = (int)(mv / 0.5f);           /* 0-20mV -> 40 bins (0.5mV/bin) */
-                        int time_idx = (int)(interval_ms / 2.0f); /* 0-200ms -> 100 bins (2ms/bin) */
-                        
-                        if (amp_idx < TOF_AMP_BINS && time_idx < TOF_TIME_BINS) {
-                            /* 增加计数，限制最大值为 65535 */
-                            if (g_app_data_result.tof_matrix[amp_idx][time_idx] < 65535) {
-                                g_app_data_result.tof_matrix[amp_idx][time_idx]++;
-                                g_app_data_result.tof_point_cnt++;
-                            }
+                    
+                    /* 计算相位索引 (采样率 5000Hz, 工频 50Hz -> 每周期 100 个点) */
+                    int phase_idx = total_sample_cnt % 100; 
+                    
+                    /* 映射到幅值矩阵索引 (0-20mV -> 40 bins, 0.5mV/bin) */
+                    int amp_idx = (int)(mv / 0.5f);
+                    
+                    if (amp_idx < TOF_AMP_BINS && phase_idx < TOF_TIME_BINS) {
+                        /* 增加计数，限制最大值为 65535 */
+                        if (g_app_data_result.tof_matrix[amp_idx][phase_idx] < 65535) {
+                            g_app_data_result.tof_matrix[amp_idx][phase_idx]++;
+                            g_app_data_result.tof_point_cnt++;
                         }
                     }
-                    /* 更新上一个脉冲的时间戳 */
+                    /* 更新上一个脉冲的时间戳 (保留用于其他可能的统计) */
                     g_app_data_result.last_pulse_sample_idx = total_sample_cnt;
                 }
             }

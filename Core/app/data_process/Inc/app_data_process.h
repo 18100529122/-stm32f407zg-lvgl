@@ -25,6 +25,9 @@ typedef struct {
     uint32_t tof_point_cnt;                           /* 飞行图谱总点数 */
     uint32_t last_pulse_sample_idx;                   /* 上一个脉冲的采样点索引 */
     float trigger_thr_mv;                             /* 触发阈值(mV) */
+    
+    /* ADC 波形数据 (用于 UI 显示) */
+    uint16_t adc_wave[512];                           /* 抽点后的 ADC 波形数据 */
 } app_data_result_t;
 
 extern app_data_result_t g_app_data_result;

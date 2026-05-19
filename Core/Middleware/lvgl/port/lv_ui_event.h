@@ -46,6 +46,11 @@ void lv_ui_init(void);
  */
 void lv_ui_data_update(lv_ui_data_t * data);
 
+/**
+ * @brief PRPD 图谱自定义绘图回调
+ * @param e 事件对象
+ */
+void prpd_chart_draw_event_cb(lv_event_t * e);
 
 /**
  * @brief 刷新 UI 界面显示 (总刷新入口)

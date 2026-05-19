@@ -29,6 +29,7 @@ extern "C" {
 
 lv_obj_t * setup_screen_chart(void);
 lv_obj_t * setup_screen_chart2(void);
+void setupUi(void);
 
 
 

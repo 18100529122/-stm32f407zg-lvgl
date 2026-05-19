@@ -14,8 +14,8 @@
 
 #include "setup_ui.h"
 #include "lv_ui_event.h"
-
-
+#include "app_data_process.h"
+#include <math.h>
 
 lv_obj_t * screen_chart2 = NULL;
 lv_obj_t * screen_chart2_chart = NULL;
@@ -25,12 +25,19 @@ lv_obj_t * screen_chart2_btn_bar_label = NULL;
 lv_obj_t * screen_chart2_btn_line = NULL;
 lv_obj_t * screen_chart2_btn_line_label = NULL;
 lv_obj_t * screen_chart2_label_btn = NULL;
+lv_obj_t * screen_chart2_scale_y = NULL;
+lv_obj_t * screen_chart2_scale_x = NULL;
+lv_obj_t * screen_chart2_label_y_title = NULL;
+lv_obj_t * screen_chart2_label_x_title = NULL;
+lv_obj_t * screen_chart2_color_bar = NULL;
+lv_obj_t * screen_chart2_color_label_top = NULL;
+lv_obj_t * screen_chart2_color_label_bottom = NULL;
+
 static event_table_t screen_chart2_event_table = {0};
 static void register_sys_events(event_table_t *table);
 static void init_states(void);
 static void register_ui_events(void);
 static lv_obj_t * create_ui(void);
-
 
 static void register_sys_events(event_table_t *table) {
 }
@@ -41,6 +48,7 @@ static void init_states(void) {
 static void register_ui_events(void) {
     lv_obj_add_event_cb(screen_chart2_btn_bar, screen_chart_btn_bar_event_cb, LV_EVENT_CLICKED, NULL);
     lv_obj_add_event_cb(screen_chart2_btn_line, screen_chart_btn_line_event_cb, LV_EVENT_CLICKED, NULL);
+    lv_obj_add_event_cb(screen_chart2_chart, prpd_chart_draw_event_cb, LV_EVENT_DRAW_MAIN_END, NULL);
 }
 static lv_obj_t * create_ui(void) {
     LV_LOG_USER("Initializing screen_chart2 ...");
@@ -57,16 +65,14 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_width(screen_chart2_chart, 500);
     lv_obj_set_height(screen_chart2_chart, 380);
     lv_obj_set_scrollbar_mode(screen_chart2_chart, LV_SCROLLBAR_MODE_OFF);
-    lv_chart_set_type(screen_chart2_chart, LV_CHART_TYPE_SCATTER);
-    lv_chart_set_div_line_count(screen_chart2_chart, 8, 8);
-    lv_chart_set_point_count(screen_chart2_chart, 500);
-    lv_chart_set_range(screen_chart2_chart, LV_CHART_AXIS_PRIMARY_X, 0, 200);
-    lv_chart_set_range(screen_chart2_chart, LV_CHART_AXIS_PRIMARY_Y, 0, 200);
+    lv_chart_set_type(screen_chart2_chart, LV_CHART_TYPE_LINE); /* 用于画背景正弦波 */
+    lv_chart_set_div_line_count(screen_chart2_chart, 5, 5);
+    lv_chart_set_point_count(screen_chart2_chart, 512);
+    lv_chart_set_range(screen_chart2_chart, LV_CHART_AXIS_PRIMARY_X, 0, 512);
+    lv_chart_set_range(screen_chart2_chart, LV_CHART_AXIS_PRIMARY_Y, 0, 20);
     
-    /* 添加红色散点序列并设置点大小 */
-    lv_chart_series_t * ser = lv_chart_add_series(screen_chart2_chart, lv_color_hex(0xFF0000), LV_CHART_AXIS_PRIMARY_Y);
-    lv_obj_set_style_size(screen_chart2_chart, 3, 3, LV_PART_INDICATOR);
-    lv_obj_set_style_line_width(screen_chart2_chart, 0, LV_PART_ITEMS); /* 关键：设置线宽为0，只显示点 */
+    /* 添加背景正弦波序列 (数据填充已移至 lv_ui_event.c) */
+    lv_chart_add_series(screen_chart2_chart, lv_color_hex(0x0000FF), LV_CHART_AXIS_PRIMARY_Y);
     
     ui_flag_modify(screen_chart2_chart, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
     ui_flag_modify(screen_chart2_chart, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
@@ -75,41 +81,64 @@ static lv_obj_t * create_ui(void) {
     ui_flag_modify(screen_chart2_chart, LV_OBJ_FLAG_PRESS_LOCK, UI_FLAG_ACTION_REMOVE);
 
     /* 为图表添加 Y 轴坐标 (幅值 mV) */
-    lv_obj_t * scale_y = lv_scale_create(screen_chart2);
-    lv_obj_set_size(scale_y, 60, 400);
-    lv_obj_align_to(scale_y, screen_chart2_chart, LV_ALIGN_OUT_LEFT_MID, -5, 0);
-    lv_scale_set_mode(scale_y, LV_SCALE_MODE_VERTICAL_LEFT);
-    lv_scale_set_range(scale_y, 0, 200); /* 对应 0-20.0mV */
-    lv_scale_set_total_tick_count(scale_y, 21);
-    lv_scale_set_major_tick_every(scale_y, 5);
-    lv_scale_set_label_show(scale_y, true);
+    screen_chart2_scale_y = lv_scale_create(screen_chart2);
+    lv_obj_set_size(screen_chart2_scale_y, 60, 400);
+    lv_obj_align_to(screen_chart2_scale_y, screen_chart2_chart, LV_ALIGN_OUT_LEFT_MID, -5, 0);
+    lv_scale_set_mode(screen_chart2_scale_y, LV_SCALE_MODE_VERTICAL_LEFT);
+    lv_scale_set_range(screen_chart2_scale_y, 0, 20); /* 0-20mV */
+    lv_scale_set_total_tick_count(screen_chart2_scale_y, 5);
+    lv_scale_set_major_tick_every(screen_chart2_scale_y, 1);
+    lv_scale_set_label_show(screen_chart2_scale_y, true);
     
     static const char * y_labels[] = {"0", "5", "10", "15", "20", NULL};
-    lv_scale_set_text_src(scale_y, y_labels);
-    lv_obj_set_style_text_font(scale_y, &lv_font_montserrat_14, 0);
+    lv_scale_set_text_src(screen_chart2_scale_y, y_labels);
+    lv_obj_set_style_text_font(screen_chart2_scale_y, &lv_font_montserrat_14, 0);
 
-    /* 为图表添加 X 轴坐标 (时间 ms) */
-    lv_obj_t * scale_x = lv_scale_create(screen_chart2);
-    lv_obj_set_size(scale_x, 500, 60);
-    lv_obj_align_to(scale_x, screen_chart2_chart, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
-    lv_scale_set_mode(scale_x, LV_SCALE_MODE_HORIZONTAL_BOTTOM);
-    lv_scale_set_range(scale_x, 0, 200);
-    lv_scale_set_total_tick_count(scale_x, 21);
-    lv_scale_set_major_tick_every(scale_x, 5);
-    lv_scale_set_label_show(scale_x, true);
-    lv_obj_set_style_text_font(scale_x, &lv_font_montserrat_14, 0);
+    /* 为图表添加 X 轴坐标 (相位 度) */
+    screen_chart2_scale_x = lv_scale_create(screen_chart2);
+    lv_obj_set_size(screen_chart2_scale_x, 500, 60);
+    lv_obj_align_to(screen_chart2_scale_x, screen_chart2_chart, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
+    lv_scale_set_mode(screen_chart2_scale_x, LV_SCALE_MODE_HORIZONTAL_BOTTOM);
+    lv_scale_set_range(screen_chart2_scale_x, 0, 360);
+    lv_scale_set_total_tick_count(screen_chart2_scale_x, 5);
+    lv_scale_set_major_tick_every(screen_chart2_scale_x, 1);
+    lv_scale_set_label_show(screen_chart2_scale_x, true);
+    
+    static const char * x_labels[] = {"0", "90", "180", "270", "360", NULL};
+    lv_scale_set_text_src(screen_chart2_scale_x, x_labels);
+    lv_obj_set_style_text_font(screen_chart2_scale_x, &lv_font_montserrat_14, 0);
 
     /* 添加坐标轴标题 */
-    lv_obj_t * label_y_title = lv_label_create(screen_chart2);
-    lv_label_set_text(label_y_title, "Amplitude [mV]");
-    lv_obj_set_style_text_font(label_y_title, &lv_font_montserrat_14, 0);
-    lv_obj_align_to(label_y_title, scale_y, LV_ALIGN_OUT_LEFT_MID, -40, 0);
-    lv_obj_set_style_transform_rotation(label_y_title, 2700, 0); /* 旋转 270 度垂直显示 */
+    screen_chart2_label_y_title = lv_label_create(screen_chart2);
+    lv_label_set_text(screen_chart2_label_y_title, "Amplitude [mV]");
+    lv_obj_set_style_text_font(screen_chart2_label_y_title, &lv_font_montserrat_14, 0);
+    lv_obj_align_to(screen_chart2_label_y_title, screen_chart2_scale_y, LV_ALIGN_OUT_LEFT_MID, -40, 0);
+    lv_obj_set_style_transform_rotation(screen_chart2_label_y_title, 2700, 0); /* 旋转 270 度垂直显示 */
 
-    lv_obj_t * label_x_title = lv_label_create(screen_chart2);
-    lv_label_set_text(label_x_title, "Time Interval [ms]");
-    lv_obj_set_style_text_font(label_x_title, &lv_font_montserrat_14, 0);
-    lv_obj_align_to(label_x_title, scale_x, LV_ALIGN_OUT_BOTTOM_MID, 0, 30);
+    screen_chart2_label_x_title = lv_label_create(screen_chart2);
+    lv_label_set_text(screen_chart2_label_x_title, "Phase [deg]");
+    lv_obj_set_style_text_font(screen_chart2_label_x_title, &lv_font_montserrat_14, 0);
+    lv_obj_align_to(screen_chart2_label_x_title, screen_chart2_scale_x, LV_ALIGN_OUT_BOTTOM_MID, 0, 30);
+
+    /* 添加右侧色标尺 */
+    screen_chart2_color_bar = lv_obj_create(screen_chart2);
+    lv_obj_set_size(screen_chart2_color_bar, 15, 380);
+    lv_obj_align_to(screen_chart2_color_bar, screen_chart2_chart, LV_ALIGN_OUT_RIGHT_MID, 10, 0);
+    lv_obj_set_style_bg_color(screen_chart2_color_bar, lv_color_hex(0x000000), 0);
+    lv_obj_set_style_bg_grad_color(screen_chart2_color_bar, lv_color_hex(0xFFFF00), 0);
+    lv_obj_set_style_bg_grad_dir(screen_chart2_color_bar, LV_GRAD_DIR_VER, 0);
+    lv_obj_set_style_border_width(screen_chart2_color_bar, 1, 0);
+    
+    screen_chart2_color_label_top = lv_label_create(screen_chart2);
+    lv_label_set_text(screen_chart2_color_label_top, "Max");
+    lv_obj_set_style_text_font(screen_chart2_color_label_top, &lv_font_montserrat_14, 0);
+    lv_obj_align_to(screen_chart2_color_label_top, screen_chart2_color_bar, LV_ALIGN_OUT_TOP_MID, 0, -5);
+
+    screen_chart2_color_label_bottom = lv_label_create(screen_chart2);
+    lv_label_set_text(screen_chart2_color_label_bottom, "0");
+    lv_obj_set_style_text_font(screen_chart2_color_label_bottom, &lv_font_montserrat_14, 0);
+    lv_obj_align_to(screen_chart2_color_label_bottom, screen_chart2_color_bar, LV_ALIGN_OUT_BOTTOM_MID, 0, 5);
+
 
     // Create screen_chart2_cont_title
     screen_chart2_cont_title = lv_obj_create(screen_chart2);
