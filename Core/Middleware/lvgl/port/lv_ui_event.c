@@ -148,7 +148,8 @@ void lv_ui_data_update(lv_ui_data_t * data)
                 for(int i = 0; i < 512; i++) {
                     /* 转换为 mV (与 ToF 矩阵相同的映射逻辑: 3000mV -> 15mV) */
                     float mv = ((float)res->adc_wave[i] * 3300.0f / 4096.0f) * 0.005f;
-                    lv_chart_set_next_value(screen_chart2_chart, ser_sine, (int16_t)mv);
+                    /* 放大 100 倍存入图表，以匹配 0-2000 的范围，消除阶梯感 */
+                    lv_chart_set_next_value(screen_chart2_chart, ser_sine, (int16_t)(mv * 100.0f));
                 }
             }
 

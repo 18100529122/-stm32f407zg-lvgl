@@ -69,7 +69,7 @@ static lv_obj_t * create_ui(void) {
     lv_chart_set_div_line_count(screen_chart2_chart, 5, 5);
     lv_chart_set_point_count(screen_chart2_chart, 512);
     lv_chart_set_range(screen_chart2_chart, LV_CHART_AXIS_PRIMARY_X, 0, 512);
-    lv_chart_set_range(screen_chart2_chart, LV_CHART_AXIS_PRIMARY_Y, 0, 20);
+    lv_chart_set_range(screen_chart2_chart, LV_CHART_AXIS_PRIMARY_Y, 0, 2000); /* 范围从 0-20 改为 0-2000，增加分辨率 */
     
     /* 添加背景正弦波序列 (数据填充已移至 lv_ui_event.c) */
     lv_chart_add_series(screen_chart2_chart, lv_color_hex(0x0000FF), LV_CHART_AXIS_PRIMARY_Y);
