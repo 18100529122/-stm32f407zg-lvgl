@@ -10,6 +10,7 @@
  */
 #define TOF_AMP_BINS    40   /* Y轴: 0-20mV, 每 0.5mV 一个区间 */
 #define TOF_TIME_BINS   100  /* X轴: 0-200ms, 每 2ms 一个区间 */
+#define ADC_WAVE_SIZE   512  /* ADC 波形数据大小 (用于 UI 显示) */
 
 /**
  * @brief 数据处理结果结构体
@@ -27,7 +28,8 @@ typedef struct {
     float trigger_thr_mv;                             /* 触发阈值(mV) */
     
     /* ADC 波形数据 (用于 UI 显示) */
-    uint16_t adc_wave[512];                           /* 抽点后的 ADC 波形数据 */
+    uint16_t adc_wave[ADC_WAVE_SIZE];                           /* 抽点后的 ADC 波形数据 */
+    uint32_t adc_restart_cnt;                         /* ADC 重启计数 */
 } app_data_result_t;
 
 extern app_data_result_t g_app_data_result;
@@ -41,6 +43,7 @@ void app_data_process_init(void);
  * @brief 重置飞行图谱矩阵
  */
 void app_data_process_reset_tof(void);
+void app_data_process_inc_adc_restart_cnt(void);
 
 /**
  * @brief 获取数据处理结果

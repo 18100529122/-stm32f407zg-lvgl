@@ -4,6 +4,7 @@
 #include "tim.h"
 #include <string.h>
 #include <stdio.h>
+#include "app_data_process.h"
 
 /* 使用片内 SRAM 存储缓冲区 */
 static uint16_t s_adc_buff[ADC_BUFF_SIZE];
@@ -91,6 +92,7 @@ void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
         {
             /* 1. 彻底清除 OVR 标志位 (关键步骤) */
             __HAL_ADC_CLEAR_FLAG(hadc, ADC_FLAG_OVR);
+            app_data_process_inc_adc_restart_cnt();
             
             /* 2. 重启 DMA 采集 */
             /* 注意：在中断中直接调用 HAL_ADC_Start_DMA 是安全的，因为它不涉及阻塞操作 */

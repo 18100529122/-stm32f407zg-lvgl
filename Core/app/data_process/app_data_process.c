@@ -27,6 +27,7 @@ void app_data_process_init(void)
     
     /* 初始化飞行图谱参数 */
     g_app_data_result.trigger_thr_mv = 5.0f; /* 触发阈值设为 5.0mV，适应 0-20mV 图谱范围 */
+    g_app_data_result.adc_restart_cnt = 0;   /* 初始化 ADC 重启计数 */
     app_data_process_reset_tof();
     
     /* 增加堆栈大小到 4096，防止 FFT 和 printf 导致溢出 */
@@ -50,6 +51,14 @@ void app_data_process_reset_tof(void)
 app_data_result_t* app_data_process_get_result(void)
 {
     return &g_app_data_result;
+}
+
+/**
+ * @brief 增加 ADC 重启计数
+ */
+void app_data_process_inc_adc_restart_cnt(void)
+{
+    g_app_data_result.adc_restart_cnt++;
 }
 
 uint8_t app_data_process_get_rms_uint8(void)
@@ -160,12 +169,14 @@ static void app_data_process_task(void *argument)
                 g_app_data_result.freq_100hz = app_data_fft_get_freq_value(1);
 
                 /* 更新 ADC 波形数据 (用于 UI 显示) */
-                /* 100kHz 采样下，不抽点显示前 512 个点 (即前 1/4 缓冲区，约 5.12ms) */
-                memcpy(g_app_data_result.adc_wave, fifo->data[r_idx], sizeof(g_app_data_result.adc_wave));
+                /* 100kHz 采样下，每 4 个点抽取 1 个点，显示前 512 个点 (约 5.12ms) */
+                for (uint32_t i = 0; i < ADC_WAVE_SIZE; i++) {
+                    g_app_data_result.adc_wave[i] = fifo->data[r_idx][i * 4];
+                }
 
                 /* 更新飞行图谱 (ToF) */
                 app_data_process_update_tof(fifo->data[r_idx], ADC_DMA_BUFF_SIZE);
-
+                
                 /* 当累计点数超过 2000 个时，自动重置图谱，以保持显示的实时性并防止矩阵饱和 */
                 if (g_app_data_result.tof_point_cnt > 2000) {
                     app_data_process_reset_tof();
@@ -222,6 +233,10 @@ static void app_data_process_update_tof(uint16_t *data, uint32_t len)
                         if (g_app_data_result.tof_matrix[amp_idx][phase_idx] < 65535) {
                             g_app_data_result.tof_matrix[amp_idx][phase_idx]++;
                             g_app_data_result.tof_point_cnt++;
+                        }
+                        else {
+                            /* 计数溢出，重置矩阵 */
+                            app_data_process_reset_tof();
                         }
                     }
                     /* 更新上一个脉冲的时间戳 (保留用于其他可能的统计) */

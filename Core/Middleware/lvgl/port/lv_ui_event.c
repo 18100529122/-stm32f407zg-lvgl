@@ -144,10 +144,9 @@ void lv_ui_data_update(lv_ui_data_t * data)
             /* 填充 ADC 波形数据 (作为相位参考基准) */
             lv_chart_series_t * ser_sine = lv_chart_get_series_next(screen_chart2_chart, NULL);
             if(ser_sine) {
-                app_data_result_t * res = app_data_process_get_result();
                 for(int i = 0; i < 512; i++) {
                     /* 转换为 mV (与 ToF 矩阵相同的映射逻辑: 3000mV -> 15mV) */
-                    float mv = ((float)res->adc_wave[i] * 3300.0f / 4096.0f) * 0.005f;
+                    float mv = ((float)data->adc_wave[i] * 3300.0f / 4096.0f) * 0.005f;
                     /* 放大 100 倍存入图表，以匹配 0-2000 的范围，消除阶梯感 */
                     lv_chart_set_next_value(screen_chart2_chart, ser_sine, (int16_t)(mv * 100.0f));
                 }
@@ -174,7 +173,6 @@ void screen_chart_init(void)
         .max_data = "0",
         .data50hz_data = "0",
         .data100hz_data = "0",
-        .threshold_data = "0.00",
         .tof_matrix = NULL
     };
     lv_ui_data_update(&init_data);// 初始化图表数据
