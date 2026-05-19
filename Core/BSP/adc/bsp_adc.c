@@ -127,6 +127,13 @@ static void bsp_adc_extract_to_fifo(uint32_t start_idx)
         memset(bsp_adc_get_fifo_dev(), 0, sizeof(bsp_adc_fifo_t));// 清空 FIFO 状态
         s_rem = 0;// 重置累计偏移
         s_sample_idx = 0;// 重置采样点索引
+        app_data_process_inc_adc_restart_cnt();// 增加重启次数
+        //发送信号量，通知数据处理任务
+        if (g_adc_data_sem != NULL) {
+            BaseType_t xHigherPriorityTaskWoken = pdFALSE;// 标志位，用于判断是否需要切换到高优先级任务
+            xSemaphoreGiveFromISR(g_adc_data_sem, &xHigherPriorityTaskWoken);// 释放信号量，通知数据处理任务
+            portYIELD_FROM_ISR(xHigherPriorityTaskWoken);// 切换到高优先级任务
+        }
         return;
     }
 
