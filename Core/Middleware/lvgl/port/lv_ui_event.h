@@ -20,22 +20,29 @@ void screen_chart_btn_bar_event_cb(lv_event_t * e);
 void screen_chart_btn_line_event_cb(lv_event_t * e);
 
 /**
+ * @brief UI 数据结构体
+ */
+typedef struct {
+    uint8_t rms;            /**< RMS 值 */
+    uint8_t max;            /**< 最大值 */
+    uint8_t data50hz;       /**< 50Hz 值 */
+    uint8_t data100hz;      /**< 100Hz 值 */
+    char * rms_data;        /**< RMS 值数据字符串 */
+    char * max_data;        /**< 最大值数据字符串 */
+    char * data50hz_data;   /**< 50Hz 值数据字符串 */
+    char * data100hz_data;  /**< 100Hz 值数据字符串 */
+} lv_ui_data_t;
+
+/**
  * @brief UI 初始化包装函数
  */
 void lv_ui_init(void);
 
 /**
  * @brief 更新图表数据
- * @param rms RMS 值
- * @param max 最大值
- * @param data50hz 50Hz 值
- * @param data100hz 100Hz 值
- * @param rms_data RMS 值数据
- * @param max_data 最大值数据
- * @param data50hz_data 50Hz 值数据
- * @param data100hz_data 100Hz 值数据
+ * @param data UI 数据结构体指针
  */
-void lv_ui_data_update(uint8_t rms,uint8_t max,uint8_t data50hz,uint8_t data100hz,char * rms_data,char * max_data,char * data50hz_data,char * data100hz_data);
+void lv_ui_data_update(lv_ui_data_t * data);
 
 
 /**

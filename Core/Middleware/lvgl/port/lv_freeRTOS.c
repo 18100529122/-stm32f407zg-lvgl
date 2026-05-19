@@ -26,23 +26,25 @@ const osThreadAttr_t lvglTask_attributes = {
 static void lvgl_data_update_timer_cb(lv_timer_t * timer)
 {
     (void)timer;
+    static lv_ui_data_t ui_data; // 使用静态结构体变量
     
-    // 获取数据
-    uint8_t rms = app_data_process_get_rms_uint8();
-    uint8_t max = app_data_process_get_peak_uint8();
-    uint8_t data50hz = app_data_process_get_freq_50hz_uint8();
-    uint8_t data100hz = app_data_process_get_freq_100hz_uint8();
+    // 获取数据并填充结构体
+    ui_data.rms = app_data_process_get_rms_uint8();
+    ui_data.max = app_data_process_get_peak_uint8();
+    ui_data.data50hz = app_data_process_get_freq_50hz_uint8();
+    ui_data.data100hz = app_data_process_get_freq_100hz_uint8();
     
-    char * rms_data = app_data_process_get_rms_str();
-    char * max_data = app_data_process_get_peak_str();
-    char * data50hz_data = app_data_process_get_freq_50hz_str();
-    char * data100hz_data = app_data_process_get_freq_100hz_str();
+    ui_data.rms_data = app_data_process_get_rms_str();
+    ui_data.max_data = app_data_process_get_peak_str();
+    ui_data.data50hz_data = app_data_process_get_freq_50hz_str();
+    ui_data.data100hz_data = app_data_process_get_freq_100hz_str();
     
     printf("rms: %d-%s, max: %d-%s, 50Hz: %d-%s, 100Hz: %d-%s\r\n",
-        rms, rms_data, max, max_data, data50hz, data50hz_data, data100hz, data100hz_data); 
+        ui_data.rms, ui_data.rms_data, ui_data.max, ui_data.max_data, 
+        ui_data.data50hz, ui_data.data50hz_data, ui_data.data100hz, ui_data.data100hz_data); 
     
     // 更新图表和标签数据
-    lv_ui_data_update(rms, max, data50hz, data100hz, rms_data, max_data, data50hz_data, data100hz_data);
+    lv_ui_data_update(&ui_data);
     
     /* 刷新 UI (如果需要) */
     lv_ui_refresh();

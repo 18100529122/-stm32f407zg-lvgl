@@ -54,28 +54,23 @@ void screen_chart_btn_line_event_cb(lv_event_t * e)
 
 /**
  * @brief 更新图表数据
- * @param rms RMS 值
- * @param max 最大值
- * @param data50hz 50Hz 值
- * @param data100hz 100Hz 值
- * @param rms_data RMS 值数据
- * @param max_data 最大值数据
- * @param data50hz_data 50Hz 值数据
- * @param data100hz_data 100Hz 值数据
+ * @param data UI 数据结构体指针
  */
-void lv_ui_data_update(uint8_t rms,uint8_t max,uint8_t data50hz,uint8_t data100hz,char * rms_data,char * max_data,char * data50hz_data,char * data100hz_data)
+void lv_ui_data_update(lv_ui_data_t * data)
 {
+    if(data == NULL) return;
+
     if(screen_show_type == 0)
     {
-        lv_bar_set_value(screen_chart_bar_rms, rms, LV_ANIM_OFF);
-        lv_bar_set_value(screen_chart_bar_max, max, LV_ANIM_OFF);
-        lv_bar_set_value(screen_chart_bar_50hz, data50hz, LV_ANIM_OFF);
-        lv_bar_set_value(screen_chart_bar_100hz, data100hz, LV_ANIM_OFF);
+        lv_bar_set_value(screen_chart_bar_rms, data->rms, LV_ANIM_OFF);
+        lv_bar_set_value(screen_chart_bar_max, data->max, LV_ANIM_OFF);
+        lv_bar_set_value(screen_chart_bar_50hz, data->data50hz, LV_ANIM_OFF);
+        lv_bar_set_value(screen_chart_bar_100hz, data->data100hz, LV_ANIM_OFF);
         
-        lv_label_set_text(screen_chart_label_rms, rms_data);
-        lv_label_set_text(screen_chart_label_max, max_data);
-        lv_label_set_text(screen_chart_label_50hz, data50hz_data);
-        lv_label_set_text(screen_chart_label_100hz, data100hz_data);
+        lv_label_set_text(screen_chart_label_rms, data->rms_data);
+        lv_label_set_text(screen_chart_label_max, data->max_data);
+        lv_label_set_text(screen_chart_label_50hz, data->data50hz_data);
+        lv_label_set_text(screen_chart_label_100hz, data->data100hz_data);
     }
     else
     {
@@ -89,7 +84,17 @@ void lv_ui_data_update(uint8_t rms,uint8_t max,uint8_t data50hz,uint8_t data100h
  */
 void screen_chart_init(void)
 {
-    lv_ui_data_update(0,0,0,0,"0","0","0","0");// 初始化图表数据
+    lv_ui_data_t init_data = {
+        .rms = 0,
+        .max = 0,
+        .data50hz = 0,
+        .data100hz = 0,
+        .rms_data = "0",
+        .max_data = "0",
+        .data50hz_data = "0",
+        .data100hz_data = "0"
+    };
+    lv_ui_data_update(&init_data);// 初始化图表数据
 }
 
 
