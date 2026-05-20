@@ -162,20 +162,22 @@ static void app_data_process_task(void *argument)
                 app_data_fft_compute(fifo->data[r_idx], ADC_DMA_BUFF_SIZE);
 
                 g_app_data_result.adc_valid_sample_cnt += ADC_DMA_BUFF_SIZE;// 有效采样点计数
-                
-                /* 计算有效值 (RMS) 和 最大值 (Peak) */
-                float32_t sum_sq = 0;
-                uint16_t max_val = 0;
-                for (uint32_t i = 0; i < ADC_DMA_BUFF_SIZE; i++) {
-                    float32_t val = (float32_t)fifo->data[r_idx][i];
-                    sum_sq += val * val;
-                    if (fifo->data[r_idx][i] > max_val) {
-                        max_val = fifo->data[r_idx][i];
+
+                /* 转换为浮点数以进行 FFT 和 RMS 计算 */
+                static float32_t f32_data[ADC_DMA_BUFF_SIZE];
+                uint16_t current_max_val = 0;
+                for (uint32_t i = 0; i < ADC_DMA_BUFF_SIZE; i++)
+                {
+                    f32_data[i] = (float32_t)fifo->data[r_idx][i];
+                    if (fifo->data[r_idx][i] > current_max_val)
+                    {
+                        current_max_val = fifo->data[r_idx][i];
                     }
                 }
-                
-                g_app_data_result.rms = sqrtf(sum_sq / ADC_DMA_BUFF_SIZE);
-                g_app_data_result.peak = (float32_t)max_val;
+                g_app_data_result.peak = (float32_t)current_max_val;
+
+                /* 使用 CMSIS-DSP 库计算有效值 (RMS) */
+                arm_rms_f32(f32_data, ADC_DMA_BUFF_SIZE, &g_app_data_result.rms);
 
                 /* 更新频率分量 (50Hz 和 100Hz) */
                 g_app_data_result.freq_50hz = app_data_fft_get_freq_value(0);
@@ -224,11 +226,13 @@ static void app_data_process_update_tof(uint16_t *data, uint32_t len)
     for (uint32_t i = 0; i < len; i++) {
         total_sample_cnt++;
         
-        /* 转换为 mV (ADC 12bit, 3.3V基准) 
-           注意：由于 DAC 输出是 0-3.3V (约 3000mV)，而图谱范围是 0-20mV，
-           为了模拟实际传感器信号，此处增加一个 0.005 的缩放系数 (即 3000mV -> 15mV)
-        */
-        float32_t mv = ((float32_t)data[i] * 3300.0f / 4096.0f) * 0.005f;
+        /* 转换为 mV (ADC 12bit, 3.3V基准)
+           预计算常量: 3300.0f / 4096.0f * 0.005f = 0.0040283203125f
+           或者简化为 3.3f * 0.005f / 4096.0f = 0.0165f / 4096.0f
+           实际: 0.0040283203f
+           这里使用 0.0040283203f
+         */
+        float32_t mv = (float32_t)data[i] * 0.0040283203f;
         
         /* 脉冲峰值检测：
            1. 超过阈值 trigger_thr_mv
@@ -245,7 +249,7 @@ static void app_data_process_update_tof(uint16_t *data, uint32_t len)
                     int phase_idx = (total_sample_cnt % 2000) / 20; 
                     
                     /* 映射到幅值矩阵索引 (0-20mV -> 40 bins, 0.5mV/bin) */
-                    int amp_idx = (int)(mv / 0.5f);
+                    int amp_idx = (int)(mv * 2.0f); // mv / 0.5f 等价于 mv * 2.0f
                     
                     if (amp_idx < TOF_AMP_BINS && phase_idx < TOF_TIME_BINS) {
                         /* 增加计数，限制最大值为 65535 */
