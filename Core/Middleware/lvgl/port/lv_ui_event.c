@@ -156,7 +156,7 @@ void lv_ui_data_update(lv_ui_data_t * data)
             /* 仅需使图表无效，触发 LV_EVENT_DRAW_MAIN_END 事件进行自定义绘图 */
             lv_obj_invalidate(screen_chart2_chart);
         }
-        screen_update_count = (screen_update_count + 1) % 5;
+        screen_update_count = (screen_update_count + 1) % 2;
     }
 }
 

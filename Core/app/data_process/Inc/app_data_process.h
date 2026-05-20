@@ -29,7 +29,14 @@ typedef struct {
     
     /* ADC 波形数据 (用于 UI 显示) */
     uint16_t adc_wave[ADC_WAVE_SIZE];                           /* 抽点后的 ADC 波形数据 */
+
+    /* 统计数据 用于测试*/
     uint32_t adc_restart_cnt;                         /* ADC 重启计数 */
+    uint32_t adc_sample_cnt;                          /* ADC 采样点计数 */
+    uint32_t adc_valid_sample_cnt;                   /* ADC 有效采样点计数 */
+
+    uint32_t start_time;                             /* 数据处理开始时间 */
+    uint32_t end_time;                               /* 数据处理结束时间 */
 } app_data_result_t;
 
 extern app_data_result_t g_app_data_result;
@@ -44,6 +51,7 @@ void app_data_process_init(void);
  */
 void app_data_process_reset_tof(void);
 void app_data_process_inc_adc_restart_cnt(void);
+void app_data_process_inc_adc_sample_cnt(uint32_t add);
 
 /**
  * @brief 获取数据处理结果

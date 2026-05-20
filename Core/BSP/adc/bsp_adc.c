@@ -139,6 +139,8 @@ static void bsp_adc_extract_to_fifo(uint32_t start_idx)
 
     /* 处理半个缓冲区的数据量 */
     uint32_t process_len = ADC_BUFF_SIZE / 2;
+
+    app_data_process_inc_adc_sample_cnt(process_len);// 增加采样点计数
     
     for (int i = (10 - 1 - s_rem); i < process_len; i += 10)
     {

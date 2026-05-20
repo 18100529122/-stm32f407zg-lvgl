@@ -11,6 +11,7 @@
 #include "arm_math.h"
 #include <stdio.h>
 #include <string.h>
+#include "bsp_time.h"
 
 app_data_result_t g_app_data_result;
 
@@ -28,6 +29,9 @@ void app_data_process_init(void)
     /* 初始化飞行图谱参数 */
     g_app_data_result.trigger_thr_mv = 5.0f; /* 触发阈值设为 5.0mV，适应 0-20mV 图谱范围 */
     g_app_data_result.adc_restart_cnt = 0;   /* 初始化 ADC 重启计数 */
+    g_app_data_result.adc_sample_cnt = 0;    /* 初始化 ADC 采样点计数 */
+    g_app_data_result.adc_valid_sample_cnt = 0; /* 初始化 ADC 有效采样点计数 */
+
     app_data_process_reset_tof();
     
     /* 增加堆栈大小到 4096，防止 FFT 和 printf 导致溢出 */
@@ -124,6 +128,10 @@ uint16_t app_data_process_get_tof_bin(uint8_t amp_idx, uint8_t time_idx)
     return 0;
 }
 
+void app_data_process_inc_adc_sample_cnt(uint32_t add)
+{
+    g_app_data_result.adc_sample_cnt += add;
+}
 
 /**
  * @brief 数据处理任务主体
@@ -147,8 +155,13 @@ static void app_data_process_task(void *argument)
             /* 检查是否有未处理 of 已满块 */
             while (fifo->status[r_idx].is_full)
             {
+                /* 记录当前时间戳 */
+                g_app_data_result.start_time = bsp_time_get_us();
+                
                 /* 执行 FFT 计算 */
                 app_data_fft_compute(fifo->data[r_idx], ADC_DMA_BUFF_SIZE);
+
+                g_app_data_result.adc_valid_sample_cnt += ADC_DMA_BUFF_SIZE;// 有效采样点计数
                 
                 /* 计算有效值 (RMS) 和 最大值 (Peak) */
                 float32_t sum_sq = 0;
@@ -188,9 +201,12 @@ static void app_data_process_task(void *argument)
                 /* 移动读取索引 */
                 r_idx = (r_idx + 1) % ADC_FIFO_NUM;
                 fifo->read_idx = r_idx;
-
+                
+                /* 记录当前时间戳 */
+                g_app_data_result.end_time = bsp_time_get_us();
+                
                 //开启adc采集
-                bsp_adc_start();
+                // bsp_adc_start();
             }
         }
     }

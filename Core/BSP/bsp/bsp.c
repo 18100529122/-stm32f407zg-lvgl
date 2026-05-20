@@ -3,6 +3,7 @@
 #include "lcd.h"
 #include "touch.h"
 #include "bsp_adc.h"
+#include "bsp_time.h" // Add bsp_time.h include
 #include "bsp_dac.h"
 
 /**
@@ -10,6 +11,9 @@
  */
 void BSP_Init(void)
 {
+    /* 初始化微秒级定时器 */
+    bsp_time_init();
+
     /* 初始化串口 */
     BSP_USART_Init();
     
@@ -24,6 +28,7 @@ void BSP_Init(void)
 
     /* 初始化 DAC 输出 */
     bsp_dac_init();
+
 }
 
 /**

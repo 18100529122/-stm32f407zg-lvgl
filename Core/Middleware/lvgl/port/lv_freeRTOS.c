@@ -44,10 +44,13 @@ static void lvgl_data_update_timer_cb(lv_timer_t * timer)
     // 获取飞行图谱矩阵数据
     ui_data.tof_matrix = (uint16_t *)app_data_process_get_result()->tof_matrix;
     
-    printf("rms: %d-%s, max: %d-%s, 50Hz: %d-%s, 100Hz: %d-%s, restarts: %lu\r\n",
-        ui_data.rms, ui_data.rms_data, ui_data.max, ui_data.max_data, 
-        ui_data.data50hz, ui_data.data50hz_data, ui_data.data100hz, ui_data.data100hz_data,
-        app_data_process_get_result()->adc_restart_cnt); 
+    printf("rms:%s, max:%s, 50Hz:%s, 100Hz:%s",
+        ui_data.rms_data, ui_data.max_data, ui_data.data50hz_data, ui_data.data100hz_data);
+    printf("rst: %lu adc: %lu data: %lu time: %lu cycles\r\n",
+        app_data_process_get_result()->adc_restart_cnt, 
+        app_data_process_get_result()->adc_sample_cnt,
+        app_data_process_get_result()->adc_valid_sample_cnt,
+        app_data_process_get_result()->end_time - app_data_process_get_result()->start_time);
     
     // 更新图表和标签数据
     lv_ui_data_update(&ui_data);
