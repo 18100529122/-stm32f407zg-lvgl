@@ -155,6 +155,10 @@ void lcd_clear(uint16_t color);                                                 
 void lcd_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint32_t color);          /* 纯色填充矩形 */
 void lcd_draw_line(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color);     /* 画直线 */
 void lcd_show_char(uint16_t x, uint16_t y, char chr, uint8_t size, uint8_t mode, uint16_t color);
-void lcd_show_string(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t size, char *p, uint16_t color);   /* 显示字符串 */
+void lcd_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color);    /* 颜色块填充矩形 */
 
-#endif
+void lcd_dma_init(void);                                    /* LCD DMA初始化 */
+void lcd_dma_show(uint16_t *color, uint32_t size);          /* LCD DMA传输 */
+void lcd_dma_wait_done(void);                               /* 等待DMA完成 */
+
+#endif /* __LCD_H */

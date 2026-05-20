@@ -1,17 +1,34 @@
 #include "bsp.h"
 #include "bsp_usart.h"
 #include "lcd.h"
+#include "touch.h"
+#include "bsp_adc.h"
+#include "bsp_time.h" // Add bsp_time.h include
+#include "bsp_dac.h"
 
 /**
  * @brief 硬件抽象层初始化 (板级支持包初始化)
  */
 void BSP_Init(void)
 {
+    /* 初始化微秒级定时器 */
+    bsp_time_init();
+
     /* 初始化串口 */
     BSP_USART_Init();
     
     /* 初始化 LCD */
     lcd_init();
+
+    /* 初始化触摸屏 */
+    tp_init();
+
+    /* 初始化 ADC 采样 (1Msps) */
+    bsp_adc_init();
+
+    /* 初始化 DAC 输出 */
+    bsp_dac_init();
+
 }
 
 /**

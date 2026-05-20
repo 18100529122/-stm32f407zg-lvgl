@@ -25,13 +25,17 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "bsp.h"
-#include "test_bsp.h"
-#include "lcd.h"
+#include "bsp_adc.h"
+#include "bsp_dac.h"
+
+#include "app.h"
 #include "middleware.h"
-#include "test_middleware.h"
+#include "bsp.h"
+
+#include "lv_freeRTOS.h"
+#include "app_data_fft.h"
+
 #include <stdio.h>
-#include "setup_ui.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,8 +45,11 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#ifndef TEST_DEBUG
-#define TEST_DEBUG 1
+#ifndef TEST_BSP_DEBUG
+#define TEST_BSP_DEBUG 0
+#endif
+#ifndef TEST_MIDDLEWARE_DEBUG
+#define TEST_MIDDLEWARE_DEBUG 0
 #endif
 /* USER CODE END PD */
 
@@ -67,7 +74,7 @@ const osThreadAttr_t defaultTask_attributes = {
 /* USER CODE BEGIN FunctionPrototypes */
 static void led_toggle(void)
 {
-  HAL_GPIO_WritePin(GPIOF,GPIO_PIN_9 , led_state?GPIO_PIN_SET:GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOF,GPIO_PIN_9 , GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOF,GPIO_PIN_10 , led_state?GPIO_PIN_SET:GPIO_PIN_RESET);
   led_state=!led_state;
 }
@@ -96,10 +103,6 @@ void vApplicationStackOverflowHook(xTaskHandle xTask, signed char *pcTaskName)
   */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
-  printf("System Init...\r\n");
-  BSP_Init();
-  printf("BSP Init Done\r\n");
-  HAL_Delay(1000);
 
   /* USER CODE END Init */
 
@@ -143,23 +146,31 @@ void MX_FREERTOS_Init(void) {
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
+  /* 在任务中初始化触摸屏，确保 HAL_Delay 正常工作 */
+  printf("System Init...\r\n");
+  BSP_Init();
+  printf("BSP Init Done\r\n");
+  HAL_Delay(500);
   middleware_init();
   printf("Middleware Init Done\r\n");
-  HAL_Delay(1000);
-#if 1 
-  // printf("\r\n--- System Restart ---\r\n");
-  // Test_BSP();
-  // test_lvgl_widgets();
-  setupUi();
+  HAL_Delay(500);
+  app_init();
+  printf("App Init Done\r\n");
+#if TEST_BSP_DEBUG 
+  Test_BSP();
 #endif
-  printf("Task Running...\r\n");
+#if TEST_MIDDLEWARE_DEBUG 
+  Test_Middleware();
+#endif
+
   /* Infinite loop */
   for(;;)
   {
-    lv_timer_handler();
+    // 打印 heartbeat
+    // printf("System Heartbeat\r\n");
+
     led_toggle();
-    osDelay(1000);
-    
+    osDelay(1000); // 缩短到 1s
   }
   /* USER CODE END StartDefaultTask */
 }

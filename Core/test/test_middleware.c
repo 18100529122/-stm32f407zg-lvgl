@@ -7,7 +7,6 @@
  */
 void test_lvgl_widgets(void)
 {
-#if 1
     printf("Running LVGL Test Widgets...\n");
 
     /* 创建一个屏幕对象 */
@@ -33,6 +32,13 @@ void test_lvgl_widgets(void)
     lv_style_init(&style_title);
     lv_style_set_text_font(&style_title, &lv_font_montserrat_26);
     lv_obj_add_style(title, &style_title, 0);
-
-#endif
 }
+
+/**
+ * @brief 测试Middleware函数，包含lvgl_widgets
+ */
+void Test_Middleware(void)
+{
+    test_lvgl_widgets();
+}
+

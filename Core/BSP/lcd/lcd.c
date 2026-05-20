@@ -26,6 +26,7 @@ extern void lcd_ex_ssd1963_reginit(void);
 
 /* LCD重要参数集 */
 _lcd_dev lcddev;
+DMA_HandleTypeDef g_lcd_dma_handle;
 
 /* 画笔颜色,背景颜色 */
 uint32_t g_point_color = RED;    /* 画笔颜色 */
@@ -667,7 +668,7 @@ void lcd_init(void)
         lcd_ssd_backlight_set(100); /* 背光设置为最亮 */
     }
 
-    lcd_display_dir(0); /* 默认为竖屏 */
+    lcd_display_dir(1); /* 默认为横屏 (800x480) */
     LCD_BL(1);          /* 点亮背光 */
     lcd_clear(WHITE);
 }
@@ -932,21 +933,75 @@ void lcd_set_window(uint16_t sx, uint16_t sy, uint16_t width, uint16_t height)
 void lcd_color_fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t *color)
 {
     uint16_t height, width;
-    uint16_t i, j;
+    uint32_t i, size;
 
     width = ex - sx + 1;            /* 得到填充的宽度 */
     height = ey - sy + 1;           /* 高度 */
+    size = width * height;          /* 总点数 */
 
-    for (i = 0; i < height; i++)
+    lcd_set_window(sx, sy, width, height); /* 设置窗口 */
+    lcd_write_ram_prepare();               /* 开始写入GRAM */
+
+    for (i = 0; i < size; i++)
     {
-        lcd_set_cursor(sx, sy + i); /* 设置光标位置 */
-        lcd_write_ram_prepare();    /* 开始写入GRAM */
-
-        for (j = 0; j < width; j++)
-        {
-            LCD->LCD_RAM = color[i * width + j]; /* 写入数据 */
-        }
+        LCD->LCD_RAM = color[i];           /* 写入数据 */
     }
 }
+#if 0
+/**
+ * @brief       LCD DMA初始化
+ * @param       无
+ * @retval      无
+ */
+void lcd_dma_init(void)
+{
+    __HAL_RCC_DMA2_CLK_ENABLE();
+
+    g_lcd_dma_handle.Instance = DMA2_Stream1;
+    g_lcd_dma_handle.Init.Channel = DMA_CHANNEL_0;
+    g_lcd_dma_handle.Init.Direction = DMA_MEMORY_TO_MEMORY;
+    g_lcd_dma_handle.Init.PeriphInc = DMA_PINC_ENABLE;
+    g_lcd_dma_handle.Init.MemInc = DMA_MINC_DISABLE;
+    g_lcd_dma_handle.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+    g_lcd_dma_handle.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+    g_lcd_dma_handle.Init.Mode = DMA_NORMAL;
+    g_lcd_dma_handle.Init.Priority = DMA_PRIORITY_HIGH;
+    g_lcd_dma_handle.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
+    g_lcd_dma_handle.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+    g_lcd_dma_handle.Init.MemBurst = DMA_MBURST_SINGLE;
+    g_lcd_dma_handle.Init.PeriphBurst = DMA_PBURST_SINGLE;
+
+    HAL_DMA_Init(&g_lcd_dma_handle);
+
+    /* 开启 DMA2_Stream1 中断 */
+    HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
+}
+
+/**
+ * @brief       LCD DMA传输数据
+ * @param       color: 数据首地址
+ * @param       size: 数据大小
+ * @retval      无
+ */
+void lcd_dma_show(uint16_t *color, uint32_t size)
+{
+    /* 清除标志位 */
+    __HAL_DMA_CLEAR_FLAG(&g_lcd_dma_handle, DMA_FLAG_TCIF1_5);
+    /* 启动DMA传输并开启中断 */
+    HAL_DMA_Start_IT(&g_lcd_dma_handle, (uint32_t)color, (uint32_t)&LCD->LCD_RAM, size);
+}
+
+/**
+ * @brief       等待LCD DMA传输完成
+ * @param       无
+ * @retval      无
+ */
+void lcd_dma_wait_done(void)
+{
+    /* 等待传输完成 */
+    HAL_DMA_PollForTransfer(&g_lcd_dma_handle, HAL_DMA_FULL_TRANSFER, 1000);
+}
+#endif
 
 

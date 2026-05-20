@@ -23,6 +23,7 @@
 #include "dac.h"
 #include "dma.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 #include "fsmc.h"
@@ -100,6 +101,8 @@ int main(void)
   MX_DAC_Init();
   MX_SPI1_Init();
   MX_FSMC_Init();
+  MX_TIM2_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */

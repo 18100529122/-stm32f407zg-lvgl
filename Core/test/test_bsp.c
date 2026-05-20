@@ -1,6 +1,7 @@
 #include "test_bsp.h"
 #include <stdio.h>
 #include "lcd.h"
+#include "touch.h"
 
 
 #ifndef TEST_SRAM_DEBUG
@@ -9,8 +10,9 @@
 
 #if TEST_SRAM_DEBUG
 
-#define EXT_SRAM_ADDR    ((uint32_t)0x68000000)
-#define EXT_SRAM_SIZE    (1024 * 1024) // 1MB
+/* 避开 LVGL 使用的区域 (0x68000000 - 0x68070000) */
+#define EXT_SRAM_ADDR    ((uint32_t)0x68070000)
+#define EXT_SRAM_SIZE    (576 * 1024) // 剩余 576KB
 
 void SRAM_Test(void)
 {
@@ -138,6 +140,32 @@ void LCD_Test(void)
     lcd_show_string(10, 60, 200, 32, 32, "By Gemini Code Assistant", BLACK);
 
     printf("--- LCD Test End ---\n");
+}
+
+
+/**
+ * @brief 触摸屏扫描测试
+ */
+void Touch_Test(void)
+{
+    tp_dev.scan(0);
+    if (tp_dev.sta & TP_PRES_DOWN)
+    {
+        if (tp_dev.touchtype & 0x80) // 电容屏
+        {
+            for (int i = 0; i < CT_MAX_TOUCH; i++)
+            {
+                if ((tp_dev.sta >> i) & 0x01)
+                {
+                    printf("Touch Point %d: X=%d, Y=%d\r\n", i, tp_dev.x[i], tp_dev.y[i]);
+                }
+            }
+        }
+        else // 电阻屏
+        {
+            printf("Touch Point: X=%d, Y=%d\r\n", tp_dev.x[0], tp_dev.y[0]);
+        }
+    }
 }
 
 
