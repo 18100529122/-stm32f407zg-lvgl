@@ -13,16 +13,14 @@ static float32_t fft_output_buf[FFT_LENGTH];
 /**
  * @brief 使用 arm_math 库进行实数 FFT 计算
  */
-void app_data_fft_compute(uint16_t *input_data, uint32_t length) {
+void app_data_fft_compute(float32_t *input_data, uint32_t length) {
     if (length > FFT_LENGTH) length = FFT_LENGTH;
 
     /* 1. 数据预处理 */
-    for (uint32_t i = 0; i < length; i++) {
-        fft_input_buf[i] = (float32_t)input_data[i];
-    }
+    arm_copy_f32(input_data, fft_input_buf, length);
     /* 如果输入长度不足，补零 */
-    for (uint32_t i = length; i < FFT_LENGTH; i++) {
-        fft_input_buf[i] = 0.0f;
+    if (length < FFT_LENGTH) {
+        memset(&fft_input_buf[length], 0, (FFT_LENGTH - length) * sizeof(float32_t));
     }
 
     /* 2. 动态计算并去除直流分量 (减去平均值) */

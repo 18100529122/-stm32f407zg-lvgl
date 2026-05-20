@@ -16,7 +16,7 @@
 app_data_result_t g_app_data_result;
 
 static void app_data_process_task(void *argument);
-static void app_data_process_update_tof(uint16_t *data, uint32_t len);
+static void app_data_process_update_tof(float32_t *data, uint32_t len);
 
 /**
  * @brief 数据处理任务初始化
@@ -158,23 +158,22 @@ static void app_data_process_task(void *argument)
                 /* 记录当前时间戳 */
                 g_app_data_result.start_time = bsp_time_get_us();
                 
-                /* 执行 FFT 计算 */
-                app_data_fft_compute(fifo->data[r_idx], ADC_DMA_BUFF_SIZE);
+                /* 1. 批量转换为浮点数 */
+                static float32_t f32_data[ADC_DMA_BUFF_SIZE];
+                for (uint32_t i = 0; i < ADC_DMA_BUFF_SIZE; i++) {
+                    f32_data[i] = (float32_t)fifo->data[r_idx][i];
+                }
+
+                /* 2. 执行 FFT 计算 */
+                app_data_fft_compute(f32_data, ADC_DMA_BUFF_SIZE);
 
                 g_app_data_result.adc_valid_sample_cnt += ADC_DMA_BUFF_SIZE;// 有效采样点计数
 
-                /* 转换为浮点数以进行 FFT 和 RMS 计算 */
-                static float32_t f32_data[ADC_DMA_BUFF_SIZE];
-                uint16_t current_max_val = 0;
-                for (uint32_t i = 0; i < ADC_DMA_BUFF_SIZE; i++)
-                {
-                    f32_data[i] = (float32_t)fifo->data[r_idx][i];
-                    if (fifo->data[r_idx][i] > current_max_val)
-                    {
-                        current_max_val = fifo->data[r_idx][i];
-                    }
-                }
-                g_app_data_result.peak = (float32_t)current_max_val;
+                /* 3. 直接使用 float32_t 数据进行峰值和 RMS 计算 */
+                float32_t current_max_val = 0;
+                uint32_t max_idx = 0;
+                arm_max_f32(f32_data, ADC_DMA_BUFF_SIZE, &current_max_val, &max_idx);
+                g_app_data_result.peak = current_max_val;
 
                 /* 使用 CMSIS-DSP 库计算有效值 (RMS) */
                 arm_rms_f32(f32_data, ADC_DMA_BUFF_SIZE, &g_app_data_result.rms);
@@ -190,7 +189,7 @@ static void app_data_process_task(void *argument)
                 }
 
                 /* 更新飞行图谱 (ToF) */
-                app_data_process_update_tof(fifo->data[r_idx], ADC_DMA_BUFF_SIZE);
+                app_data_process_update_tof(f32_data, ADC_DMA_BUFF_SIZE);
                 
                 /* 当累计点数超过 2000 个时，自动重置图谱，以保持显示的实时性并防止矩阵饱和 */
                 if (g_app_data_result.tof_point_cnt > 2000) {
@@ -219,7 +218,7 @@ static void app_data_process_task(void *argument)
  * @param data ADC 原始数据 (抽点后)
  * @param len 数据长度
  */
-static void app_data_process_update_tof(uint16_t *data, uint32_t len)
+static void app_data_process_update_tof(float32_t *data, uint32_t len)
 {
     static uint32_t total_sample_cnt = 0;
     
@@ -232,7 +231,7 @@ static void app_data_process_update_tof(uint16_t *data, uint32_t len)
            实际: 0.0040283203f
            这里使用 0.0040283203f
          */
-        float32_t mv = (float32_t)data[i] * 0.0040283203f;
+        float32_t mv = data[i] * 0.0040283203f;
         
         /* 脉冲峰值检测：
            1. 超过阈值 trigger_thr_mv

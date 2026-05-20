@@ -2,6 +2,7 @@
 #define __APP_DATA_FFT_H__
 
 #include "main.h"
+#include "arm_math.h"
 
 #define FFT_LENGTH      2048
 #define FREQ_COMP_NUM   10
@@ -15,7 +16,7 @@ typedef struct {
 extern fft_result_t g_fft_result;
 
 void app_data_fft_init(void);
-void app_data_fft_compute(uint16_t *input_data, uint32_t length);
+void app_data_fft_compute(float32_t *input_data, uint32_t length);
 
 /**
  * @brief 获取指定索引的频率分量值
