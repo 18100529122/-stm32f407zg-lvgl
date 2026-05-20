@@ -67,11 +67,13 @@
 									<listOptionValue builtIn="false" value="../Core/BSP/adc/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/BSP/dac/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/BSP/time/Inc"/>
+									<listOptionValue builtIn="false" value="../Core/BSP/flash"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/app"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/port"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/src"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/sdk"/>
+									<listOptionValue builtIn="false" value="../Core/Middleware/easylogger/inc"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/middleware/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/test"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc"/>

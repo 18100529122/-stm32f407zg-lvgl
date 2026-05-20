@@ -3,6 +3,7 @@
 #include "lv_port_disp.h"
 #include "lv_port_indev.h"
 #include "lv_freeRTOS.h"
+#include "elog.h"
 
 /**
  * @brief 初始化中间件 (LVGL 等)
@@ -18,6 +19,7 @@ void middleware_init(void)
     /* 初始化触摸接口 */
     lv_port_indev_init();
 
-    /* 初始化 FreeRTOS 任务 */
+    /* 初始化 lvgl FreeRTOS 任务 */
     lv_freertos_init();
+    log_i("lv_freertos_init done");
 }

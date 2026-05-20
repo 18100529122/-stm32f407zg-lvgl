@@ -26,7 +26,6 @@ static void app_data_create_task(void *argument)
     {
         /* 设置 DAC 输出频率 */
         bsp_dac_set_sine_wave(test_freq);
-        // printf("\r\n>>> DAC Output Frequency Updated to: %d Hz <<<\r\n", test_freq);
         
         /* 增加频率步进 (50Hz - 100Hz) */
         test_freq += 50;

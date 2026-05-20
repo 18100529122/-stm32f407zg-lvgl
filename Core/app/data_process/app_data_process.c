@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "bsp_time.h"
+#include "elog.h"
 
 app_data_result_t g_app_data_result;
 
@@ -34,7 +35,7 @@ void app_data_process_init(void)
 
     app_data_process_reset_tof();
     
-    /* 增加堆栈大小到 4096，防止 FFT 和 printf 导致溢出 */
+    /* 增加堆栈大小到 4096，防止 FFT 和 easylogger 导致溢出 */
     xTaskCreate(app_data_process_task, "adc_process", 4096, NULL, osPriorityAboveNormal, NULL);
 }
 
@@ -139,7 +140,6 @@ void app_data_process_inc_adc_sample_cnt(uint32_t add)
 static void app_data_process_task(void *argument)
 {
     /* 启动 ADC 采样 (此时任务已启动，可以接收信号量) */
-    printf("ADC Start from Task Done\r\n");
     osDelay(500);
     bsp_adc_start();
 

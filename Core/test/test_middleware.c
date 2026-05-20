@@ -1,13 +1,15 @@
 #include "test_middleware.h"
 #include "lvgl.h"
 #include <stdio.h>
+#include "elog.h"
+
 
 /**
  * @brief 运行 LVGL 测试用例
  */
 void test_lvgl_widgets(void)
 {
-    printf("Running LVGL Test Widgets...\n");
+    log_i("Running LVGL Test Widgets...\n");
 
     /* 创建一个屏幕对象 */
     lv_obj_t * screen = lv_screen_active();

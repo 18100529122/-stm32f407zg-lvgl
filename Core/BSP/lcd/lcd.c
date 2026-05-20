@@ -577,7 +577,6 @@ void lcd_display_off(void)
 void lcd_init(void)
 {
     LCD_BL(1);          /* 优先点亮背光，方便观察是否卡死 */
-    printf("LCD Init Start...\r\n");
     HAL_Delay(50);
     
     lcd_wr_regno(0xD3);
@@ -586,7 +585,6 @@ void lcd_init(void)
     lcddev.id = lcd_rd_data();  /* 读取93 */
     lcddev.id <<= 8;
     lcddev.id |= lcd_rd_data(); /* 读取41 */
-    printf("LCD Read ID Done: %x\r\n", lcddev.id);
 
     do
     {
@@ -631,12 +629,6 @@ void lcd_init(void)
         if (lcddev.id == 0x5761) lcddev.id = 0x1963;
     } while (0);
 
-
-    /* 特别注意, 如果在main函数里面屏蔽串口1初始化, 则会卡死在printf
-     * 里面(卡死在f_putc函数), 所以, 必须初始化串口1, 或者屏蔽掉下面
-     * 这行 printf 语句 !!!!!!!
-     */
-    printf("LCD ID:%x\r\n", lcddev.id); /* 打印LCD ID */
 
     if (lcddev.id == 0x7789)
     {

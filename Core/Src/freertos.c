@@ -147,15 +147,11 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* 在任务中初始化触摸屏，确保 HAL_Delay 正常工作 */
-  printf("System Init...\r\n");
   BSP_Init();
-  printf("BSP Init Done\r\n");
   HAL_Delay(500);
   middleware_init();
-  printf("Middleware Init Done\r\n");
   HAL_Delay(500);
   app_init();
-  printf("App Init Done\r\n");
 #if TEST_BSP_DEBUG 
   Test_BSP();
 #endif
@@ -166,8 +162,6 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    // 打印 heartbeat
-    // printf("System Heartbeat\r\n");
 
     led_toggle();
     osDelay(1000); // 缩短到 1s
