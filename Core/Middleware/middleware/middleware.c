@@ -12,11 +12,6 @@ void middleware_init(void)
 {
     /* 初始化 LVGL 核心 */
     lv_init();
-
-    /* 初始化 EasyLogger */
-    elog_init();
-    /* 启动 EasyLogger */
-    elog_start();
     
     /* 初始化显示接口 */
     lv_port_disp_init();
@@ -26,4 +21,5 @@ void middleware_init(void)
 
     /* 初始化 lvgl FreeRTOS 任务 */
     lv_freertos_init();
+    log_i("lv_freertos_init done");
 }

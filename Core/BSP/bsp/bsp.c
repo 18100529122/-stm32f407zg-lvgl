@@ -7,6 +7,8 @@
 #include "bsp_dac.h"
 #include "driver_w25qxx_basic.h"
 
+#include "elog.h" //特别拿到最前面初始化
+
 /**
  * @brief 硬件抽象层初始化 (板级支持包初始化)
  */
@@ -17,21 +19,30 @@ void BSP_Init(void)
 
     /* 初始化串口 */
     BSP_USART_Init();
+
+    /* 初始化 EasyLogger */
+    elog_init();
+    /* 启动 EasyLogger */
+    elog_start();
     
     /* 初始化 LCD */
     lcd_init();
 
     /* 初始化触摸屏 */
     tp_init();
+    log_i("tp_init done");
 
     /* 初始化 W25Q128 Flash */
     w25qxx_basic_init(W25Q128, W25QXX_INTERFACE_SPI, W25QXX_BOOL_FALSE);
+    log_i("w25qxx_basic_init done");
 
     /* 初始化 ADC 采样 (1Msps) */
     bsp_adc_init();
+    log_i("bsp_adc_init done");
 
     /* 初始化 DAC 输出 */
     bsp_dac_init();
+    log_i("bsp_dac_init done");
 
 }
 
