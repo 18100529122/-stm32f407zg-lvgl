@@ -73,6 +73,7 @@
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/port"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/src"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/sdk"/>
+									<listOptionValue builtIn="false" value="../Core/Middleware/easylogger/inc"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/middleware/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/test"/>
 									<listOptionValue builtIn="false" value="../Drivers/STM32F4xx_HAL_Driver/Inc"/>

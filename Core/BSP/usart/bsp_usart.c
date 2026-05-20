@@ -86,22 +86,15 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
     }
 }
 
-#ifdef __GNUC__
-#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
-#else
-#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
-#endif
-
-PUTCHAR_PROTOTYPE
-{
-    /* 
-       防止与 DMA 发送冲突：
-       在重定向 printf 时，必须先等待串口状态变为 READY。
-       否则，如果此时 DMA 正在发送数据，HAL_UART_Transmit 会直接返回 HAL_BUSY，
-       导致 printf 的字符被丢弃。
-    */
-    while (huart1.gState != HAL_UART_STATE_READY);
-
-    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
-    return ch;
-}
+// // 不使用printf打印,使用easylogger打印
+// #ifdef __GNUC__
+// #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+// #else
+// #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+// #endif
+// PUTCHAR_PROTOTYPE
+// {
+//     while (huart1.gState != HAL_UART_STATE_READY);
+//     HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
+//     return ch;
+// }

@@ -127,7 +127,6 @@ uint8_t gt9xxx_init(void)
         return 1;   /* 若不是触摸屏用到的GT911/9147/1158/9271，则初始化失败，需硬件查看触摸IC型号以及查看时序函数是否正确 */
     }
     
-    printf("CTP ID:%s\r\n", temp);          /* 打印ID */
     
     if (strcmp((char *)temp, "9271") == 0)  /* ID==9271, 支持10点触摸 */
     {

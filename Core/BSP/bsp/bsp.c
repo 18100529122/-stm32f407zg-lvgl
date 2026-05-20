@@ -25,10 +25,7 @@ void BSP_Init(void)
     tp_init();
 
     /* 初始化 W25Q128 Flash */
-    if (w25qxx_basic_init(W25Q128, W25QXX_INTERFACE_SPI, W25QXX_BOOL_FALSE) == 0)
-    {
-        w25qxx_interface_debug_print("W25Q128 Init Success.\n");
-    }
+    w25qxx_basic_init(W25Q128, W25QXX_INTERFACE_SPI, W25QXX_BOOL_FALSE);
 
     /* 初始化 ADC 采样 (1Msps) */
     bsp_adc_init();
