@@ -1,7 +1,9 @@
 #include "test_bsp.h"
 #include <stdio.h>
+#include <string.h>
 #include "lcd.h"
 #include "touch.h"
+#include "driver_w25qxx_basic.h"
 
 
 #ifndef TEST_SRAM_DEBUG
@@ -142,6 +144,66 @@ void LCD_Test(void)
     printf("--- LCD Test End ---\n");
 }
 
+/**
+ * @brief W25QXX SPI Flash 测试
+ */
+void W25QXX_Test(void)
+{
+    uint8_t res;
+    uint8_t manufacturer, device_id;
+    uint8_t test_data[32] = "LibDriver W25Q128 Test Data";
+    uint8_t read_buf[32];
+
+    printf("--- W25Q128 Test Start ---\n");
+
+    /* 1. 驱动已在 BSP_Init 中初始化，这里直接测试 */
+
+    /* 2. 获取芯片 ID */
+    res = w25qxx_basic_get_id(&manufacturer, &device_id);
+    if (res != 0)
+    {
+        printf("Get ID Failed!\n");
+    }
+    else
+    {
+        printf("Manufacturer: 0x%02X, Device ID: 0x%02X (Expected: 0xEF, 0x17)\n", manufacturer, device_id);
+    }
+    
+    /* 3. 读写测试 */
+    printf("Writing test data to address 0x000000...\n");
+    res = w25qxx_basic_write(0x000000, test_data, sizeof(test_data));
+    if (res != 0)
+    {
+        printf("Write Failed!\n");
+    }
+    else
+    {
+        printf("Write Success.\n");
+    }
+
+    printf("Reading data from address 0x000000...\n");
+    res = w25qxx_basic_read(0x000000, read_buf, sizeof(read_buf));
+    if (res != 0)
+    {
+        printf("Read Failed!\n");
+    }
+    else
+    {
+        printf("Read Data: %s\n", (char *)read_buf);
+        
+        /* 验证数据 */
+        if (memcmp(test_data, read_buf, sizeof(test_data)) == 0)
+        {
+            printf("W25Q128 Data Verification PASSED!\n");
+        }
+        else
+        {
+            printf("W25Q128 Data Verification FAILED! (Did you erase the sector first?)\n");
+        }
+    }
+
+    printf("--- W25Q128 Test End ---\n");
+}
 
 /**
  * @brief 触摸屏扫描测试
@@ -179,7 +241,8 @@ void Test_BSP(void)
     SRAM_Section_Test();//test SRAM section
 #endif
 
-    LCD_Test();      // test LCD
+    // LCD_Test();      // test LCD
+    W25QXX_Test();   // test W25QXX SPI Flash
 
     printf("Test_BSP done!\n");
 }

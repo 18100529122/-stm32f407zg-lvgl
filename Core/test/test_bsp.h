@@ -16,4 +16,9 @@ void Test_BSP(void);
  */
 void LCD_Test(void);
 
+/**
+ * @brief W25QXX SPI Flash 测试
+ */
+void W25QXX_Test(void);
+
 #endif /* __TEST_BSP_H */

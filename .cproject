@@ -67,6 +67,7 @@
 									<listOptionValue builtIn="false" value="../Core/BSP/adc/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/BSP/dac/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/BSP/time/Inc"/>
+									<listOptionValue builtIn="false" value="../Core/BSP/flash"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/app"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/port"/>
