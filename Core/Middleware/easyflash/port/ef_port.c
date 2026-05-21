@@ -28,6 +28,13 @@
 
 #include <easyflash.h>
 #include <stdarg.h>
+#include "driver_w25qxx_basic.h"
+#include "driver_w25qxx_advance.h"
+
+#include "elog.h"
+ 
+
+
 
 /* default environment variables set for user */
 static const ef_env default_env_set[] = {
@@ -65,6 +72,7 @@ EfErrCode ef_port_read(uint32_t addr, uint32_t *buf, size_t size) {
     EfErrCode result = EF_NO_ERR;
 
     /* You can add your code under here. */
+    w25qxx_basic_read(addr, (uint8_t *)buf, size);
 
     return result;
 }
@@ -86,6 +94,11 @@ EfErrCode ef_port_erase(uint32_t addr, size_t size) {
     EF_ASSERT(addr % EF_ERASE_MIN_SIZE == 0);
 
     /* You can add your code under here. */
+    uint32_t addr_temp = addr;
+    for (size_t i = 0; i < size; i += 4096) {
+        w25qxx_advance_sector_erase_4k(addr_temp);
+        addr_temp += 4096;
+    }
 
     return result;
 }
@@ -104,6 +117,7 @@ EfErrCode ef_port_write(uint32_t addr, const uint32_t *buf, size_t size) {
     EfErrCode result = EF_NO_ERR;
     
     /* You can add your code under here. */
+    w25qxx_basic_write(addr, (uint8_t *)buf, size);
 
     return result;
 }
@@ -146,6 +160,7 @@ void ef_log_debug(const char *file, const long line, const char *format, ...) {
     va_start(args, format);
 
     /* You can add your code under here. */
+    log_d(format, args);
     
     va_end(args);
 
@@ -166,9 +181,11 @@ void ef_log_info(const char *format, ...) {
     va_start(args, format);
 
     /* You can add your code under here. */
+    log_i(format, args);
     
     va_end(args);
 }
+
 /**
  * This function is print flash non-package info.
  *
@@ -182,6 +199,9 @@ void ef_print(const char *format, ...) {
     va_start(args, format);
 
     /* You can add your code under here. */
+    log_i(format, args);
     
     va_end(args);
 }
+
+

@@ -4,14 +4,19 @@
 #include "lv_port_indev.h"
 #include "lv_freeRTOS.h"
 #include "elog.h"
+#include "easyflash.h"
 
 /**
  * @brief 初始化中间件 (LVGL 等)
+ * log 放到bsp中初始化
  */
 void middleware_init(void)
 {
 	/* 初始化 LVGL 核心 */
 	lv_init();
+
+	/* 初始化flash */
+	easyflash_init();
 
 	/* 初始化显示接口 */
 	lv_port_disp_init();
