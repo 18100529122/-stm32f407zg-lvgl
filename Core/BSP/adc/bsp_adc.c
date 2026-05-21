@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include "app_data_process.h"
 
+/* ADC 10:1 抽取因子 (100kHz -> 10kHz 有效数据率) */
+#define ADC_DECIMATION_FACTOR 10
+
 /* 使用片内 SRAM 存储缓冲区 */
 static uint16_t s_adc_buff[ADC_BUFF_SIZE];
 static bsp_adc_fifo_t s_adc_fifo;
@@ -108,7 +111,20 @@ void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
  */
 uint32_t bsp_adc_get_voltage(uint16_t raw_value)
 {
-	return (uint32_t)((uint64_t)raw_value * 3300 / 4096);
+	return (uint32_t)raw_value * 3300 / 4096;
+}
+
+/**
+ * @brief ISR 中发送信号量通知数据处理任务
+ */
+static inline void bsp_adc_signal_from_isr(void)
+{
+	if (g_adc_data_sem != NULL)
+	{
+		BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+		xSemaphoreGiveFromISR(g_adc_data_sem, &xHigherPriorityTaskWoken);
+		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	}
 }
 
 /**
@@ -130,13 +146,7 @@ static void bsp_adc_extract_to_fifo(uint32_t start_idx)
 		s_rem = 0;// 重置累计偏移
 		s_sample_idx = 0;// 重置采样点索引
 		app_data_process_inc_adc_restart_cnt();// 增加重启次数
-		// 发送信号量，通知数据处理任务
-		if (g_adc_data_sem != NULL)
-		{
-			BaseType_t xHigherPriorityTaskWoken = pdFALSE;// 标志位，用于判断是否需要切换到高优先级任务
-			xSemaphoreGiveFromISR(g_adc_data_sem, &xHigherPriorityTaskWoken);// 释放信号量，通知数据处理任务
-			portYIELD_FROM_ISR(xHigherPriorityTaskWoken);// 切换到高优先级任务
-		}
+		bsp_adc_signal_from_isr();
 		return;
 	}
 
@@ -145,7 +155,7 @@ static void bsp_adc_extract_to_fifo(uint32_t start_idx)
 
 	app_data_process_inc_adc_sample_cnt(process_len);// 增加采样点计数
 
-	for (int i = (10 - 1 - s_rem); i < process_len; i += 10)
+	for (int i = (ADC_DECIMATION_FACTOR - 1 - s_rem); i < process_len; i += ADC_DECIMATION_FACTOR)
 	{
 		fifo->data[w_idx][s_sample_idx] = g_adc_buff[start_idx + i];
 		s_sample_idx++;
@@ -157,17 +167,12 @@ static void bsp_adc_extract_to_fifo(uint32_t start_idx)
 			w_idx = (w_idx + 1) % ADC_FIFO_NUM;
 			fifo->write_idx = w_idx;
 
-			if (g_adc_data_sem != NULL)
-			{
-				BaseType_t xHigherPriorityTaskWoken = pdFALSE;// 标志位，用于判断是否需要切换到高优先级任务
-				xSemaphoreGiveFromISR(g_adc_data_sem, &xHigherPriorityTaskWoken);// 释放信号量，通知数据处理任务
-				portYIELD_FROM_ISR(xHigherPriorityTaskWoken);// 切换到高优先级任务
-			}
+			bsp_adc_signal_from_isr();
 		}
 	}
 
 	/* 更新偏移量 */
-	s_rem = (s_rem + process_len) % 10;
+	s_rem = (s_rem + process_len) % ADC_DECIMATION_FACTOR;
 }
 
 /**

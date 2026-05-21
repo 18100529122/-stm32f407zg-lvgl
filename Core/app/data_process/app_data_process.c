@@ -16,6 +16,9 @@
 
 app_data_result_t g_app_data_result;
 
+/* FFT 输入缓冲区 (片内 SRAM) */
+static float32_t f32_data[ADC_DMA_BUFF_SIZE];
+
 static void app_data_process_task(void *argument);
 static void app_data_process_update_tof(float32_t *data, uint32_t len);
 
@@ -146,9 +149,7 @@ static void app_data_process_task(void *argument)
 
 	while (1)
 	{
-		/* 恢复为永久等待，由硬件中断级自愈保证稳定性 */
 		if (xSemaphoreTake(g_adc_data_sem, portMAX_DELAY) == pdTRUE)
-		// if (xSemaphoreTake(g_adc_data_sem, pdMS_TO_TICKS(500)) == pdTRUE)
 		{
 			bsp_adc_fifo_t *fifo = bsp_adc_get_fifo_dev();
 			uint8_t r_idx = fifo->read_idx;
@@ -160,7 +161,6 @@ static void app_data_process_task(void *argument)
 				g_app_data_result.start_time = bsp_time_get_us();
 
 				/* 1. 批量转换为浮点数 */
-				static float32_t f32_data[ADC_DMA_BUFF_SIZE];
 				for (uint32_t i = 0; i < ADC_DMA_BUFF_SIZE; i++)
 				{
 					f32_data[i] = (float32_t)fifo->data[r_idx][i];
@@ -209,9 +209,6 @@ static void app_data_process_task(void *argument)
 
 				/* 记录当前时间戳 */
 				g_app_data_result.end_time = bsp_time_get_us();
-
-				// 开启adc采集
-				//  bsp_adc_start();
 			}
 		}
 	}
