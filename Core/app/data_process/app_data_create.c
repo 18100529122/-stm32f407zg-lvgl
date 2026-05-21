@@ -12,7 +12,7 @@ static void app_data_create_task(void *argument);
  */
 void app_data_create_init(void)
 {
-    xTaskCreate(app_data_create_task, "dac_cycle", 512, NULL, osPriorityNormal, NULL);
+	xTaskCreate(app_data_create_task, "dac_cycle", 512, NULL, osPriorityNormal, NULL);
 }
 
 /**
@@ -20,20 +20,21 @@ void app_data_create_init(void)
  */
 static void app_data_create_task(void *argument)
 {
-    uint16_t test_freq = 50;
-    
-    while (1)
-    {
-        /* 设置 DAC 输出频率 */
-        bsp_dac_set_sine_wave(test_freq);
-        
-        /* 增加频率步进 (50Hz - 100Hz) */
-        test_freq += 50;
-        if (test_freq > 100) {
-            test_freq = 50;
-        }
-        
-        /* 延迟 10s */
-        osDelay(10000);
-    }
+	uint16_t test_freq = 50;
+
+	while (1)
+	{
+		/* 设置 DAC 输出频率 */
+		bsp_dac_set_sine_wave(test_freq);
+
+		/* 增加频率步进 (50Hz - 100Hz) */
+		test_freq += 50;
+		if (test_freq > 100)
+		{
+			test_freq = 50;
+		}
+
+		/* 延迟 10s */
+		osDelay(10000);
+	}
 }

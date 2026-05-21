@@ -14,36 +14,35 @@
  */
 void BSP_Init(void)
 {
-    /* 初始化微秒级定时器 */
-    bsp_time_init();
+	/* 初始化微秒级定时器 */
+	bsp_time_init();
 
-    /* 初始化串口 */
-    BSP_USART_Init();
+	/* 初始化串口 */
+	BSP_USART_Init();
 
-    /* 初始化 EasyLogger */
-    elog_init();
-    /* 启动 EasyLogger */
-    elog_start();
-    
-    /* 初始化 LCD */
-    lcd_init();
+	/* 初始化 EasyLogger */
+	elog_init();
+	/* 启动 EasyLogger */
+	elog_start();
 
-    /* 初始化触摸屏 */
-    tp_init();
-    log_i("tp_init done");
+	/* 初始化 LCD */
+	lcd_init();
 
-    /* 初始化 W25Q128 Flash */
-    w25qxx_basic_init(W25Q128, W25QXX_INTERFACE_SPI, W25QXX_BOOL_FALSE);
-    log_i("w25qxx_basic_init done");
+	/* 初始化触摸屏 */
+	tp_init();
+	log_i("tp_init done");
 
-    /* 初始化 ADC 采样 (1Msps) */
-    bsp_adc_init();
-    log_i("bsp_adc_init done");
+	/* 初始化 W25Q128 Flash */
+	w25qxx_basic_init(W25Q128, W25QXX_INTERFACE_SPI, W25QXX_BOOL_FALSE);
+	log_i("w25qxx_basic_init done");
 
-    /* 初始化 DAC 输出 */
-    bsp_dac_init();
-    log_i("bsp_dac_init done");
+	/* 初始化 ADC 采样 (1Msps) */
+	bsp_adc_init();
+	log_i("bsp_adc_init done");
 
+	/* 初始化 DAC 输出 */
+	bsp_dac_init();
+	log_i("bsp_dac_init done");
 }
 
 /**
@@ -53,26 +52,25 @@ void BSP_Init(void)
  */
 void delay_us(uint32_t us)
 {
-    uint32_t ticks;
-    uint32_t told, tnow, tcnt = 0;
-    uint32_t reload = SysTick->LOAD;
+	uint32_t ticks;
+	uint32_t told, tnow, tcnt = 0;
+	uint32_t reload = SysTick->LOAD;
 
-    ticks = us * (SystemCoreClock / 1000000);
-    told = SysTick->VAL;
-    while (1)
-    {
-        tnow = SysTick->VAL;
-        if (tnow != told)
-        {
-            if (tnow < told)
-                tcnt += told - tnow;
-            else
-                tcnt += reload - tnow + told;
-            told = tnow;
-            if (tcnt >= ticks)
-                break;
-        }
-    }
+	ticks = us * (SystemCoreClock / 1000000);
+	told = SysTick->VAL;
+	while (1)
+	{
+		tnow = SysTick->VAL;
+		if (tnow != told)
+		{
+			if (tnow < told)
+				tcnt += told - tnow;
+			else
+				tcnt += reload - tnow + told;
+			told = tnow;
+			if (tcnt >= ticks) break;
+		}
+	}
 }
 
 /**
@@ -80,5 +78,5 @@ void delay_us(uint32_t us)
  */
 void delay_ms(uint32_t ms)
 {
-    HAL_Delay(ms);
+	HAL_Delay(ms);
 }

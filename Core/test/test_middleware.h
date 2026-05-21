@@ -2,7 +2,8 @@
 #define __TEST_MIDDLEWARE_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 /**
@@ -18,7 +19,5 @@ void test_lvgl_widgets(void);
  * @brief 测试Middleware函数，包含lvgl_widgets
  */
 void Test_Middleware(void);
-
-
 
 #endif /* __TEST_MIDDLEWARE_H */

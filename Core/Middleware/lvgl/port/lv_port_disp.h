@@ -10,7 +10,8 @@
 #define LV_PORT_DISP_TEMPL_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 /*********************

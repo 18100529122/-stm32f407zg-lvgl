@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2015 - present LibDriver All rights reserved
- * 
+ *
  * The MIT License (MIT)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,7 +19,7 @@
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE. 
+ * SOFTWARE.
  *
  * @file      driver_w25qxx_interface.h
  * @brief     driver w25qxx interface header file
@@ -40,7 +40,8 @@
 #include "driver_w25qxx.h"
 
 #ifdef __cplusplus
-extern "C"{
+extern "C"
+{
 #endif
 
 /**
@@ -89,11 +90,8 @@ uint8_t w25qxx_interface_spi_qspi_deinit(void);
  *             - 1 write read failed
  * @note       none
  */
-uint8_t w25qxx_interface_spi_qspi_write_read(uint8_t instruction, uint8_t instruction_line,
-                                             uint32_t address, uint8_t address_line, uint8_t address_len,
-                                             uint32_t alternate, uint8_t alternate_line, uint8_t alternate_len,
-                                             uint8_t dummy, uint8_t *in_buf, uint32_t in_len,
-                                             uint8_t *out_buf, uint32_t out_len, uint8_t data_line);
+uint8_t w25qxx_interface_spi_qspi_write_read(uint8_t instruction, uint8_t instruction_line, uint32_t address, uint8_t address_line, uint8_t address_len, uint32_t alternate, uint8_t alternate_line,
+											 uint8_t alternate_len, uint8_t dummy, uint8_t *in_buf, uint32_t in_len, uint8_t *out_buf, uint32_t out_len, uint8_t data_line);
 
 /**
  * @brief     interface delay ms

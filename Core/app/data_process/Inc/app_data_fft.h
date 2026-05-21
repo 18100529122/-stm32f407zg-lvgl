@@ -4,13 +4,14 @@
 #include "main.h"
 #include "arm_math.h"
 
-#define FFT_LENGTH      2048
-#define FREQ_COMP_NUM   10
+#define FFT_LENGTH	  2048
+#define FREQ_COMP_NUM 10
 
 /* 结果结构体 */
-typedef struct {
-    float freq_values[FREQ_COMP_NUM];  /* 50Hz, 100Hz, ..., 500Hz 的幅值 */
-    float magnitudes[FFT_LENGTH / 2];  /* 全频谱幅值 */
+typedef struct
+{
+	float freq_values[FREQ_COMP_NUM];  /* 50Hz, 100Hz, ..., 500Hz 的幅值 */
+	float magnitudes[FFT_LENGTH / 2];  /* 全频谱幅值 */
 } fft_result_t;
 
 extern fft_result_t g_fft_result;

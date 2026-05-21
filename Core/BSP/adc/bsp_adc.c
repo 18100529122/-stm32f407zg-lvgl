@@ -17,9 +17,9 @@ uint16_t *g_adc_buff = s_adc_buff;
  * @brief 获取 ADC FIFO 设备指针
  * @return bsp_adc_fifo_t* FIFO 设备指针
  */
-bsp_adc_fifo_t* bsp_adc_get_fifo_dev(void)
+bsp_adc_fifo_t *bsp_adc_get_fifo_dev(void)
 {
-    return &s_adc_fifo;
+	return &s_adc_fifo;
 }
 
 /* 信号量定义 */
@@ -31,23 +31,24 @@ SemaphoreHandle_t g_adc_data_sem = NULL;
  */
 void bsp_adc_init(void)
 {
-    /* 创建信号量 */
-    if (g_adc_data_sem == NULL) {
-        g_adc_data_sem = xSemaphoreCreateBinary();
-    }
+	/* 创建信号量 */
+	if (g_adc_data_sem == NULL)
+	{
+		g_adc_data_sem = xSemaphoreCreateBinary();
+	}
 
-    /* 动态调整 ADC1 配置以支持 Timer2 触发 and DMA 连续请求 */
-    hadc1.Instance->CR2 &= ~ADC_CR2_CONT;      /* 关闭连续转换模式，改为触发模式 */
-    hadc1.Instance->CR2 |= ADC_CR2_DDS;       /* 开启 DMA 连续请求 (DDS位) */
-    
-    /* 设置外部触发源为 Timer2 TRGO，并使能上升沿触发 */
-    hadc1.Instance->CR2 &= ~ADC_CR2_EXTSEL;
-    hadc1.Instance->CR2 |= ADC_EXTERNALTRIGCONV_T2_TRGO;
-    hadc1.Instance->CR2 &= ~ADC_CR2_EXTEN;
-    hadc1.Instance->CR2 |= ADC_EXTERNALTRIGCONVEDGE_RISING;
+	/* 动态调整 ADC1 配置以支持 Timer2 触发 and DMA 连续请求 */
+	hadc1.Instance->CR2 &= ~ADC_CR2_CONT;	  /* 关闭连续转换模式，改为触发模式 */
+	hadc1.Instance->CR2 |= ADC_CR2_DDS;		/* 开启 DMA 连续请求 (DDS位) */
 
-    /* 清空片内 SRAM 中的 FIFO 状态 */
-    memset(bsp_adc_get_fifo_dev(), 0, sizeof(bsp_adc_fifo_t));
+	/* 设置外部触发源为 Timer2 TRGO，并使能上升沿触发 */
+	hadc1.Instance->CR2 &= ~ADC_CR2_EXTSEL;
+	hadc1.Instance->CR2 |= ADC_EXTERNALTRIGCONV_T2_TRGO;
+	hadc1.Instance->CR2 &= ~ADC_CR2_EXTEN;
+	hadc1.Instance->CR2 |= ADC_EXTERNALTRIGCONVEDGE_RISING;
+
+	/* 清空片内 SRAM 中的 FIFO 状态 */
+	memset(bsp_adc_get_fifo_dev(), 0, sizeof(bsp_adc_fifo_t));
 }
 
 /**
@@ -55,16 +56,17 @@ void bsp_adc_init(void)
  */
 void bsp_adc_start(void)
 {
-    /* 检查 ADC 是否已经在运行，避免重复启动导致状态机冲突 */
-    if (hadc1.State == HAL_ADC_STATE_BUSY_REG) {
-        return;
-    }
+	/* 检查 ADC 是否已经在运行，避免重复启动导致状态机冲突 */
+	if (hadc1.State == HAL_ADC_STATE_BUSY_REG)
+	{
+		return;
+	}
 
-    /* 启动 ADC DMA 采集 */
-    HAL_ADC_Start_DMA(&hadc1, (uint32_t *)g_adc_buff, ADC_BUFF_SIZE);
-    
-    /* 启动 Timer2 产生触发信号 */
-    HAL_TIM_Base_Start(&htim2);
+	/* 启动 ADC DMA 采集 */
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t *)g_adc_buff, ADC_BUFF_SIZE);
+
+	/* 启动 Timer2 产生触发信号 */
+	HAL_TIM_Base_Start(&htim2);
 }
 
 /**
@@ -72,11 +74,11 @@ void bsp_adc_start(void)
  */
 void bsp_adc_stop(void)
 {
-    /* 停止 Timer2 触发 */
-    HAL_TIM_Base_Stop(&htim2);
+	/* 停止 Timer2 触发 */
+	HAL_TIM_Base_Stop(&htim2);
 
-    /* 停止 ADC DMA 采集 */
-    HAL_ADC_Stop_DMA(&hadc1);
+	/* 停止 ADC DMA 采集 */
+	HAL_ADC_Stop_DMA(&hadc1);
 }
 
 /**
@@ -85,20 +87,20 @@ void bsp_adc_stop(void)
  */
 void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
 {
-    if (hadc->Instance == ADC1)
-    {
-        uint32_t err = HAL_ADC_GetError(hadc);
-        if (err & HAL_ADC_ERROR_OVR)
-        {
-            /* 1. 彻底清除 OVR 标志位 (关键步骤) */
-            __HAL_ADC_CLEAR_FLAG(hadc, ADC_FLAG_OVR);
-            app_data_process_inc_adc_restart_cnt();
-            
-            /* 2. 重启 DMA 采集 */
-            /* 注意：在中断中直接调用 HAL_ADC_Start_DMA 是安全的，因为它不涉及阻塞操作 */
-            HAL_ADC_Start_DMA(hadc, (uint32_t *)g_adc_buff, ADC_BUFF_SIZE);
-        }
-    }
+	if (hadc->Instance == ADC1)
+	{
+		uint32_t err = HAL_ADC_GetError(hadc);
+		if (err & HAL_ADC_ERROR_OVR)
+		{
+			/* 1. 彻底清除 OVR 标志位 (关键步骤) */
+			__HAL_ADC_CLEAR_FLAG(hadc, ADC_FLAG_OVR);
+			app_data_process_inc_adc_restart_cnt();
+
+			/* 2. 重启 DMA 采集 */
+			/* 注意：在中断中直接调用 HAL_ADC_Start_DMA 是安全的，因为它不涉及阻塞操作 */
+			HAL_ADC_Start_DMA(hadc, (uint32_t *)g_adc_buff, ADC_BUFF_SIZE);
+		}
+	}
 }
 
 /**
@@ -106,7 +108,7 @@ void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
  */
 uint32_t bsp_adc_get_voltage(uint16_t raw_value)
 {
-    return (uint32_t)((uint64_t)raw_value * 3300 / 4096);
+	return (uint32_t)((uint64_t)raw_value * 3300 / 4096);
 }
 
 /**
@@ -115,75 +117,77 @@ uint32_t bsp_adc_get_voltage(uint16_t raw_value)
  */
 static void bsp_adc_extract_to_fifo(uint32_t start_idx)
 {
-    static uint32_t s_rem = 0;             /* 累计未抽取的点数偏移 */
-    static uint32_t s_sample_idx = 0;      /* 当前 FIFO 块内的采样点索引 */
-    
-    bsp_adc_fifo_t *fifo = bsp_adc_get_fifo_dev();
-    uint8_t w_idx = fifo->write_idx;
+	static uint32_t s_rem = 0;			   /* 累计未抽取的点数偏移 */
+	static uint32_t s_sample_idx = 0;	  /* 当前 FIFO 块内的采样点索引 */
 
-    if(fifo->status[w_idx].is_full)
-    {
-        bsp_adc_stop();// 停止采集，防止数据溢出
-        memset(bsp_adc_get_fifo_dev(), 0, sizeof(bsp_adc_fifo_t));// 清空 FIFO 状态
-        s_rem = 0;// 重置累计偏移
-        s_sample_idx = 0;// 重置采样点索引
-        app_data_process_inc_adc_restart_cnt();// 增加重启次数
-        //发送信号量，通知数据处理任务
-        if (g_adc_data_sem != NULL) {
-            BaseType_t xHigherPriorityTaskWoken = pdFALSE;// 标志位，用于判断是否需要切换到高优先级任务
-            xSemaphoreGiveFromISR(g_adc_data_sem, &xHigherPriorityTaskWoken);// 释放信号量，通知数据处理任务
-            portYIELD_FROM_ISR(xHigherPriorityTaskWoken);// 切换到高优先级任务
-        }
-        return;
-    }
+	bsp_adc_fifo_t *fifo = bsp_adc_get_fifo_dev();
+	uint8_t w_idx = fifo->write_idx;
 
-    /* 处理半个缓冲区的数据量 */
-    uint32_t process_len = ADC_BUFF_SIZE / 2;
+	if (fifo->status[w_idx].is_full)
+	{
+		bsp_adc_stop();// 停止采集，防止数据溢出
+		memset(bsp_adc_get_fifo_dev(), 0, sizeof(bsp_adc_fifo_t));// 清空 FIFO 状态
+		s_rem = 0;// 重置累计偏移
+		s_sample_idx = 0;// 重置采样点索引
+		app_data_process_inc_adc_restart_cnt();// 增加重启次数
+		// 发送信号量，通知数据处理任务
+		if (g_adc_data_sem != NULL)
+		{
+			BaseType_t xHigherPriorityTaskWoken = pdFALSE;// 标志位，用于判断是否需要切换到高优先级任务
+			xSemaphoreGiveFromISR(g_adc_data_sem, &xHigherPriorityTaskWoken);// 释放信号量，通知数据处理任务
+			portYIELD_FROM_ISR(xHigherPriorityTaskWoken);// 切换到高优先级任务
+		}
+		return;
+	}
 
-    app_data_process_inc_adc_sample_cnt(process_len);// 增加采样点计数
-    
-    for (int i = (10 - 1 - s_rem); i < process_len; i += 10)
-    {
-        fifo->data[w_idx][s_sample_idx] = g_adc_buff[start_idx + i];
-        s_sample_idx++;
-        
-        if (s_sample_idx >= ADC_DMA_BUFF_SIZE)
-        {
-            s_sample_idx = 0;
-            fifo->status[w_idx].is_full = 1;
-            w_idx = (w_idx + 1) % ADC_FIFO_NUM;
-            fifo->write_idx = w_idx;
-            
-            if (g_adc_data_sem != NULL) {
-                BaseType_t xHigherPriorityTaskWoken = pdFALSE;// 标志位，用于判断是否需要切换到高优先级任务
-                xSemaphoreGiveFromISR(g_adc_data_sem, &xHigherPriorityTaskWoken);// 释放信号量，通知数据处理任务
-                portYIELD_FROM_ISR(xHigherPriorityTaskWoken);// 切换到高优先级任务
-            }
-        }
-    }
-    
-    /* 更新偏移量 */
-    s_rem = (s_rem + process_len) % 10;
+	/* 处理半个缓冲区的数据量 */
+	uint32_t process_len = ADC_BUFF_SIZE / 2;
+
+	app_data_process_inc_adc_sample_cnt(process_len);// 增加采样点计数
+
+	for (int i = (10 - 1 - s_rem); i < process_len; i += 10)
+	{
+		fifo->data[w_idx][s_sample_idx] = g_adc_buff[start_idx + i];
+		s_sample_idx++;
+
+		if (s_sample_idx >= ADC_DMA_BUFF_SIZE)
+		{
+			s_sample_idx = 0;
+			fifo->status[w_idx].is_full = 1;
+			w_idx = (w_idx + 1) % ADC_FIFO_NUM;
+			fifo->write_idx = w_idx;
+
+			if (g_adc_data_sem != NULL)
+			{
+				BaseType_t xHigherPriorityTaskWoken = pdFALSE;// 标志位，用于判断是否需要切换到高优先级任务
+				xSemaphoreGiveFromISR(g_adc_data_sem, &xHigherPriorityTaskWoken);// 释放信号量，通知数据处理任务
+				portYIELD_FROM_ISR(xHigherPriorityTaskWoken);// 切换到高优先级任务
+			}
+		}
+	}
+
+	/* 更新偏移量 */
+	s_rem = (s_rem + process_len) % 10;
 }
 
 /**
  * @brief ADC DMA 传输半完成回调函数
  */
-void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc)
 {
-    if (hadc->Instance == ADC1)
-    {
-        bsp_adc_extract_to_fifo(0);
-    }
+	if (hadc->Instance == ADC1)
+	{
+		bsp_adc_extract_to_fifo(0);
+	}
 }
 
 /**
  * @brief ADC DMA 传输完成回调函数
  */
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
-    if (hadc->Instance == ADC1)
-    {
-        bsp_adc_extract_to_fifo(ADC_BUFF_SIZE / 2);
-    }
+	if (hadc->Instance == ADC1)
+	{
+		bsp_adc_extract_to_fifo(ADC_BUFF_SIZE / 2);
+	}
 }

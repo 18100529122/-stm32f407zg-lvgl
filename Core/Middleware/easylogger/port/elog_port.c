@@ -25,35 +25,35 @@
  * Function: Portable interface for each platform.
  * Created on: 2015-04-28
  */
- 
+
 #include <elog.h>
 #include <stdio.h>
 #include "cmsis_os2.h"
 #include "usart.h"
-
-
 
 /**
  * EasyLogger port initialize
  *
  * @return result
  */
-ElogErrCode elog_port_init(void) {
-    ElogErrCode result = ELOG_NO_ERR;
+ElogErrCode elog_port_init(void)
+{
+	ElogErrCode result = ELOG_NO_ERR;
 
-    if (result != ELOG_NO_ERR) {
-        return result;
-    }
+	if (result != ELOG_NO_ERR)
+	{
+		return result;
+	}
 }
 
 /**
  * EasyLogger port deinitialize
  *
  */
-void elog_port_deinit(void) {
+void elog_port_deinit(void)
+{
 
-    /* add your code here */
-
+	/* add your code here */
 }
 
 /**
@@ -62,28 +62,29 @@ void elog_port_deinit(void) {
  * @param log output of log
  * @param size log size
  */
-void elog_port_output(const char *log, size_t size) {
-    
-    /* add your code here */
-    HAL_UART_Transmit(&huart1, (uint8_t *) log, size, 0xFFFF);
+void elog_port_output(const char *log, size_t size)
+{
+
+	/* add your code here */
+	HAL_UART_Transmit(&huart1, (uint8_t *)log, size, 0xFFFF);
 }
 
 /**
  * output lock
  */
-void elog_port_output_lock(void) {
-    
-    /* add your code here */
+void elog_port_output_lock(void)
+{
 
+	/* add your code here */
 }
 
 /**
  * output unlock
  */
-void elog_port_output_unlock(void) {
-    
-    /* add your code here */
+void elog_port_output_unlock(void)
+{
 
+	/* add your code here */
 }
 
 /**
@@ -91,12 +92,13 @@ void elog_port_output_unlock(void) {
  *
  * @return current time
  */
-const char *elog_port_get_time(void) {
-    
-    /* add your code here */
-    static char cur_system_time[16] = "";
-    snprintf(cur_system_time, 16, "%lu", osKernelGetTickCount());
-    return cur_system_time;
+const char *elog_port_get_time(void)
+{
+
+	/* add your code here */
+	static char cur_system_time[16] = "";
+	snprintf(cur_system_time, 16, "%lu", osKernelGetTickCount());
+	return cur_system_time;
 }
 
 /**
@@ -104,10 +106,11 @@ const char *elog_port_get_time(void) {
  *
  * @return current process name
  */
-const char *elog_port_get_p_info(void) {
-    
-    /* add your code here */
-    return "";
+const char *elog_port_get_p_info(void)
+{
+
+	/* add your code here */
+	return "";
 }
 
 /**
@@ -115,14 +118,11 @@ const char *elog_port_get_p_info(void) {
  *
  * @return current thread name
  */
-const char *elog_port_get_t_info(void) {
-    
-    /* add your code here */
-    return "";
+const char *elog_port_get_t_info(void)
+{
+
+	/* add your code here */
+	return "";
 }
 
-void elog_async_output_notice(void) {
-
-}
-
-
+void elog_async_output_notice(void) {}

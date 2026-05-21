@@ -10,16 +10,16 @@
  */
 void middleware_init(void)
 {
-    /* 初始化 LVGL 核心 */
-    lv_init();
-    
-    /* 初始化显示接口 */
-    lv_port_disp_init();
-    
-    /* 初始化触摸接口 */
-    lv_port_indev_init();
+	/* 初始化 LVGL 核心 */
+	lv_init();
 
-    /* 初始化 lvgl FreeRTOS 任务 */
-    lv_freertos_init();
-    log_i("lv_freertos_init done");
+	/* 初始化显示接口 */
+	lv_port_disp_init();
+
+	/* 初始化触摸接口 */
+	lv_port_indev_init();
+
+	/* 初始化 lvgl FreeRTOS 任务 */
+	lv_freertos_init();
+	log_i("lv_freertos_init done");
 }

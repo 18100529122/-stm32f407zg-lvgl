@@ -2,12 +2,12 @@
 #define LV_FREERTOS_APP_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "cmsis_os.h"
 #include "FreeRTOS.h"
-
 
 /**
  * @brief 初始化 LVGL FreeRTOS 刷新线程

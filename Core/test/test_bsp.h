@@ -4,11 +4,8 @@
 #include "main.h"
 
 /**
-  * @brief 外部 SRAM 测试函数 (通过绝对地址访问)
-  */
-/**
-  * @brief 测试BSP函数，包含SRAM_Test, SRAM_Section_Test 和 LCD_Test
-  */
+ * @brief 测试BSP函数，包含SRAM_Test, SRAM_Section_Test 和 LCD_Test
+ */
 void Test_BSP(void);
 
 /**

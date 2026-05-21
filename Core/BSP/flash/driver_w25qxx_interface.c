@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2015 - present LibDriver All rights reserved
- * 
+ *
  * The MIT License (MIT)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,7 +19,7 @@
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE. 
+ * SOFTWARE.
  *
  * @file      driver_w25qxx_interface_template.c
  * @brief     driver w25qxx interface template source file
@@ -50,7 +50,7 @@
  */
 uint8_t w25qxx_interface_spi_qspi_init(void)
 {
-    return 0;
+	return 0;
 }
 
 /**
@@ -62,7 +62,7 @@ uint8_t w25qxx_interface_spi_qspi_init(void)
  */
 uint8_t w25qxx_interface_spi_qspi_deinit(void)
 {
-    return 0;
+	return 0;
 }
 
 /**
@@ -86,105 +86,102 @@ uint8_t w25qxx_interface_spi_qspi_deinit(void)
  *             - 1 write read failed
  * @note       none
  */
-uint8_t w25qxx_interface_spi_qspi_write_read(uint8_t instruction, uint8_t instruction_line,
-                                             uint32_t address, uint8_t address_line, uint8_t address_len,
-                                             uint32_t alternate, uint8_t alternate_line, uint8_t alternate_len,
-                                             uint8_t dummy, uint8_t *in_buf, uint32_t in_len,
-                                             uint8_t *out_buf, uint32_t out_len, uint8_t data_line)
+uint8_t w25qxx_interface_spi_qspi_write_read(uint8_t instruction, uint8_t instruction_line, uint32_t address, uint8_t address_line, uint8_t address_len, uint32_t alternate, uint8_t alternate_line,
+											 uint8_t alternate_len, uint8_t dummy, uint8_t *in_buf, uint32_t in_len, uint8_t *out_buf, uint32_t out_len, uint8_t data_line)
 {
-    uint8_t temp[5];
+	uint8_t temp[5];
 
-    /* 拉低 CS */
-    HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
-    
-    /* 增加一个极小的延时，确保 CS 稳定 */
-    for (volatile uint32_t i = 0; i < 10; i++);
+	/* 拉低 CS */
+	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
 
-    /* 发送指令 (仅当 instruction_line > 0 时) */
-    if (instruction_line != 0)
-    {
-        if (HAL_SPI_Transmit(&hspi1, &instruction, 1, 1000) != HAL_OK)
-        {
-            HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
-            return 1;
-        }
-    }
+	/* 增加一个极小的延时，确保 CS 稳定 */
+	for (volatile uint32_t i = 0; i < 10; i++);
 
-    /* 发送地址 (仅当 address_line > 0 且 address_len > 0 时) */
-    if (address_line != 0 && address_len > 0)
-    {
-        if (address_len == 3)
-        {
-            temp[0] = (address >> 16) & 0xFF;
-            temp[1] = (address >> 8) & 0xFF;
-            temp[2] = (address >> 0) & 0xFF;
-        }
-        else if (address_len == 4)
-        {
-            temp[0] = (address >> 24) & 0xFF;
-            temp[1] = (address >> 16) & 0xFF;
-            temp[2] = (address >> 8) & 0xFF;
-            temp[3] = (address >> 0) & 0xFF;
-        }
-        if (HAL_SPI_Transmit(&hspi1, temp, address_len, 1000) != HAL_OK)
-        {
-            HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
-            return 1;
-        }
-    }
+	/* 发送指令 (仅当 instruction_line > 0 时) */
+	if (instruction_line != 0)
+	{
+		if (HAL_SPI_Transmit(&hspi1, &instruction, 1, 1000) != HAL_OK)
+		{
+			HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+			return 1;
+		}
+	}
 
-    /* 发送 alternate (仅当 alternate_line > 0 时) */
-    if (alternate_line != 0 && alternate_len > 0)
-    {
-        temp[0] = (alternate >> 0) & 0xFF; 
-        if (HAL_SPI_Transmit(&hspi1, temp, alternate_len, 1000) != HAL_OK)
-        {
-            HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
-            return 1;
-        }
-    }
+	/* 发送地址 (仅当 address_line > 0 且 address_len > 0 时) */
+	if (address_line != 0 && address_len > 0)
+	{
+		if (address_len == 3)
+		{
+			temp[0] = (address >> 16) & 0xFF;
+			temp[1] = (address >> 8) & 0xFF;
+			temp[2] = (address >> 0) & 0xFF;
+		}
+		else if (address_len == 4)
+		{
+			temp[0] = (address >> 24) & 0xFF;
+			temp[1] = (address >> 16) & 0xFF;
+			temp[2] = (address >> 8) & 0xFF;
+			temp[3] = (address >> 0) & 0xFF;
+		}
+		if (HAL_SPI_Transmit(&hspi1, temp, address_len, 1000) != HAL_OK)
+		{
+			HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+			return 1;
+		}
+	}
 
-    /* 发送 dummy cycles (仅在 SPI 模式下，dummy 是时钟周期数，通常是 8 的倍数) */
-    if (dummy > 0)
-    {
-        uint8_t dummy_bytes = dummy / 8;
-         if (dummy_bytes == 0 && dummy > 0) dummy_bytes = 1; // 至少发送 1 字节如果是奇数位
-         
-         memset(temp, 0x00, sizeof(temp));
-         for (uint8_t i = 0; i < dummy_bytes; i++)
-        {
-            if (HAL_SPI_Transmit(&hspi1, &temp[0], 1, 1000) != HAL_OK)
-            {
-                HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
-                return 1;
-            }
-        }
-    }
+	/* 发送 alternate (仅当 alternate_line > 0 时) */
+	if (alternate_line != 0 && alternate_len > 0)
+	{
+		temp[0] = (alternate >> 0) & 0xFF;
+		if (HAL_SPI_Transmit(&hspi1, temp, alternate_len, 1000) != HAL_OK)
+		{
+			HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+			return 1;
+		}
+	}
 
-    /* 写入数据 (in_buf) */
-    if (in_len > 0)
-    {
-        if (HAL_SPI_Transmit(&hspi1, in_buf, in_len, 1000) != HAL_OK)
-        {
-            HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
-            return 1;
-        }
-    }
+	/* 发送 dummy cycles (仅在 SPI 模式下，dummy 是时钟周期数，通常是 8 的倍数) */
+	if (dummy > 0)
+	{
+		uint8_t dummy_bytes = dummy / 8;
+		if (dummy_bytes == 0 && dummy > 0) dummy_bytes = 1; // 至少发送 1 字节如果是奇数位
 
-    /* 读取数据 (out_buf) */
-    if (out_len > 0)
-    {
-        if (HAL_SPI_Receive(&hspi1, out_buf, out_len, 1000) != HAL_OK)
-        {
-            HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
-            return 1;
-        }
-    }
+		memset(temp, 0x00, sizeof(temp));
+		for (uint8_t i = 0; i < dummy_bytes; i++)
+		{
+			if (HAL_SPI_Transmit(&hspi1, &temp[0], 1, 1000) != HAL_OK)
+			{
+				HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+				return 1;
+			}
+		}
+	}
 
-    /* 拉高 CS */
-    HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+	/* 写入数据 (in_buf) */
+	if (in_len > 0)
+	{
+		if (HAL_SPI_Transmit(&hspi1, in_buf, in_len, 1000) != HAL_OK)
+		{
+			HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+			return 1;
+		}
+	}
 
-    return 0;
+	/* 读取数据 (out_buf) */
+	if (out_len > 0)
+	{
+		if (HAL_SPI_Receive(&hspi1, out_buf, out_len, 1000) != HAL_OK)
+		{
+			HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+			return 1;
+		}
+	}
+
+	/* 拉高 CS */
+	HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_SET);
+
+	return 0;
 }
 
 /**
@@ -194,7 +191,7 @@ uint8_t w25qxx_interface_spi_qspi_write_read(uint8_t instruction, uint8_t instru
  */
 void w25qxx_interface_delay_ms(uint32_t ms)
 {
-    delay_ms(ms);
+	delay_ms(ms);
 }
 
 /**
@@ -204,7 +201,7 @@ void w25qxx_interface_delay_ms(uint32_t ms)
  */
 void w25qxx_interface_delay_us(uint32_t us)
 {
-    delay_us(us);
+	delay_us(us);
 }
 
 /**
@@ -214,9 +211,9 @@ void w25qxx_interface_delay_us(uint32_t us)
  */
 void w25qxx_interface_debug_print(const char *const fmt, ...)
 {
-    va_list args;
+	va_list args;
 
-    va_start(args, fmt);
-    vprintf(fmt, args);
-    va_end(args);
+	va_start(args, fmt);
+	vprintf(fmt, args);
+	va_end(args);
 }

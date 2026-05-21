@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2015 - present LibDriver All rights reserved
- * 
+ *
  * The MIT License (MIT)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,7 +19,7 @@
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE. 
+ * SOFTWARE.
  *
  * @file      driver_w25qxx_advance.h
  * @brief     driver w25qxx advance header file
@@ -40,7 +40,8 @@
 #include "driver_w25qxx_interface.h"
 
 #ifdef __cplusplus
-extern "C"{
+extern "C"
+{
 #endif
 
 /**
@@ -385,7 +386,7 @@ uint8_t w25qxx_advance_only_spi_fast_read_quad_io(uint32_t addr, uint8_t *data, 
  * @note       none
  */
 uint8_t w25qxx_advance_only_spi_word_read_quad_io(uint32_t addr, uint8_t *data, uint32_t len);
- 
+
 /**
  * @brief      advance example octal word read only in the spi quad io interface
  * @param[in]  addr read address

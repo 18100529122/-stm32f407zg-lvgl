@@ -15,14 +15,8 @@
 #include "bsp.h"
 #include "gt9xxx.h"
 
-_m_tp_dev tp_dev =
-{
-    tp_init,
-    gt9xxx_scan,
-    {0},
-    {0},
-    0,
-    0x80,   /* 默认电容屏 */
+_m_tp_dev tp_dev = {
+	tp_init, gt9xxx_scan, {0}, {0}, 0, 0x80,	 /* 默认电容屏 */
 };
 
 /**
@@ -32,13 +26,13 @@ _m_tp_dev tp_dev =
  */
 uint8_t tp_init(void)
 {
-    /* 针对 ID 为 0x9806 的屏幕，直接初始化 GT9xxx */
-    if (gt9xxx_init() == 0)
-    {
-        tp_dev.scan = gt9xxx_scan;
-        tp_dev.touchtype |= 0X80;   /* 电容屏标记 */
-        return 0;
-    }
-    
-    return 1;
+	/* 针对 ID 为 0x9806 的屏幕，直接初始化 GT9xxx */
+	if (gt9xxx_init() == 0)
+	{
+		tp_dev.scan = gt9xxx_scan;
+		tp_dev.touchtype |= 0X80;	  /* 电容屏标记 */
+		return 0;
+	}
+
+	return 1;
 }

@@ -110,6 +110,34 @@ Core/
 - **底层驱动**: STM32Cube HAL 库
 - **开发工具**: STM32CubeIDE
 
+## 代码规范与格式化
+
+本项目使用 `clang-format` 工具进行 C/C++ 代码格式化，以确保代码风格的统一性。
+
+- **格式化风格**: 基于 LLVM 风格，并进行以下自定义配置：
+  - 使用 Tab 缩进，Tab 宽度为 4。
+  - 函数、`if`/`for`/`while` 语句的大括号另起一行 (Allman 风格)。
+  - `extern "C"` 块内部不进行额外缩进。
+  - 行宽限制为 200 个字符。
+  - 函数参数尽可能打包到一行。
+  - 行尾注释前有两个空格。
+
+- **配置文件**: 项目根目录下的 [.clang-format](file:///c:/work/github/-stm32f407zg-lvgl/.clang-format) 文件定义了详细的格式化规则。
+
+- **快速格式化**:
+  为了方便地对项目代码进行格式化，我们提供了一个 PowerShell 脚本。
+
+  1.  **安装 `clang-format`**:
+      请参考 `clang-format` 官方文档安装最新版本，或从 [LLVM 发布页面](https://releases.llvm.org/download.html) 下载适用于 Windows 的 LLVM 安装程序，并提取 `clang-format.exe` 到 `C:\work\github\-stm32f407zg-lvgl\tools` 目录下。
+
+  2.  **运行格式化脚本**:
+      打开 PowerShell 终端，导航到项目根目录 (`C:\work\github\-stm32f407zg-lvgl`)，然后运行：
+      ```powershell
+      .\tools\format_code.ps1
+      ```
+      该脚本将自动遍历 `Core/BSP` 和 `Core/app` 目录下的所有 `.c` 和 `.h` 文件并进行格式化。
+      **注意**: 在运行脚本前，请确保您已备份代码或使用版本控制，因为格式化操作会直接修改文件内容。
+
 ## 快速开始
 
 1. **环境准备**: 安装 STM32CubeIDE (建议 v1.15.0+)。

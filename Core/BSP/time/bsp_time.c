@@ -10,7 +10,7 @@ extern TIM_HandleTypeDef htim5;
  */
 void bsp_time_init(void)
 {
-    HAL_TIM_Base_Start(&htim5); // 启动TIM5定时器
+	HAL_TIM_Base_Start(&htim5); // 启动TIM5定时器
 }
 
 /**
@@ -19,5 +19,5 @@ void bsp_time_init(void)
  */
 uint32_t bsp_time_get_us(void)
 {
-    return __HAL_TIM_GET_COUNTER(&htim5);
+	return __HAL_TIM_GET_COUNTER(&htim5);
 }

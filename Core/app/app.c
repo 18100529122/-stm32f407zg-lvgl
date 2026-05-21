@@ -7,9 +7,9 @@
  */
 void app_init(void)
 {
-    /* 初始化数据处理后台任务 */
-    app_data_process_init();
-    log_i("app_data_process_init done");
-    
-    /* 后续可在此添加其他业务任务的初始化 */
+	/* 初始化数据处理后台任务 */
+	app_data_process_init();
+	log_i("app_data_process_init done");
+
+	/* 后续可在此添加其他业务任务的初始化 */
 }

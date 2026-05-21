@@ -11,7 +11,8 @@
 #define LV_PORT_INDEV_TEMPL_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 /*********************
