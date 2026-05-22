@@ -33,7 +33,7 @@
 
 本项目充分利用了 STM32F407 的片内 SRAM 和 1MB 外部 SRAM，以平衡高性能计算与大容量显示缓存的需求。
 
-### 1. 片内 SRAM (Total: ~127.7 KB)
+### 1. 片内 SRAM (Total: ~135.2 KB)
 片内 SRAM 主要用于 FreeRTOS 堆栈、高速信号处理缓冲区及 LVGL 绘制中间层。
 
 | 模块 | 用途 | 大小 | 存储位置 |
@@ -46,6 +46,8 @@
 | **FFT 运算** | FFT 输入/输出缓存 (2048 float32 * 2) | 16 KB | SRAM1 |
 | **信号处理** | 任务局部静态变量 (2048 float32) | 8 KB | SRAM1 |
 | **信号结果** | FFT 结果与应用层数据结果 | 9.3 KB | SRAM1 |
+| **EasyFlash** | 运行时数据与缓存 | 1 KB | SRAM1 |
+| **EasyLogger** | 内部配置与缓冲 | 0.5 KB | SRAM1 |
 | **其他** | HAL 驱动、串口缓存及系统全局变量 | ~4 KB | SRAM1 |
 
 ### 2. 外部 SRAM (Total: ~439 KB)
@@ -72,6 +74,8 @@ Core/
 │   ├── lcd_touch/      # GT9xxx 触摸驱动 (软件 I2C)
 │   └── time/           # 高精度延时与时间戳工具
 ├── Middleware/         # 中间件层
+│   ├── easyflash/      # 轻量级 Flash 存储库 (用于环境变量、数据存储)
+│   ├── easylogger/     # 嵌入式系统日志库 (用于系统调试和信息输出)
 │   └── lvgl/           # LVGL 图形库核心及适配层 (porting)
 ├── Inc/                # 系统核心头文件
 └── Src/                # 系统核心实现 (main, freertos 等)
