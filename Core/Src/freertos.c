@@ -34,6 +34,8 @@
 
 #include "lv_freeRTOS.h"
 #include "app_data_fft.h"
+#include "easyflash.h"
+#include "elog.h"
 
 #include <stdio.h>
 /* USER CODE END Includes */

@@ -28,6 +28,7 @@
 
 #include <easyflash.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include "driver_w25qxx_basic.h"
 #include "driver_w25qxx_advance.h"
 
@@ -155,12 +156,14 @@ void ef_log_debug(const char *file, const long line, const char *format, ...) {
 #ifdef PRINT_DEBUG
 
     va_list args;
+    char log_buf[256];
 
     /* args point to the first variable parameter */
     va_start(args, format);
 
     /* You can add your code under here. */
-    log_d(format, args);
+    vsnprintf(log_buf, sizeof(log_buf), format, args);
+    log_d("%s:%ld %s", file, line, log_buf);
     
     va_end(args);
 
@@ -176,12 +179,14 @@ void ef_log_debug(const char *file, const long line, const char *format, ...) {
  */
 void ef_log_info(const char *format, ...) {
     va_list args;
+    char log_buf[256];
 
     /* args point to the first variable parameter */
     va_start(args, format);
 
     /* You can add your code under here. */
-    log_i(format, args);
+    vsnprintf(log_buf, sizeof(log_buf), format, args);
+    log_i("%s", log_buf);
     
     va_end(args);
 }
@@ -194,12 +199,14 @@ void ef_log_info(const char *format, ...) {
  */
 void ef_print(const char *format, ...) {
     va_list args;
+    char log_buf[256];
 
     /* args point to the first variable parameter */
     va_start(args, format);
 
     /* You can add your code under here. */
-    log_i(format, args);
+    vsnprintf(log_buf, sizeof(log_buf), format, args);
+    log_i("%s", log_buf);
     
     va_end(args);
 }

@@ -18,4 +18,9 @@ void LCD_Test(void);
  */
 void W25QXX_Test(void);
 
+/**
+ * @brief EasyFlash 测试
+ */
+void EasyFlash_Test(void);
+
 #endif /* __TEST_BSP_H */

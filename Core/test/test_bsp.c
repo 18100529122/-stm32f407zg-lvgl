@@ -5,6 +5,8 @@
 #include "touch.h"
 #include "driver_w25qxx_basic.h"
 #include "elog.h"
+#include "easyflash.h"
+
 
 #ifndef TEST_SRAM_DEBUG
 #define TEST_SRAM_DEBUG 0
@@ -229,6 +231,96 @@ void Touch_Test(void)
 	}
 }
 
+
+/**
+ * @brief EasyFlash 测试
+ */
+void EasyFlash_Test(void)
+{
+    log_i("--- EasyFlash Test Start ---\n");
+
+    /* 1. 设置字符串环境变量 */
+    const char *str_key = "hello_easyflash";
+    const char *str_value = "Hello from EasyFlash!";
+    ef_set_env(str_key, str_value);
+    log_i("Set string env '%s' = '%s'\n", str_key, str_value);
+
+    /* 2. 获取并验证字符串环境变量 */
+    char *read_str_value = ef_get_env(str_key);
+    if (read_str_value != NULL)
+    {
+        log_i("Get string env '%s' = '%s'\n", str_key, read_str_value);
+        if (strcmp(read_str_value, str_value) == 0)
+        {
+            log_i("String env verification PASSED!\n");
+        }
+        else
+        {
+            log_e("String env verification FAILED!\n");
+        }
+        // 注意：ef_get_env 返回的字符串通常指向内部缓冲区，不需要手动释放
+    }
+    else
+    {
+        log_e("Failed to get string env '%s'\n", str_key);
+    }
+
+    /* 3. 设置 blob (二进制) 环境变量 */
+    typedef struct {
+        uint32_t magic;
+        float temperature;
+        char name[16];
+    } my_data_t;
+
+    my_data_t write_blob_data = {
+        .magic = 0xDEADBEEF,
+        .temperature = 25.5f,
+        .name = "SensorData"
+    };
+    const char *blob_key = "sensor_data";
+    ef_set_env_blob(blob_key, &write_blob_data, sizeof(my_data_t));
+    log_i("Set blob env '%s' with size %u\n", blob_key, sizeof(my_data_t));
+
+    /* 4. 获取并验证 blob 环境变量 */
+    my_data_t read_blob_data;
+    size_t read_len;
+    size_t get_blob_result = ef_get_env_blob(blob_key, &read_blob_data, sizeof(my_data_t), &read_len);
+    if (get_blob_result > 0)
+    {
+        log_i("Get blob env '%s': magic=0x%X, temp=%.1f, name='%s', read_len=%u\n",
+              blob_key, (unsigned int)read_blob_data.magic, read_blob_data.temperature,
+              read_blob_data.name, (unsigned int)read_len);
+        if (memcmp(&write_blob_data, &read_blob_data, sizeof(my_data_t)) == 0)
+        {
+            log_i("Blob env verification PASSED!\n");
+        }
+        else
+        {
+            log_e("Blob env verification FAILED!\n");
+        }
+    }
+    else
+    {
+        log_e("Failed to get blob env '%s'\n", blob_key);
+    }
+
+    /* 5. 打印所有环境变量 */
+    log_i("--- All EasyFlash Environment Variables ---\n");
+    ef_print_env();
+    log_i("-------------------------------------------\n");
+
+    /* 6. 删除一个环境变量 */
+    ef_del_env(str_key);
+    log_i("Deleted env '%s'\n", str_key);
+
+    /* 7. 再次打印，确认删除成功 */
+    log_i("--- After Deletion ---\n");
+    ef_print_env();
+    log_i("----------------------\n");
+
+    log_i("--- EasyFlash Test End ---\n");
+}
+
 /**
  * @brief 测试BSP函数，包含SRAM_Test和SRAM_Section_Test
  */
@@ -241,6 +333,8 @@ void Test_BSP(void)
 
 	// LCD_Test();      // test LCD
 	W25QXX_Test();	// test W25QXX SPI Flash
+    EasyFlash_Test(); // test EasyFlash
 
 	log_i("Test_BSP done!\n");
 }
+
