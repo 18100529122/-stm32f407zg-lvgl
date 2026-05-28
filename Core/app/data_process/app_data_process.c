@@ -16,11 +16,16 @@
 
 app_data_result_t g_app_data_result;
 
+/* 外部 SRAM 中的 PRPD 和 TOF 矩阵 */
+static __attribute__((section(".ext_sram_data"))) uint16_t s_prpd_matrix[PRPD_AMP_BINS][PRPD_PHASE_BINS];
+static __attribute__((section(".ext_sram_data"))) uint16_t s_tof_matrix[TOF_AMP_BINS][TOF_TIME_BINS];
+
 /* FFT 输入缓冲区 (片内 SRAM) */
 static float32_t f32_data[ADC_DMA_BUFF_SIZE];
 
 static void app_data_process_task(void *argument);
-static void app_data_process_update_tof(float32_t *data, uint32_t len);
+static void app_data_process_update_tof(float32_t *data, uint32_t len, uint32_t base_sample_idx);
+static void app_data_process_update_prpd(float32_t *data, uint32_t len, uint32_t base_sample_idx);
 
 /**
  * @brief 数据处理任务初始化
@@ -30,13 +35,28 @@ void app_data_process_init(void)
 	app_data_fft_init();
 	app_data_create_init();
 
-	/* 初始化飞行图谱参数 */
-	g_app_data_result.trigger_thr_mv = 5.0f; /* 触发阈值设为 5.0mV，适应 0-20mV 图谱范围 */
+	/* 初始化数据处理结果结构体中的各项参数 */
+	g_app_data_result.trigger_thr_mv = 5.0f;  /* 触发阈值设为 5.0mV，适应 0-20mV 图谱范围 */
+	g_app_data_result.note_thr_mv = 20.0f;    /* 注意阈值(mV) 0-70 默认20.0 */
+	g_app_data_result.alarm_thr_mv = 20.0f;   /* 告警阈值(mV) 0-70 默认20.0 */
+	g_app_data_result.count_thr = 5;          /* 计数阈值 0-160 默认 5 */
+	g_app_data_result.phase_offset = 0;       /* 相位偏移 0-360 默认0 */
+	g_app_data_result.gain_type_auto = false; /* 增益类型 0自动 1手动 默认手动 */
+	g_app_data_result.gain = 40;              /* 信号增益 40 60 80 默认40 */
+	g_app_data_result.unit_select_dBuV = true; /* 单位选择 0:dBuV 1:uV 默认dBuV */
+	g_app_data_result.flight_period = 2;      /* 飞行周期 2T 5T 10T 默认2T */
+	g_app_data_result.channel_select_int = true; /* 通道选择 0:内置超声 1:外置超声 默认内置超声 */
+
 	g_app_data_result.adc_restart_cnt = 0;   /* 初始化 ADC 重启计数 */
 	g_app_data_result.adc_sample_cnt = 0;	  /* 初始化 ADC 采样点计数 */
 	g_app_data_result.adc_valid_sample_cnt = 0; /* 初始化 ADC 有效采样点计数 */
 
+	/* 将外部 SRAM 数组的地址赋值给结构体中的指针 */
+	g_app_data_result.prpd_matrix_ptr = s_prpd_matrix;
+	g_app_data_result.tof_matrix_ptr = s_tof_matrix;
+
 	app_data_process_reset_tof();
+	app_data_process_reset_prpd();
 
 	/* 增加堆栈大小到 4096，防止 FFT 和 easylogger 导致溢出 */
 	xTaskCreate(app_data_process_task, "adc_process", 4096, NULL, osPriorityAboveNormal, NULL);
@@ -47,9 +67,18 @@ void app_data_process_init(void)
  */
 void app_data_process_reset_tof(void)
 {
-	memset(g_app_data_result.tof_matrix, 0, sizeof(g_app_data_result.tof_matrix));
+	memset(g_app_data_result.tof_matrix_ptr, 0, sizeof(s_tof_matrix));
 	g_app_data_result.tof_point_cnt = 0;
 	g_app_data_result.last_pulse_sample_idx = 0;
+}
+
+/**
+ * @brief 重置PRPD图谱矩阵
+ */
+void app_data_process_reset_prpd(void)
+{
+	memset(g_app_data_result.prpd_matrix_ptr, 0, sizeof(s_prpd_matrix));
+	g_app_data_result.prpd_point_cnt = 0;
 }
 
 /**
@@ -128,7 +157,16 @@ uint16_t app_data_process_get_tof_bin(uint8_t amp_idx, uint8_t time_idx)
 {
 	if (amp_idx < TOF_AMP_BINS && time_idx < TOF_TIME_BINS)
 	{
-		return g_app_data_result.tof_matrix[amp_idx][time_idx];
+		return g_app_data_result.tof_matrix_ptr[amp_idx][time_idx];
+	}
+	return 0;
+}
+
+uint16_t app_data_process_get_prpd_bin(uint8_t amp_idx, uint8_t phase_idx)
+{
+	if (amp_idx < PRPD_AMP_BINS && phase_idx < PRPD_PHASE_BINS)
+	{
+		return g_app_data_result.prpd_matrix_ptr[amp_idx][phase_idx];
 	}
 	return 0;
 }
@@ -169,6 +207,7 @@ static void app_data_process_task(void *argument)
 				/* 2. 执行 FFT 计算 */
 				app_data_fft_compute(f32_data, ADC_DMA_BUFF_SIZE);
 
+				uint32_t current_base_sample_idx = g_app_data_result.adc_valid_sample_cnt;
 				g_app_data_result.adc_valid_sample_cnt += ADC_DMA_BUFF_SIZE;// 有效采样点计数
 
 				/* 3. 直接使用 float32_t 数据进行峰值和 RMS 计算 */
@@ -192,12 +231,17 @@ static void app_data_process_task(void *argument)
 				}
 
 				/* 更新飞行图谱 (ToF) */
-				app_data_process_update_tof(f32_data, ADC_DMA_BUFF_SIZE);
+				app_data_process_update_tof(f32_data, ADC_DMA_BUFF_SIZE, current_base_sample_idx);
 
-				/* 当累计点数超过 2000 个时，自动重置图谱，以保持显示的实时性并防止矩阵饱和 */
-				if (g_app_data_result.tof_point_cnt > 2000)
+				/* 更新PRPD图谱 */
+				app_data_process_update_prpd(f32_data, ADC_DMA_BUFF_SIZE, current_base_sample_idx);
+
+				/* 当累计采样点数超过 flight_period 个工频周期时，自动重置图谱 */
+				if (g_app_data_result.adc_valid_sample_cnt >= g_app_data_result.flight_period * 2000)
 				{
 					app_data_process_reset_tof();
+					app_data_process_reset_prpd();
+					g_app_data_result.adc_valid_sample_cnt = 0; // 重置计数
 				}
 
 				/* 清除该块的已满标志 */
@@ -219,14 +263,10 @@ static void app_data_process_task(void *argument)
  * @param data ADC 原始数据 (抽点后)
  * @param len 数据长度
  */
-static void app_data_process_update_tof(float32_t *data, uint32_t len)
+static void app_data_process_update_tof(float32_t *data, uint32_t len, uint32_t base_sample_idx)
 {
-	static uint32_t total_sample_cnt = 0;
-
 	for (uint32_t i = 0; i < len; i++)
 	{
-		total_sample_cnt++;
-
 		/* 转换为 mV (ADC 12bit, 3.3V基准)
 		   预计算常量: 3300.0f / 4096.0f * 0.005f = 0.0040283203125f
 		   或者简化为 3.3f * 0.005f / 4096.0f = 0.0165f / 4096.0f
@@ -248,19 +288,19 @@ static void app_data_process_update_tof(float32_t *data, uint32_t len)
 				{
 					/* 检测到有效脉冲峰值 */
 
-					/* 计算相位索引 (采样率 100,000Hz, 工频 50Hz -> 每周期 2000 个点) */
-					/* 映射到 100 个 Time Bins，即每 20 个采样点为一个 Bin */
-					int phase_idx = (total_sample_cnt % 2000) / 20;
+					/* 计算时间索引 (映射到 flight_period 个工频周期) */
+					uint32_t total_tof_samples = SAMPLES_PER_50HZ_CYCLE * g_app_data_result.flight_period;
+					int time_idx = ((base_sample_idx + i) % total_tof_samples) / (total_tof_samples / TOF_TIME_BINS);
 
 					/* 映射到幅值矩阵索引 (0-20mV -> 40 bins, 0.5mV/bin) */
 					int amp_idx = (int)(mv * 2.0f); // mv / 0.5f 等价于 mv * 2.0f
 
-					if (amp_idx < TOF_AMP_BINS && phase_idx < TOF_TIME_BINS)
+					if (amp_idx < TOF_AMP_BINS && time_idx < TOF_TIME_BINS)
 					{
 						/* 增加计数，限制最大值为 65535 */
-						if (g_app_data_result.tof_matrix[amp_idx][phase_idx] < 65535)
+						if (g_app_data_result.tof_matrix_ptr[amp_idx][time_idx] < 65535)
 						{
-							g_app_data_result.tof_matrix[amp_idx][phase_idx]++;
+							g_app_data_result.tof_matrix_ptr[amp_idx][time_idx]++;
 							g_app_data_result.tof_point_cnt++;
 						}
 						else
@@ -270,7 +310,56 @@ static void app_data_process_update_tof(float32_t *data, uint32_t len)
 						}
 					}
 					/* 更新上一个脉冲的时间戳 (保留用于其他可能的统计) */
-					g_app_data_result.last_pulse_sample_idx = total_sample_cnt;
+					g_app_data_result.last_pulse_sample_idx = base_sample_idx + i;
+				}
+			}
+		}
+	}
+}
+
+/**
+ * @brief 更新PRPD图谱统计矩阵
+ * @param data ADC 原始数据 (抽点后)
+ * @param len 数据长度
+ */
+static void app_data_process_update_prpd(float32_t *data, uint32_t len, uint32_t base_sample_idx)
+{
+	for (uint32_t i = 0; i < len; i++)
+	{
+		float32_t mv = data[i] * 0.0040283203f; // 转换为 mV (同 tof 转换方式)
+
+		/* 脉冲峰值检测 (同 tof 逻辑) */
+		if (mv > g_app_data_result.trigger_thr_mv)
+		{
+			if (i > 0 && i < len - 1)
+			{
+				if (data[i] > data[i - 1] && data[i] >= data[i + 1])
+				{
+					/* 检测到有效脉冲峰值 */
+
+					/* 计算相位索引 (采样率 100,000Hz, 工频 50Hz -> 每周期 2000 个点) */
+					/* 映射到 PRPD_PHASE_BINS 个相位区间 */
+					uint32_t sample_offset_equivalent = (uint32_t)(g_app_data_result.phase_offset * (SAMPLES_PER_50HZ_CYCLE / 360.0f));
+					int adjusted_sample_pos = ((base_sample_idx + i) % SAMPLES_PER_50HZ_CYCLE + sample_offset_equivalent) % SAMPLES_PER_50HZ_CYCLE;
+					int phase_idx = adjusted_sample_pos / (SAMPLES_PER_50HZ_CYCLE / PRPD_PHASE_BINS);
+
+					/* 映射到幅值矩阵索引 (0-20mV -> PRPD_AMP_BINS bins, 0.5mV/bin) */
+					int amp_idx = (int)(mv * 2.0f); // mv / 0.5f 等价于 mv * 2.0f
+
+					if (amp_idx < PRPD_AMP_BINS && phase_idx < PRPD_PHASE_BINS)
+					{
+						/* 增加计数，限制最大值为 65535 */
+						if (g_app_data_result.prpd_matrix_ptr[amp_idx][phase_idx] < 65535)
+						{
+							g_app_data_result.prpd_matrix_ptr[amp_idx][phase_idx]++;
+							g_app_data_result.prpd_point_cnt++;
+						}
+						else
+						{
+							/* 计数溢出，重置矩阵 */
+							app_data_process_reset_prpd();
+						}
+					}
 				}
 			}
 		}

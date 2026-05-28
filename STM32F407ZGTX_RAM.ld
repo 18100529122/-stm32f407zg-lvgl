@@ -48,6 +48,8 @@ MEMORY
   CCMRAM    (xrw)    : ORIGIN = 0x10000000,   LENGTH = 64K
   RAM    (xrw)    : ORIGIN = 0x20000000,   LENGTH = 128K
   FLASH    (rx)    : ORIGIN = 0x8000000,   LENGTH = 1024K
+  EXT_SRAM_TOTAL (xrw) : ORIGIN = 0x68000000,   LENGTH = 1024K /* 1MB External SRAM (总览，不直接分配) */
+  EXT_SRAM_APP_DATA (xrw) : ORIGIN = 0x68070000, LENGTH = 576K /* 应用层数据专用外部SRAM，避开LVGL区域 */
 }
 
 /* Sections */
@@ -185,6 +187,17 @@ SECTIONS
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
   } >RAM
+
+  /* External SRAM sections */
+  .ext_sram_data :
+  {
+    . = ALIGN(4);
+    _s_ext_sram_data = .; /* create a global symbol at ext_sram_data start */
+    *(.ext_sram_data)     /* .ext_sram_data sections */
+    *(.ext_sram_data*)    /* .ext_sram_data* sections */
+    . = ALIGN(4);
+    _e_ext_sram_data = .; /* create a global symbol at ext_sram_data end */
+  } >EXT_SRAM_APP_DATA
 
   /* User_heap_stack section, used to check that there is enough "RAM" Ram  type memory left */
   ._user_heap_stack :

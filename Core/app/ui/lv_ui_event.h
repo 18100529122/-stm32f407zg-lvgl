@@ -2,6 +2,7 @@
 #define LV_UI_EVENT_H
 
 #include "lvgl.h"
+#include "app_data_process.h" // 添加此行
 
 #ifdef __cplusplus
 extern "C"
@@ -34,8 +35,9 @@ typedef struct
 	char *data50hz_data;	 /**< 50Hz 值数据字符串 */
 	char *data100hz_data;  /**< 100Hz 值数据字符串 */
 
-	uint16_t *tof_matrix;  /**< 飞行图谱矩阵数据指针 */
-	uint16_t adc_wave[512]; /**< ADC 波形数据指针 */
+	uint16_t (*prpd_matrix_ptr)[PRPD_PHASE_BINS]; /**< PRPD图谱矩阵数据指针 */
+	uint16_t (*tof_matrix_ptr)[TOF_TIME_BINS];  /**< 飞行图谱矩阵数据指针 */
+	uint16_t *adc_wave_ptr;  /**< ADC 波形数据指针 */
 } lv_ui_data_t;
 
 /**

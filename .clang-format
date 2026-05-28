@@ -12,7 +12,7 @@ IndentExternBlock: false
 AlignConsecutiveMacros: AcrossEmptyLinesAndComments
 
 #  对齐尾部注释
-AlignTrailingComments: Leave
+AlignTrailingComments: true
  
 # 访问修饰符偏移 
 AccessModifierOffset: -4 # -4就是public顶格

@@ -59,7 +59,7 @@ void prpd_chart_draw_event_cb(lv_event_t *e)
 		{
 			for (int t = 0; t < TOF_TIME_BINS; t++)
 			{
-				uint16_t count = result->tof_matrix[a][t];
+				uint16_t count = result->tof_matrix_ptr[a][t];
 				if (count > 0)
 				{
 					/* 计算屏幕坐标 */
@@ -155,7 +155,7 @@ void lv_ui_data_update(lv_ui_data_t *data)
 				for (int i = 0; i < 512; i++)
 				{
 					/* 转换为 mV (与 ToF 矩阵相同的映射逻辑: 3000mV -> 15mV) */
-					float mv = ((float)data->adc_wave[i] * 3300.0f / 4096.0f) * 0.005f;
+					float mv = ((float)data->adc_wave_ptr[i] * 3300.0f / 4096.0f) * 0.005f;
 					/* 放大 100 倍存入图表，以匹配 0-2000 的范围，消除阶梯感 */
 					lv_chart_set_next_value(screen_chart2_chart, ser_sine, (int16_t)(mv * 100.0f));
 				}
@@ -174,7 +174,7 @@ void lv_ui_data_update(lv_ui_data_t *data)
  */
 void screen_chart_init(void)
 {
-	lv_ui_data_t init_data = {.rms = 0, .max = 0, .data50hz = 0, .data100hz = 0, .rms_data = "0", .max_data = "0", .data50hz_data = "0", .data100hz_data = "0", .tof_matrix = NULL};
+	lv_ui_data_t init_data = {.rms = 0, .max = 0, .data50hz = 0, .data100hz = 0, .rms_data = "0", .max_data = "0", .data50hz_data = "0", .data100hz_data = "0", .prpd_matrix_ptr = NULL, .tof_matrix_ptr = NULL, .adc_wave_ptr = NULL};
 	lv_ui_data_update(&init_data);// 初始化图表数据
 }
 

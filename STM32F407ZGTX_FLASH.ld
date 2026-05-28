@@ -49,8 +49,8 @@ MEMORY
   RAM    (xrw)    : ORIGIN = 0x20000000,   LENGTH = 128K
   FLASH    (rx)    : ORIGIN = 0x8000000,   LENGTH = 1024K
   /* 外部 SRAM 总计 1024KB: 前 448KB 留给 LVGL (64KB Heap + 187.5KB * 2 Disp), 剩余 576KB 供编译器使用 */
-  LVGL_RAM (xrw)    : ORIGIN = 0x68000000,   LENGTH = 448K
-  EXTSRAM  (xrw)    : ORIGIN = 0x68070000,   LENGTH = 576K
+  LVGL_RAM          (xrw)    : ORIGIN = 0x68000000,   LENGTH = 448K
+  EXT_SRAM_APP_DATA (xrw)    : ORIGIN = 0x68070000,   LENGTH = 576K /* 应用层数据专用外部SRAM，避开LVGL区域 */
 }
 
 /* Sections */
@@ -211,13 +211,13 @@ SECTIONS
   .ARM.attributes 0 : { *(.ARM.attributes) }
 
   /* External SRAM section */
-  .ext_sram (NOLOAD) :
+  .ext_sram_data (NOLOAD) : /* 将段名称修改为 .ext_sram_data */
   {
     . = ALIGN(4);
     _sextsram = .;
-    *(.ext_sram)
-    *(.ext_sram*)
+    *(.ext_sram_data)     /* 修改为 .ext_sram_data */
+    *(.ext_sram_data*)    /* 修改为 .ext_sram_data* */
     . = ALIGN(4);
     _eextsram = .;
-  } >EXTSRAM
+  } >EXT_SRAM_APP_DATA /* 将段放置到 EXT_SRAM_APP_DATA 区域 */
 }

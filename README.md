@@ -45,19 +45,22 @@
 | **ADC FIFO** | 处理后的 FIFO 数据块 (4 * 2048 uint16) | 16.4 KB | SRAM1 |
 | **FFT 运算** | FFT 输入/输出缓存 (2048 float32 * 2) | 16 KB | SRAM1 |
 | **信号处理** | 任务局部静态变量 (2048 float32) | 8 KB | SRAM1 |
-| **信号结果** | FFT 结果与应用层数据结果 | 9.3 KB | SRAM1 |
+| **信号结果** | FFT 结果与应用层数据结果 (结构体部分) | ~5.2 KB | SRAM1 |
 | **EasyFlash** | 运行时数据与缓存 | 1 KB | SRAM1 |
 | **EasyLogger** | 内部配置与缓冲 | 0.5 KB | SRAM1 |
 | **其他** | HAL 驱动、串口缓存及系统全局变量 | ~4 KB | SRAM1 |
+| **总计 (Total)** | | **~131.1 KB** | SRAM1/SRAM2 |
 
-### 2. 外部 SRAM (Total: ~439 KB)
-通过 FSMC 接口访问 1MB 外部 SRAM，主要用于大规模显示缓冲区和动态内存池。
+### 2. 外部 SRAM (Total: 1024 KB)
+通过 FSMC 接口访问 1MB 外部 SRAM (1024 KB)，用于大规模显示缓冲区、动态内存池和应用层大型数据。
+
+**内存划分**:
 
 | 模块 | 起始地址 | 长度 | 用途 |
 | :--- | :--- | :--- | :--- |
 | **LVGL Heap** | `0x68000000` | 64 KB | LVGL 动态内存池 (`lv_malloc`) |
 | **LVGL Disp** | `0x68010000` | 375 KB | 800*120*2 双缓冲区 (Partial Render) |
-| **EXT SRAM** | `0x68070000` | 576 KB | 编译器管理区域 (`.ext_sram`) |
+| **应用数据 (PRPD/ToF)** | `0x68070000` | 576 KB | 局部放电 PRPD/ToF 矩阵 (`.ext_sram_data`) |
 
 ## 代码文件结构
 

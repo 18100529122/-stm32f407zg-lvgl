@@ -40,9 +40,11 @@ static void lvgl_data_update_timer_cb(lv_timer_t *timer)
 	ui_data.data100hz_data = app_data_process_get_freq_100hz_str();
 
 	// 获取 ADC 波形数据
-	memcpy(ui_data.adc_wave, app_data_process_get_result()->adc_wave, sizeof(ui_data.adc_wave));
+	ui_data.adc_wave_ptr = app_data_process_get_result()->adc_wave;
 	// 获取飞行图谱矩阵数据
-	ui_data.tof_matrix = (uint16_t *)app_data_process_get_result()->tof_matrix;
+	ui_data.tof_matrix_ptr = app_data_process_get_result()->tof_matrix_ptr;
+	// 获取PRPD图谱矩阵数据
+	ui_data.prpd_matrix_ptr = app_data_process_get_result()->prpd_matrix_ptr;
 
 	// log_i("rms:%s, max:%s, 50Hz:%s, 100Hz:%s",
 	//     ui_data.rms_data, ui_data.max_data, ui_data.data50hz_data, ui_data.data100hz_data);
