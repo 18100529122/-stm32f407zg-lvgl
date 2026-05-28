@@ -1,8 +1,0 @@
-import os
-
-cwd = os.getcwd()
-src = Glob('*.c')
-
-src = SConscript(os.path.join('src', 'SConscript'))
-
-Return('src')
