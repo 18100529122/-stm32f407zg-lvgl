@@ -59,6 +59,7 @@
 									<listOptionValue builtIn="false" value="../Core/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/app/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/app/ui"/>
+									<listOptionValue builtIn="false" value="../Core/app/ui/app"/>
 									<listOptionValue builtIn="false" value="../Core/app/data_process/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/BSP/bsp/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/BSP/usart/Inc"/>
@@ -69,7 +70,6 @@
 									<listOptionValue builtIn="false" value="../Core/BSP/time/Inc"/>
 									<listOptionValue builtIn="false" value="../Core/BSP/flash"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl"/>
-									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/app"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/port"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/src"/>
 									<listOptionValue builtIn="false" value="../Core/Middleware/lvgl/sdk"/>
