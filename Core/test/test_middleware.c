@@ -31,7 +31,7 @@ void test_lvgl_widgets(void)
 	/* 设置标题样式 (可选) */
 	static lv_style_t style_title;
 	lv_style_init(&style_title);
-	lv_style_set_text_font(&style_title, &lv_font_montserrat_26);
+	lv_style_set_text_font(&style_title, &lv_font_montserrat_30);
 	lv_obj_add_style(title, &style_title, 0);
 }
 

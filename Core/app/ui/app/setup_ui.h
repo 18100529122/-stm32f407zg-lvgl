@@ -23,13 +23,12 @@ extern "C" {
 #include "animations.h"
 
 
+extern lv_img_dsc_t const battery_1_30x30;
 
 
+LV_FONT_DECLARE(lv_font_chinese_14_14);
 
-
-lv_obj_t * setup_screen_chart(void);
-lv_obj_t * setup_screen_chart2(void);
-void setupUi(void);
+lv_obj_t * setup_screen_main(void);
 
 
 

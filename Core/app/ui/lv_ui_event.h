@@ -9,17 +9,27 @@ extern "C"
 {
 #endif
 
-/**
- * @brief 切换为柱状图事件回调
- * @param e 事件对象
- */
-void screen_chart_btn_bar_event_cb(lv_event_t *e);
 
-/**
- * @brief 切换为折线图事件回调
- * @param e 事件对象
- */
-void screen_chart_btn_line_event_cb(lv_event_t *e);
+void screen_main_btn_tail_01_event_cb(lv_event_t *e);
+void screen_main_btn_set_09_01_event_cb(lv_event_t *e);
+void screen_main_btn_set_09_02_event_cb(lv_event_t *e);
+void screen_main_btn_set_08_01_event_cb(lv_event_t *e);
+void screen_main_btn_set_08_02_event_cb(lv_event_t *e);
+void screen_main_btn_set_08_03_event_cb(lv_event_t *e);
+void screen_main_btn_set_07_01_event_cb(lv_event_t *e);
+void screen_main_btn_set_07_02_event_cb(lv_event_t *e);
+void screen_main_btn_set_06_01_event_cb(lv_event_t *e);
+void screen_main_btn_set_06_02_event_cb(lv_event_t *e);
+void screen_main_btn_set_06_03_event_cb(lv_event_t *e);
+void screen_main_btn_set_05_01_event_cb(lv_event_t *e);
+void screen_main_btn_set_05_02_event_cb(lv_event_t *e);
+void screen_main_btn_set_tail_01_event_cb(lv_event_t *e);
+void screen_main_btn_show_tab1_1_event_cb(lv_event_t *e);
+void screen_main_btn_show_tab1_2_event_cb(lv_event_t *e);
+void screen_main_btn_tab1_event_cb(lv_event_t *e);
+void screen_main_btn_tab2_event_cb(lv_event_t *e);
+void screen_main_btn_tab3_event_cb(lv_event_t *e);
+void screen_main_btn_tab4_event_cb(lv_event_t *e);
 
 /**
  * @brief UI 数据结构体
@@ -50,12 +60,6 @@ void lv_ui_init(void);
  * @param data UI 数据结构体指针
  */
 void lv_ui_data_update(lv_ui_data_t *data);
-
-/**
- * @brief PRPD 图谱自定义绘图回调
- * @param e 事件对象
- */
-void prpd_chart_draw_event_cb(lv_event_t *e);
 
 /**
  * @brief 刷新 UI 界面显示 (总刷新入口)

@@ -30,7 +30,7 @@ uint8_t tp_init(void)
 	if (gt9xxx_init() == 0)
 	{
 		tp_dev.scan = gt9xxx_scan;
-		tp_dev.touchtype |= 0X80;	  /* 电容屏标记 */
+		tp_dev.touchtype = 0x80 | lcddev.dir;    /* 电容屏标记, 并根据lcddev.dir设置方向 */
 		return 0;
 	}
 

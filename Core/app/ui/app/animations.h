@@ -18,9 +18,8 @@
 extern "C" {
 #endif
 
-#include "../lvgl.h"
-#include "../sdk/sdk.h"
-
+#include "lvgl.h"
+#include "sdk.h"
 
 
 

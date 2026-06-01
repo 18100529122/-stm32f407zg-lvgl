@@ -18,11 +18,11 @@
  *      DEFINES
  *********************/
 #ifndef MY_DISP_HOR_RES
-#define MY_DISP_HOR_RES 800
+#define MY_DISP_HOR_RES 480
 #endif
 
 #ifndef MY_DISP_VER_RES
-#define MY_DISP_VER_RES 480
+#define MY_DISP_VER_RES 800
 #endif
 
 #define BYTE_PER_PIXEL (LV_COLOR_FORMAT_GET_SIZE(LV_COLOR_FORMAT_RGB565)) /*will be 2 for RGB565 */
@@ -90,9 +90,9 @@ void lv_port_disp_init(void)
 static void disp_init(void)
 {
 	/* 初始化 LCD 硬件 已经在BSP中初始化过了,这里只需要设置方向即可 */
-	/* 设置为横屏 (根据 800*480 需求) */
-	lcd_display_dir(1);
-	lcd_scan_dir(3);
+	/* 设置为竖屏 (根据 480*800 需求) */
+	lcd_display_dir(0);
+	lcd_scan_dir(0);
 }
 
 volatile bool disp_flush_enabled = true;
