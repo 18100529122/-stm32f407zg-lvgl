@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Size: 14 px
  * Bpp: 4
- * Opts: --font C:\work\github\-stm32f407zg-lvgl\anyui\app\import\font\仿宋_GB2312.ttf --output C:\work\github\-stm32f407zg-lvgl\anyui\app\generated\fonts\lv_font_chinese_14_14.c --size 14 --bpp 4 --format lvgl --no-compress --no-prefilter --range 0x20-0x7F --symbols 通道选择:
+ * Opts: --font C:\work\github\stm32f407zg-lvgl\anyui\app\import\font\仿宋_GB2312.ttf --output C:\work\github\stm32f407zg-lvgl\anyui\app\generated\fonts\lv_font_chinese_14_14.c --size 14 --bpp 4 --format lvgl --no-compress --no-prefilter --range 0x20-0x7F --symbols 通道选择:
 内置超声
 外置超声
 飞行周期:

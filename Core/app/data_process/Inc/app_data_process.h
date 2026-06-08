@@ -91,24 +91,6 @@ void app_data_process_inc_adc_sample_cnt(uint32_t add);
  * @return app_data_result_t 数据处理结果
  */
 app_data_result_t *app_data_process_get_result(void);
-uint8_t app_data_process_get_rms_uint8(void);
-uint8_t app_data_process_get_peak_uint8(void);
-uint8_t app_data_process_get_freq_50hz_uint8(void);
-uint8_t app_data_process_get_freq_100hz_uint8(void);
-char *app_data_process_get_rms_str(void);
-char *app_data_process_get_peak_str(void);
-char *app_data_process_get_freq_50hz_str(void);
-char *app_data_process_get_freq_100hz_str(void);
-char *app_data_process_get_threshold_str(void);
 
-/**
- * @brief 获取飞行图谱矩阵中指定区间的值
- */
-uint16_t app_data_process_get_tof_bin(uint8_t amp_idx, uint8_t time_idx);
-
-/**
- * @brief 获取PRPD图谱矩阵中指定区间的值
- */
-uint16_t app_data_process_get_prpd_bin(uint8_t amp_idx, uint8_t phase_idx);
 
 #endif /* __APP_DATA_PROCESS_H__ */

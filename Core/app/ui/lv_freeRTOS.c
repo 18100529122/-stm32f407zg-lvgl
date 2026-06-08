@@ -26,33 +26,15 @@ const osThreadAttr_t lvglTask_attributes = {
 static void lvgl_data_update_timer_cb(lv_timer_t *timer)
 {
 	(void)timer;
-	static lv_ui_data_t ui_data; // 使用静态结构体变量
+	lv_ui_data_t *temp_ui_data=&lv_ui_data;
+	app_data_result_t *temp_app_data=app_data_process_get_result();
 
-	// 获取数据并填充结构体
-	ui_data.rms = app_data_process_get_rms_uint8();
-	ui_data.max = app_data_process_get_peak_uint8();
-	ui_data.data50hz = app_data_process_get_freq_50hz_uint8();
-	ui_data.data100hz = app_data_process_get_freq_100hz_uint8();
 
-	ui_data.rms_data = app_data_process_get_rms_str();
-	ui_data.max_data = app_data_process_get_peak_str();
-	ui_data.data50hz_data = app_data_process_get_freq_50hz_str();
-	ui_data.data100hz_data = app_data_process_get_freq_100hz_str();
+	// log_v("rst: %lu adc: %lu data: %lu time: %lu cycles", temp_app_data->adc_restart_cnt, temp_app_data->adc_sample_cnt,
+	// 	  temp_app_data->adc_valid_sample_cnt, temp_app_data->end_time - temp_app_data->start_time);
 
-	// 获取 ADC 波形数据
-	ui_data.adc_wave_ptr = app_data_process_get_result()->adc_wave;
-	// 获取飞行图谱矩阵数据
-	ui_data.tof_matrix_ptr = app_data_process_get_result()->tof_matrix_ptr;
-	// 获取PRPD图谱矩阵数据
-	ui_data.prpd_matrix_ptr = app_data_process_get_result()->prpd_matrix_ptr;
-
-	// log_i("rms:%s, max:%s, 50Hz:%s, 100Hz:%s",
-	//     ui_data.rms_data, ui_data.max_data, ui_data.data50hz_data, ui_data.data100hz_data);
-	log_v("rst: %lu adc: %lu data: %lu time: %lu cycles", app_data_process_get_result()->adc_restart_cnt, app_data_process_get_result()->adc_sample_cnt,
-		  app_data_process_get_result()->adc_valid_sample_cnt, app_data_process_get_result()->end_time - app_data_process_get_result()->start_time);
-
-	// 更新图表和标签数据
-	lv_ui_data_update(&ui_data);
+	// // 更新图表和标签数据
+	lv_ui_data_update();
 
 	/* 刷新 UI (如果需要) */
 	lv_ui_refresh();

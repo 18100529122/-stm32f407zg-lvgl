@@ -98,83 +98,18 @@ void app_data_process_inc_adc_restart_cnt(void)
 	g_app_data_result.adc_restart_cnt++;
 }
 
-uint8_t app_data_process_get_rms_uint8(void)
-{
-	return (uint8_t)(g_app_data_result.rms * 0.01f);
-}
-
-uint8_t app_data_process_get_peak_uint8(void)
-{
-	return (uint8_t)(g_app_data_result.peak * 0.01f);
-}
-
-uint8_t app_data_process_get_freq_50hz_uint8(void)
-{
-	return (uint8_t)(g_app_data_result.freq_50hz * 0.05f);
-}
-
-uint8_t app_data_process_get_freq_100hz_uint8(void)
-{
-	return (uint8_t)(g_app_data_result.freq_100hz * 0.05f);
-}
-
-char *app_data_process_get_rms_str(void)
-{
-	static char rms_data[10];
-	snprintf(rms_data, sizeof(rms_data), "%.2f", g_app_data_result.rms);
-	return rms_data;
-}
-
-char *app_data_process_get_peak_str(void)
-{
-	static char peak_data[10];
-	snprintf(peak_data, sizeof(peak_data), "%.2f", g_app_data_result.peak);
-	return peak_data;
-}
-
-char *app_data_process_get_freq_50hz_str(void)
-{
-	static char freq_50hz_data[10];
-	snprintf(freq_50hz_data, sizeof(freq_50hz_data), "%.2f", g_app_data_result.freq_50hz);
-	return freq_50hz_data;
-}
-
-char *app_data_process_get_freq_100hz_str(void)
-{
-	static char freq_100hz_data[10];
-	snprintf(freq_100hz_data, sizeof(freq_100hz_data), "%.2f", g_app_data_result.freq_100hz);
-	return freq_100hz_data;
-}
-
-char *app_data_process_get_threshold_str(void)
-{
-	static char threshold_data[10];
-	snprintf(threshold_data, sizeof(threshold_data), "%.2f", g_app_data_result.trigger_thr_mv);
-	return threshold_data;
-}
-
-uint16_t app_data_process_get_tof_bin(uint8_t amp_idx, uint8_t time_idx)
-{
-	if (amp_idx < TOF_AMP_BINS && time_idx < TOF_TIME_BINS)
-	{
-		return g_app_data_result.tof_matrix_ptr[amp_idx][time_idx];
-	}
-	return 0;
-}
-
-uint16_t app_data_process_get_prpd_bin(uint8_t amp_idx, uint8_t phase_idx)
-{
-	if (amp_idx < PRPD_AMP_BINS && phase_idx < PRPD_PHASE_BINS)
-	{
-		return g_app_data_result.prpd_matrix_ptr[amp_idx][phase_idx];
-	}
-	return 0;
-}
-
 void app_data_process_inc_adc_sample_cnt(uint32_t add)
 {
 	g_app_data_result.adc_sample_cnt += add;
 }
+
+// char *app_data_process_get_rms_str(void)
+// {
+// 	static char rms_data[10];
+// 	snprintf(rms_data, sizeof(rms_data), "%.2f", g_app_data_result.rms);
+// 	return rms_data;
+// }
+
 
 /**
  * @brief 数据处理任务主体
