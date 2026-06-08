@@ -215,6 +215,43 @@ void label_set_phase_offset(void)// 更新相位偏移文本内容
 	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
 }
 
+void label_set_cont_tail_sync_method(void)// 更新同步方法文本内容
+{
+	char temp_chars[30];
+	snprintf(temp_chars, sizeof(temp_chars), "同步方法: %s", lv_ui_data.sync_method ? "内同步" : "外同步");
+	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
+}
+void label_set_cont_tail_sync_frequency(void)// 更新同步频率文本内容
+{
+	char temp_chars[30];
+	snprintf(temp_chars, sizeof(temp_chars), "同步频率: %d Hz", lv_ui_data.sync_frequency);
+	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
+}
+void label_set_cont_tail_channel_gain(void)// 更新通道增益文本内容
+{
+	char temp_chars[30];
+	snprintf(temp_chars, sizeof(temp_chars), "通道增益: %d dB", lv_ui_data.channel_gain);
+	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
+}
+void label_set_cont_tail_channel_threshold(void)// 更新通道阈值文本内容
+{
+	char temp_chars[30];
+	snprintf(temp_chars, sizeof(temp_chars), "通道阈值: %d", lv_ui_data.channel_threshold);
+	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
+}
+void label_set_cont_tail_phase_offset(void)// 更新相位偏移文本内容
+{
+	char temp_chars[30];
+	snprintf(temp_chars, sizeof(temp_chars), "相位偏移: %d", lv_ui_data.phase_offset);
+	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
+}
+void label_set_cont_tail_filter_enabled(void)// 更新滤波器使能文本内容
+{
+	char temp_chars[30];
+	snprintf(temp_chars, sizeof(temp_chars), "滤波器使能: %s", lv_ui_data.filter_enabled ? "开启" : "关闭");
+	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
+}
+
 
 //显示隐藏
 static void hidden_count_show(void)
@@ -784,6 +821,13 @@ static void screen_chart_init(void)
 	label_set_alarm_threshold();
 	label_set_count_threshold();
 	label_set_phase_offset();
+
+	label_set_cont_tail_sync_method();
+	label_set_cont_tail_sync_frequency();
+	label_set_cont_tail_channel_gain();
+	label_set_cont_tail_channel_threshold();
+	label_set_cont_tail_phase_offset();
+	label_set_cont_tail_filter_enabled();
 
 	//设置滑块值
 	lv_slider_set_value(screen_main_slider_set_01_01, lv_ui_data.attention_threshold*10.0f,LV_ANIM_OFF);
