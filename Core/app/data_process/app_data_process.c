@@ -41,11 +41,11 @@ void app_data_process_init(void)
 	g_app_data_result.alarm_thr_mv = 20.0f;   /* 告警阈值(mV) 0-70 默认20.0 */
 	g_app_data_result.count_thr = 5;          /* 计数阈值 0-160 默认 5 */
 	g_app_data_result.phase_offset = 0;       /* 相位偏移 0-360 默认0 */
-	g_app_data_result.gain_type_auto = false; /* 增益类型 0自动 1手动 默认手动 */
+	g_app_data_result.gain_type_auto = false; /* 增益类型 true自动 false手动 默认手动 */
 	g_app_data_result.gain = 40;              /* 信号增益 40 60 80 默认40 */
-	g_app_data_result.unit_select_dBuV = true; /* 单位选择 0:dBuV 1:uV 默认dBuV */
+	g_app_data_result.unit_select_dBuV = true; /* 单位选择 true:dBuV false:uV 默认dBuV */
 	g_app_data_result.flight_period = 2;      /* 飞行周期 2T 5T 10T 默认2T */
-	g_app_data_result.channel_select_int = true; /* 通道选择 0:内置超声 1:外置超声 默认内置超声 */
+	g_app_data_result.channel_select_int = true; /* 通道选择 true:内置超声 false:外置超声 默认内置超声 */
 
 	g_app_data_result.adc_restart_cnt = 0;   /* 初始化 ADC 重启计数 */
 	g_app_data_result.adc_sample_cnt = 0;	  /* 初始化 ADC 采样点计数 */

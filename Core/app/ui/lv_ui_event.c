@@ -129,6 +129,8 @@ extern lv_obj_t * screen_main_label_time1;
 extern lv_obj_t * screen_main_img_battery1;
 
 lv_ui_data_t lv_ui_data={0};
+#include "app_data_process.h"
+#include <stdbool.h> // 添加此行以支持 bool 类型
 
 static void hidden_count_show(void)
 {
@@ -253,6 +255,9 @@ void screen_main_btn_set_09_01_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_set_09_01 clicked");
+		ui_state_modify(screen_main_btn_set_09_01, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+		ui_state_modify(screen_main_btn_set_09_02, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		lv_ui_data.channel_selection=0;
 	}
 }
 
@@ -262,6 +267,9 @@ void screen_main_btn_set_09_02_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_set_09_02 clicked");
+		ui_state_modify(screen_main_btn_set_09_01, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		ui_state_modify(screen_main_btn_set_09_02, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+		lv_ui_data.channel_selection=1;
 	}
 }
 
@@ -271,6 +279,14 @@ void screen_main_btn_set_08_01_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_set_08_01 clicked");
+		ui_state_modify(screen_main_btn_set_08_01, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+		ui_state_modify(screen_main_btn_set_08_02, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		ui_state_modify(screen_main_btn_set_08_03, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.flight_cycle=0;
+		g_app_data_result.flight_period=2;
+		__enable_irq();
 	}
 }
 
@@ -280,6 +296,14 @@ void screen_main_btn_set_08_02_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_set_08_02 clicked");
+		ui_state_modify(screen_main_btn_set_08_01, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		ui_state_modify(screen_main_btn_set_08_02, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+		ui_state_modify(screen_main_btn_set_08_03, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.flight_cycle=1;
+		g_app_data_result.flight_period=5;
+		__enable_irq();
 	}
 }
 
@@ -289,6 +313,14 @@ void screen_main_btn_set_08_03_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_set_08_03 clicked");
+		ui_state_modify(screen_main_btn_set_08_01, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		ui_state_modify(screen_main_btn_set_08_02, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		ui_state_modify(screen_main_btn_set_08_03, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.flight_cycle=2;
+		g_app_data_result.flight_period=10;
+		__enable_irq();
 	}
 }
 
@@ -298,6 +330,13 @@ void screen_main_btn_set_07_01_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_set_07_01 clicked");
+		ui_state_modify(screen_main_btn_set_07_01, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+		ui_state_modify(screen_main_btn_set_07_02, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.unit_selection=0;
+		g_app_data_result.unit_select_dBuV=true;
+		__enable_irq();
 	}
 }
 
@@ -307,6 +346,13 @@ void screen_main_btn_set_07_02_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_set_07_02 clicked");
+		ui_state_modify(screen_main_btn_set_07_01, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		ui_state_modify(screen_main_btn_set_07_02, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.unit_selection=1;
+		g_app_data_result.unit_select_dBuV=false;
+		__enable_irq();
 	}
 }
 
@@ -316,6 +362,14 @@ void screen_main_btn_set_06_01_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_set_06_01 clicked");
+		ui_state_modify(screen_main_btn_set_06_01, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+		ui_state_modify(screen_main_btn_set_06_02, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		ui_state_modify(screen_main_btn_set_06_03, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.signal_gain=0;
+		g_app_data_result.gain=40;
+		__enable_irq();
 	}
 }
 
@@ -325,6 +379,14 @@ void screen_main_btn_set_06_02_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_set_06_02 clicked");
+		ui_state_modify(screen_main_btn_set_06_01, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		ui_state_modify(screen_main_btn_set_06_02, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+		ui_state_modify(screen_main_btn_set_06_03, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.signal_gain=1;
+		g_app_data_result.gain=60;
+		__enable_irq();
 	}
 }
 
@@ -334,6 +396,14 @@ void screen_main_btn_set_06_03_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_set_06_03 clicked");
+		ui_state_modify(screen_main_btn_set_06_01, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		ui_state_modify(screen_main_btn_set_06_02, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		ui_state_modify(screen_main_btn_set_06_03, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.signal_gain=2;
+		g_app_data_result.gain=80;
+		__enable_irq();
 	}
 }
 
@@ -343,6 +413,13 @@ void screen_main_btn_set_05_01_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_set_05_01 clicked");
+		ui_state_modify(screen_main_btn_set_05_01, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+		ui_state_modify(screen_main_btn_set_05_02, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.gain_type=0;
+		g_app_data_result.gain_type_auto=true;
+		__enable_irq();
 	}
 }
 
@@ -352,6 +429,13 @@ void screen_main_btn_set_05_02_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_set_05_02 clicked");
+		ui_state_modify(screen_main_btn_set_05_02, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+		ui_state_modify(screen_main_btn_set_05_01, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.gain_type=1;
+		g_app_data_result.gain_type_auto=false;
+		__enable_irq();
 	}
 }
 
@@ -371,6 +455,11 @@ void screen_main_btn_show_tab1_1_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_show_tab1_1 clicked");
+		if(lv_ui_data.y_axis_range<100)
+		{
+			lv_ui_data.y_axis_range+=5;
+			label_set_y_axis_range();
+		}
 	}
 }
 
@@ -380,6 +469,11 @@ void screen_main_btn_show_tab1_2_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_show_tab1_2 clicked");
+		if(lv_ui_data.y_axis_range>5)
+		{
+			lv_ui_data.y_axis_range-=5;
+			label_set_y_axis_range();
+		}
 	}
 }
 

@@ -55,11 +55,11 @@ typedef struct
 	float alarm_thr_mv;			  /* 告警阈值(mV) 0-70 默认20.0 */
 	uint32_t count_thr;			  /* 计数阈值 0-160 默认 5 */
 	uint32_t phase_offset;		  /* 相位偏移 0-360 默认0 */
-	bool gain_type_auto;		  /* 增益类型 0自动 1手动 默认手动 */
+	bool gain_type_auto;		  /* 增益类型 true自动 false手动 默认手动 */
 	uint32_t gain;				  /* 信号增益 40 60 80 默认40 */
-	bool unit_select_dBuV;		  /* 单位选择 0:dBuV 1:uV 默认dBuV */
+	bool unit_select_dBuV;		  /* 单位选择 true:dBuV false:uV 默认dBuV */
 	uint32_t flight_period;		  /* 飞行周期 2T 5T 10T 默认2T */
-	bool channel_select_int;	  /* 通道选择 0:内置超声 1:外置超声 默认内置超声 */
+	bool channel_select_int;	  /* 通道选择 true:内置超声 false:外置超声 默认内置超声 */
 
 	/* 统计数据 用于测试*/
 	uint32_t adc_restart_cnt;	   /* ADC 重启计数 */
