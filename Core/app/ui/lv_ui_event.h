@@ -31,6 +31,11 @@ void screen_main_btn_tab2_event_cb(lv_event_t *e);
 void screen_main_btn_tab3_event_cb(lv_event_t *e);
 void screen_main_btn_tab4_event_cb(lv_event_t *e);
 
+void screen_main_slider_set_01_01_event_cb(lv_event_t *e);
+void screen_main_slider_set_02_01_event_cb(lv_event_t *e);
+void screen_main_slider_set_03_01_event_cb(lv_event_t *e);
+void screen_main_slider_set_04_01_event_cb(lv_event_t *e);
+
 /**
  * @brief UI 数据结构体
  */
@@ -66,12 +71,12 @@ typedef struct
 	// cont set 界面显示与控制参数
 	float attention_threshold; /**< 注意阈值 0-70.0 默认20*/
 	float alarm_threshold;  /**< 告警阈值 0-70.0 默认20*/
-	int count_threshold;    /**< 计数阈值 0-160 默认5 */
-	int phase_offset_angle; /**< 相位偏移角度 0-360默认0*/
+	uint8_t count_threshold;    /**< 计数阈值 0-160 默认5 */
+	uint16_t phase_offset_angle; /**< 相位偏移角度 0-360默认0*/
 	int gain_type;          /**< 增益类型 0自动 1手动 默认1*/
-	int signal_gain;        /**< 信号增益 0 40db 1 60db 2 80db 默认0 */
+	uint8_t signal_gain;        /**< 信号增益 0 40db 1 60db 2 80db 默认0 */
 	int unit_selection;     /**< 单位选择 0 dbuv 1uv 默认0*/
-	int flight_cycle;       /**< 飞行周期 0 2T 1 5T 2 10T 默认0*/
+	uint8_t flight_cycle;       /**< 飞行周期 0 2T 1 5T 2 10T 默认0*/
 	int channel_selection;  /**< 通道选择 0内置超声 1外部超声 默认0*/
 } lv_ui_data_t;
 extern lv_ui_data_t lv_ui_data;

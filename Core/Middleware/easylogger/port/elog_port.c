@@ -44,6 +44,7 @@ ElogErrCode elog_port_init(void)
 	{
 		return result;
 	}
+	return result;
 }
 
 /**

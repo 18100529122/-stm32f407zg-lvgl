@@ -1633,6 +1633,7 @@ void lcd_ex_ili9806_reginit(void)
 	lcd_wr_regno(0x2C);
 }
 
+#include "bsp.h"
 /**
  * @brief       SSD1963寄存器初始化代码
  * @param       无

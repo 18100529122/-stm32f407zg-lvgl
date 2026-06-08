@@ -132,6 +132,91 @@ lv_ui_data_t lv_ui_data={0};
 #include "app_data_process.h"
 #include <stdbool.h> // 添加此行以支持 bool 类型
 
+//修改文本内容
+void label_set_internal_ultrasound(void)// 更新内置超声文本内容
+{
+	char temp_chars[24];
+	snprintf(temp_chars, sizeof(temp_chars), "%.1f", lv_ui_data.internal_ultrasound);
+	lv_label_set_text(screen_main_label_menu2_2, temp_chars);
+}
+void label_set_peak_value(void)// 更新峰值文本内容
+{
+	char temp_chars[24];
+	snprintf(temp_chars, sizeof(temp_chars), "峰值:%.1fdBuv", lv_ui_data.peak_value);
+	lv_label_set_text(screen_main_label_menu3_num1, temp_chars);
+}
+void label_set_noise(void)// 更新噪声文本内容
+{
+	char temp_chars[24];
+	snprintf(temp_chars, sizeof(temp_chars), "噪声:%.1fdBuv", lv_ui_data.noise);
+	lv_label_set_text(screen_main_label_menu3_num2, temp_chars);
+}
+void label_set_pulse(void)// 更新脉冲文本内容
+{
+	char temp_chars[24];
+	snprintf(temp_chars, sizeof(temp_chars), "脉冲:%d", lv_ui_data.pulse);
+	lv_label_set_text(screen_main_label_menu3_num3, temp_chars);
+}
+
+void label_set_y_axis_range(void)// 更新Y轴量程文本内容
+{
+	char temp_chars[24];
+	snprintf(temp_chars, sizeof(temp_chars), "%d%%", lv_ui_data.y_axis_range);
+	lv_label_set_text(screen_main_label_show_tab1, temp_chars);
+}
+
+void label_set_rms(void)// 更新RMS文本内容
+{
+	char temp_chars[24];
+	snprintf(temp_chars, sizeof(temp_chars), "%d dBuv", lv_ui_data.rms);
+	lv_label_set_text(screen_main_label_show_tab2_13, temp_chars);
+}
+void label_set_max(void)// 更新最大值文本内容
+{
+	char temp_chars[24];
+	snprintf(temp_chars, sizeof(temp_chars), "%d dBuv", lv_ui_data.max);
+	lv_label_set_text(screen_main_label_show_tab2_23, temp_chars);
+}
+void label_set_data50hz(void)// 更新50Hz文本内容
+{
+	char temp_chars[24];
+	snprintf(temp_chars, sizeof(temp_chars), "%d dBuv", lv_ui_data.data50hz);
+	lv_label_set_text(screen_main_label_show_tab2_33, temp_chars);
+}
+void label_set_data100hz(void)// 更新100Hz文本内容
+{
+	char temp_chars[24];
+	snprintf(temp_chars, sizeof(temp_chars), "%d dBuv", lv_ui_data.data100hz);
+	lv_label_set_text(screen_main_label_show_tab2_43, temp_chars);
+}
+
+void label_set_attention_threshold(void)// 更新注意阈值文本内容
+{
+	char temp_chars[30];
+	snprintf(temp_chars, sizeof(temp_chars), "注意阈值:%.1fdBuv", lv_ui_data.attention_threshold);
+	lv_label_set_text(screen_main_label_set_01_01, temp_chars);
+}
+void label_set_alarm_threshold(void)// 更新告警阈值文本内容
+{
+	char temp_chars[30];
+	snprintf(temp_chars, sizeof(temp_chars), "告警阈值:%.1fdBuv", lv_ui_data.alarm_threshold);
+	lv_label_set_text(screen_main_label_set_02_01, temp_chars);
+}
+void label_set_count_threshold(void)// 更新计数阈值文本内容
+{
+	char temp_chars[30];
+	snprintf(temp_chars, sizeof(temp_chars), "计数阈值: %d 个", lv_ui_data.count_threshold);
+	lv_label_set_text(screen_main_label_set_03_01, temp_chars);
+}
+void label_set_phase_offset(void)// 更新相位偏移文本内容
+{
+	char temp_chars[30];
+	snprintf(temp_chars, sizeof(temp_chars), "相位偏移: %d 度", lv_ui_data.phase_offset_angle);
+	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
+}
+
+
+//显示隐藏
 static void hidden_count_show(void)
 {
 	// 隐藏
@@ -239,6 +324,48 @@ static void show_tab1(void)
 	lv_obj_clear_flag(screen_main_cont_show_tab1, LV_OBJ_FLAG_HIDDEN);
 }
 
+static void control_cont_tab1(int tab)
+{
+	switch (tab)
+	{
+		case 0:
+			ui_state_modify(screen_main_btn_tab1, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+			ui_state_modify(screen_main_btn_tab2, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+			ui_state_modify(screen_main_btn_tab3, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+			ui_state_modify(screen_main_btn_tab4, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+			show_tab1();
+			lv_ui_data.chart_selection=0;
+			break;
+		case 1:
+			ui_state_modify(screen_main_btn_tab1, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+			ui_state_modify(screen_main_btn_tab2, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+			ui_state_modify(screen_main_btn_tab3, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+			ui_state_modify(screen_main_btn_tab4, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+			show_tab1();
+			lv_ui_data.chart_selection=1;
+			break;
+		case 2:
+			ui_state_modify(screen_main_btn_tab1, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+			ui_state_modify(screen_main_btn_tab2, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+			ui_state_modify(screen_main_btn_tab3, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+			ui_state_modify(screen_main_btn_tab4, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+			hidden_tab1();
+			lv_ui_data.chart_selection=2;
+			break;
+		case 3:
+			ui_state_modify(screen_main_btn_tab1, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+			ui_state_modify(screen_main_btn_tab2, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+			ui_state_modify(screen_main_btn_tab3, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
+			ui_state_modify(screen_main_btn_tab4, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
+			show_tab1();
+			lv_ui_data.chart_selection=3;
+			break;
+		default:
+			break;
+	}
+}
+
+// 按钮事件回调
 void screen_main_btn_tail_01_event_cb(lv_event_t *e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
@@ -446,6 +573,7 @@ void screen_main_btn_set_tail_01_event_cb(lv_event_t *e)
 	{
 		log_i("screen_main_btn_set_tail_01 clicked");
 		show_count_show();
+		control_cont_tab1(lv_ui_data.chart_selection);
 	}
 }
 
@@ -483,12 +611,7 @@ void screen_main_btn_tab1_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_tab1 clicked");
-		ui_state_modify(screen_main_btn_tab1, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
-		ui_state_modify(screen_main_btn_tab2, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
-		ui_state_modify(screen_main_btn_tab3, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
-		ui_state_modify(screen_main_btn_tab4, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
-		show_tab1();
-		lv_ui_data.chart_selection=0;
+		control_cont_tab1(0);
 	}
 }
 
@@ -498,12 +621,7 @@ void screen_main_btn_tab2_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_tab2 clicked");
-		ui_state_modify(screen_main_btn_tab1, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
-		ui_state_modify(screen_main_btn_tab2, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
-		ui_state_modify(screen_main_btn_tab3, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
-		ui_state_modify(screen_main_btn_tab4, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
-		show_tab1();
-		lv_ui_data.chart_selection=1;
+		control_cont_tab1(1);
 	}
 }
 
@@ -513,12 +631,7 @@ void screen_main_btn_tab3_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_tab3 clicked");
-		ui_state_modify(screen_main_btn_tab1, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
-		ui_state_modify(screen_main_btn_tab2, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
-		ui_state_modify(screen_main_btn_tab3, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
-		ui_state_modify(screen_main_btn_tab4, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
-		hidden_tab1();
-		lv_ui_data.chart_selection=2;
+		control_cont_tab1(2);
 	}
 }
 
@@ -528,97 +641,73 @@ void screen_main_btn_tab4_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_tab4 clicked");
-		ui_state_modify(screen_main_btn_tab1, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
-		ui_state_modify(screen_main_btn_tab2, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
-		ui_state_modify(screen_main_btn_tab3, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
-		ui_state_modify(screen_main_btn_tab4, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
-		show_tab1();
-		lv_ui_data.chart_selection=3;
+		control_cont_tab1(3);
 	}
 }
 
-//修改文本内容
-void label_set_internal_ultrasound(void)// 更新内置超声文本内容
+
+//滑块事件回调函数
+void screen_main_slider_set_01_01_event_cb(lv_event_t *e)
 {
-	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%.1f", lv_ui_data.internal_ultrasound);
-	lv_label_set_text(screen_main_label_menu2_2, temp_chars);
+	lv_event_code_t code = lv_event_get_code(e);
+	if (code == LV_EVENT_VALUE_CHANGED)
+	{
+		int32_t value = lv_slider_get_value(screen_main_slider_set_01_01);
+		log_i("screen_main_slider_set_01_01 value: %d", value);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.attention_threshold=value*0.1f;
+		g_app_data_result.note_thr_mv=value*0.1f;
+		__enable_irq();
+		label_set_attention_threshold();
+	}
 }
-void label_set_peak_value(void)// 更新峰值文本内容
+void screen_main_slider_set_02_01_event_cb(lv_event_t *e)
 {
-	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "峰值:%.1fdBuv", lv_ui_data.peak_value);
-	lv_label_set_text(screen_main_label_menu3_num1, temp_chars);
+	lv_event_code_t code = lv_event_get_code(e);
+	if (code == LV_EVENT_VALUE_CHANGED)
+	{
+		int32_t value = lv_slider_get_value(screen_main_slider_set_02_01);
+		log_i("screen_main_slider_set_02_01 value: %d", value);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.alarm_threshold=value*0.1f;
+		g_app_data_result.alarm_thr_mv=value*0.1f;
+		__enable_irq();
+		label_set_alarm_threshold();
+	}
 }
-void label_set_noise(void)// 更新噪声文本内容
+void screen_main_slider_set_03_01_event_cb(lv_event_t *e)
 {
-	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "噪声:%.1fdBuv", lv_ui_data.noise);
-	lv_label_set_text(screen_main_label_menu3_num2, temp_chars);
+	lv_event_code_t code = lv_event_get_code(e);
+	if (code == LV_EVENT_VALUE_CHANGED)
+	{
+		int32_t value = lv_slider_get_value(screen_main_slider_set_03_01);
+		log_i("screen_main_slider_set_03_01 value: %d", value);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.count_threshold=value;
+		g_app_data_result.count_thr=value;
+		__enable_irq();
+		label_set_count_threshold();
+	}
 }
-void label_set_pulse(void)// 更新脉冲文本内容
+void screen_main_slider_set_04_01_event_cb(lv_event_t *e)
 {
-	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "脉冲:%d", lv_ui_data.pulse);
-	lv_label_set_text(screen_main_label_menu3_num3, temp_chars);
+	lv_event_code_t code = lv_event_get_code(e);
+	if (code == LV_EVENT_VALUE_CHANGED)
+	{
+		int32_t value = lv_slider_get_value(screen_main_slider_set_04_01);
+		log_i("screen_main_slider_set_04_01 value: %d", value);
+		//关闭开启中断
+		__disable_irq();
+		lv_ui_data.phase_offset_angle=value;
+		g_app_data_result.phase_offset=value;
+		__enable_irq();
+		label_set_phase_offset();
+	}
 }
 
-void label_set_y_axis_range(void)// 更新Y轴量程文本内容
-{
-	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%d%%", lv_ui_data.y_axis_range);
-	lv_label_set_text(screen_main_label_show_tab1, temp_chars);
-}
-
-void label_set_rms(void)// 更新RMS文本内容
-{
-	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%.1fdBuv", lv_ui_data.rms);
-	lv_label_set_text(screen_main_label_show_tab2_13, temp_chars);
-}
-void label_set_max(void)// 更新最大值文本内容
-{
-	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%.1fdBuv", lv_ui_data.max);
-	lv_label_set_text(screen_main_label_show_tab2_23, temp_chars);
-}
-void label_set_data50hz(void)// 更新50Hz文本内容
-{
-	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%.1fdBuv", lv_ui_data.data50hz);
-	lv_label_set_text(screen_main_label_show_tab2_33, temp_chars);
-}
-void label_set_data100hz(void)// 更新100Hz文本内容
-{
-	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%.1fdBuv", lv_ui_data.data100hz);
-	lv_label_set_text(screen_main_label_show_tab2_43, temp_chars);
-}
-
-void label_set_attention_threshold(void)// 更新注意阈值文本内容
-{
-	char temp_chars[30];
-	snprintf(temp_chars, sizeof(temp_chars), "注意阈值:%.1fdBuv", lv_ui_data.attention_threshold);
-	lv_label_set_text(screen_main_label_set_01_01, temp_chars);
-}
-void label_set_alarm_threshold(void)// 更新告警阈值文本内容
-{
-	char temp_chars[30];
-	snprintf(temp_chars, sizeof(temp_chars), "告警阈值:%.1fdBuv", lv_ui_data.alarm_threshold);
-	lv_label_set_text(screen_main_label_set_02_01, temp_chars);
-}
-void label_set_count_threshold(void)// 更新计数阈值文本内容
-{
-	char temp_chars[30];
-	snprintf(temp_chars, sizeof(temp_chars), "计数阈值: %d 个", lv_ui_data.count_threshold);
-	lv_label_set_text(screen_main_label_set_03_01, temp_chars);
-}
-void label_set_phase_offset(void)// 更新相位偏移文本内容
-{
-	char temp_chars[30];
-	snprintf(temp_chars, sizeof(temp_chars), "相位偏移: %d 度", lv_ui_data.phase_offset);
-	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
-}
 
 /**
  * @brief 更新图表数据
@@ -633,7 +722,7 @@ void lv_ui_data_update(void)
  * @brief 初始化图表
  * @param argument 未使用
  */
-void screen_chart_init(void)
+static void screen_chart_init(void)
 {
 	//初始化结构体
 	// cont menu 界面显示参数
@@ -695,8 +784,15 @@ void screen_chart_init(void)
 	label_set_alarm_threshold();
 	label_set_count_threshold();
 	label_set_phase_offset();
+
+	//设置滑块值
+	lv_slider_set_value(screen_main_slider_set_01_01, lv_ui_data.attention_threshold*10.0f,LV_ANIM_OFF);
+	lv_slider_set_value(screen_main_slider_set_02_01, lv_ui_data.alarm_threshold*10.0f,LV_ANIM_OFF);
+	lv_slider_set_value(screen_main_slider_set_03_01, lv_ui_data.count_threshold,LV_ANIM_OFF);
+	lv_slider_set_value(screen_main_slider_set_04_01, lv_ui_data.phase_offset_angle,LV_ANIM_OFF);
 }
 
+extern void setupUi(void);
 /**
  * @brief UI 初始化包装函数
  */

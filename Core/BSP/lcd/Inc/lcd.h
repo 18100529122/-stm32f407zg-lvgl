@@ -162,4 +162,6 @@ void lcd_dma_init(void);									/* LCD DMA初始化 */
 void lcd_dma_show(uint16_t *color, uint32_t size);		   /* LCD DMA传输 */
 void lcd_dma_wait_done(void);							   /* 等待DMA完成 */
 
+void lcd_set_window(uint16_t sx, uint16_t sy, uint16_t width, uint16_t height); /* 设置显示窗口 */
+void lcd_show_string(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint8_t size, char *p, uint16_t color); /** 显示字符串 */
 #endif /* __LCD_H */

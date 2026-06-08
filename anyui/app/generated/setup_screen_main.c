@@ -1063,7 +1063,6 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_style_pad_bottom(screen_main_cont_main_show, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(screen_main_cont_main_show, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(screen_main_cont_main_show, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    ui_flag_modify(screen_main_cont_main_show, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
     ui_flag_modify(screen_main_cont_main_show, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
     ui_flag_modify(screen_main_cont_main_show, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
     ui_flag_modify(screen_main_cont_main_show, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);

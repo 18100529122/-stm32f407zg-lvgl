@@ -145,7 +145,7 @@ static lv_obj_t * create_ui(void);
 static void register_sys_events(event_table_t *table) {
 }
 static void init_states(void) {
-    extern lv_obj_t * global_statusbar;
+    // extern lv_obj_t * global_statusbar;
     set_current_event_table(&screen_main_event_table);
 }
 #include "lv_ui_event.h"
@@ -170,6 +170,11 @@ static void register_ui_events(void) {
     lv_obj_add_event_cb(screen_main_btn_tab2, screen_main_btn_tab2_event_cb, LV_EVENT_CLICKED, NULL);
     lv_obj_add_event_cb(screen_main_btn_tab3, screen_main_btn_tab3_event_cb, LV_EVENT_CLICKED, NULL);
     lv_obj_add_event_cb(screen_main_btn_tab4, screen_main_btn_tab4_event_cb, LV_EVENT_CLICKED, NULL);
+
+    lv_obj_add_event_cb(screen_main_slider_set_01_01, screen_main_slider_set_01_01_event_cb, LV_EVENT_VALUE_CHANGED, NULL);
+    lv_obj_add_event_cb(screen_main_slider_set_02_01, screen_main_slider_set_02_01_event_cb, LV_EVENT_VALUE_CHANGED, NULL);
+    lv_obj_add_event_cb(screen_main_slider_set_03_01, screen_main_slider_set_03_01_event_cb, LV_EVENT_VALUE_CHANGED, NULL);
+    lv_obj_add_event_cb(screen_main_slider_set_04_01, screen_main_slider_set_04_01_event_cb, LV_EVENT_VALUE_CHANGED, NULL);
 }
 static lv_obj_t * create_ui(void) {
     LV_LOG_USER("Initializing screen_main ...");
@@ -1084,7 +1089,6 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_style_pad_bottom(screen_main_cont_main_show, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(screen_main_cont_main_show, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(screen_main_cont_main_show, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    ui_flag_modify(screen_main_cont_main_show, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
     ui_flag_modify(screen_main_cont_main_show, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
     ui_flag_modify(screen_main_cont_main_show, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
     ui_flag_modify(screen_main_cont_main_show, LV_OBJ_FLAG_GESTURE_BUBBLE, UI_FLAG_ACTION_REMOVE);
