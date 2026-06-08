@@ -1150,7 +1150,7 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_width(screen_main_label_tail_04, 150);
     lv_obj_set_height(screen_main_label_tail_04, 14);
     lv_obj_set_scrollbar_mode(screen_main_label_tail_04, LV_SCROLLBAR_MODE_OFF);
-    lv_label_set_text(screen_main_label_tail_04, "通道阈值:20/29");
+    lv_label_set_text(screen_main_label_tail_04, "通道阈值:20");
     lv_label_set_long_mode(screen_main_label_tail_04, LV_LABEL_LONG_WRAP);
     lv_obj_set_style_text_font(screen_main_label_tail_04, &lv_font_chinese_14_14, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(screen_main_label_tail_04, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN | LV_STATE_DEFAULT);

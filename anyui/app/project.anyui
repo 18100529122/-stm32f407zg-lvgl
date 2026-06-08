@@ -2804,7 +2804,7 @@
                   "height": 14,
                   "height_unit": "pixel",
                   "scrollbar_mode": "OFF",
-                  "text": "通道阈值:20/29",
+                  "text": "通道阈值:20",
                   "long_mode": "LV_LABEL_LONG_WRAP",
                   "style": [
                     {

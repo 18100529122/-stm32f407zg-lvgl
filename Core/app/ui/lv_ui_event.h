@@ -45,7 +45,7 @@ typedef struct
 	int pulse;              /**< 脉冲 */
 	// cont show 界面显示与控制参数
 	int chart_selection;    /**< 图表选择 0脉冲波形 1PRPD图 2四要素图 3飞行图谱 默认0*/
-	int y_axis_range;       /**< Y轴量程0-100 */
+	int y_axis_range;       /**< Y轴量程0-100 默认25 */
 	uint16_t *adc_wave_ptr;  /**< ADC 波形数据指针 脉冲波形 */
 	uint16_t (*prpd_matrix_ptr)[PRPD_PHASE_BINS]; /**< PRPD图谱矩阵数据指针 */
 	uint16_t (*tof_matrix_ptr)[TOF_TIME_BINS];  /**< 飞行图谱矩阵数据指针 */
@@ -57,17 +57,17 @@ typedef struct
 
 	// cont tail 界面显示参数
 	int sync_method;        /**< 同步方式 0内同步 */
-	int sync_frequency;     /**< 同步频率 50Hz*/
-	int channel_gain;       /**< 通道增益 40dB*/
-	int channel_threshold;  /**< 通道阈值 20*/
-	int phase_offset;       /**< 相位偏移 0-360*/
-	int filter_enabled;     /**< 滤波是否开启 0关闭 1开启 */
+	int sync_frequency;     /**< 同步频率 默认50Hz*/
+	int channel_gain;       /**< 通道增益 默认40dB*/
+	int channel_threshold;  /**< 通道阈值 默认20*/
+	int phase_offset;       /**< 相位偏移 0-360默认0*/
+	int filter_enabled;     /**< 滤波是否开启 0关闭 1开启 默认0*/
 
 	// cont set 界面显示与控制参数
-	float attention_threshold; /**< 注意阈值 0-70.0*/
-	float alarm_threshold;  /**< 告警阈值 0-70.0*/
-	int count_threshold;    /**< 计数阈值 0-160 */
-	int phase_offset_angle; /**< 相位偏移角度 0-360*/
+	float attention_threshold; /**< 注意阈值 0-70.0 默认20*/
+	float alarm_threshold;  /**< 告警阈值 0-70.0 默认20*/
+	int count_threshold;    /**< 计数阈值 0-160 默认5 */
+	int phase_offset_angle; /**< 相位偏移角度 0-360默认0*/
 	int gain_type;          /**< 增益类型 0自动 1手动 默认1*/
 	int signal_gain;        /**< 信号增益 0 40db 1 60db 2 80db 默认0 */
 	int unit_selection;     /**< 单位选择 0 dbuv 1uv 默认0*/
