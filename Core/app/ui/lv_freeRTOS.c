@@ -32,10 +32,9 @@ static void lvgl_data_update_timer_cb(lv_timer_t *timer)
 	// log_v("rst: %lu adc: %lu data: %lu time: %lu cycles", temp_app_data->adc_restart_cnt, temp_app_data->adc_sample_cnt,
 	// 	  temp_app_data->adc_valid_sample_cnt, temp_app_data->end_time - temp_app_data->start_time);
 
-	// // 更新图表和标签数据
-	lv_ui_data_update();
+	//  更新图表和标签数据
 
-	/* 刷新 UI (如果需要) */
+	//刷新 UI 
 	lv_ui_refresh();
 }
 
