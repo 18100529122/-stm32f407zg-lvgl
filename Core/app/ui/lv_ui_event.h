@@ -251,6 +251,7 @@ void screen_main_btn_tab4_event_cb(lv_event_t *e);
 
 // 图表
 void update_chart_y_axis_and_labels(lv_obj_t *chart_obj, lv_obj_t *scale_y_obj);
+void update_chart_x_axis_and_labels(lv_obj_t *chart_obj, lv_obj_t *scale_x_obj, int32_t x_min, int32_t x_max);
 void chart_style_init(lv_obj_t *chart_obj);
 void chart_set_style(void);
 void updata_chart_data(void);

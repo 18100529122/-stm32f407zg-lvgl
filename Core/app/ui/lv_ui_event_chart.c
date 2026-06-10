@@ -56,6 +56,39 @@ void update_chart_y_axis_and_labels(lv_obj_t *chart_obj, lv_obj_t *scale_y_obj)
 }
 
 /**
+ * @brief 更新图表的X轴范围和标签
+ *
+ * 根据传入的最小值和最大值设置图表和X轴刻度对象的范围，
+ * 并动态生成5个均匀分布的X轴标签。
+ * 最后，强制重绘X轴刻度并刷新图表。
+ *
+ * @param chart_obj 指向LVGL图表对象的指针。
+ * @param scale_x_obj 指向LVGL X轴刻度对象的指针。
+ * @param x_min X轴最小值。
+ * @param x_max X轴最大值。
+ */
+void update_chart_x_axis_and_labels(lv_obj_t *chart_obj, lv_obj_t *scale_x_obj, int32_t x_min, int32_t x_max)
+{
+	lv_chart_set_range(chart_obj, LV_CHART_AXIS_PRIMARY_X, x_min, x_max);
+	lv_scale_set_range(scale_x_obj, x_min, x_max);
+
+	static char x_labels_buf[5][16];
+	int32_t step = (x_max - x_min) / 4;
+	
+	lv_snprintf(x_labels_buf[0], sizeof(x_labels_buf[0]), "%d", x_min);
+	lv_snprintf(x_labels_buf[1], sizeof(x_labels_buf[1]), "%d", x_min + step);
+	lv_snprintf(x_labels_buf[2], sizeof(x_labels_buf[2]), "%d", x_min + 2 * step);
+	lv_snprintf(x_labels_buf[3], sizeof(x_labels_buf[3]), "%d", x_min + 3 * step);
+	lv_snprintf(x_labels_buf[4], sizeof(x_labels_buf[4]), "%d", x_max);
+	
+	static const char *dynamic_x_labels_str[] = {x_labels_buf[0], x_labels_buf[1], x_labels_buf[2], x_labels_buf[3], x_labels_buf[4], NULL};
+	lv_scale_set_text_src(scale_x_obj, dynamic_x_labels_str);
+
+	lv_obj_invalidate(scale_x_obj);	 // Force redraw of the scale to apply new labels
+	lv_chart_refresh(chart_obj);	 // Refresh chart to update data display if needed
+}
+
+/**
  * @brief 初始化图表样式
  *
  * 该函数设置图表的各种样式属性，例如更新模式、X轴和Y轴范围、分割线数量。
@@ -111,9 +144,10 @@ void chart_style_init(lv_obj_t *chart_obj)
 	lv_scale_set_total_tick_count(screen_main_chart_scale_x, 5);  // 5 labels (4 intervals)
 	lv_scale_set_major_tick_every(screen_main_chart_scale_x, 1);  // Every tick is a major tick
 	lv_scale_set_label_show(screen_main_chart_scale_x, true);
-	static const char *x_labels_str[] = {"0", "25", "50", "75", "100", NULL};
-	lv_scale_set_text_src(screen_main_chart_scale_x, x_labels_str);
 	lv_obj_set_style_text_font(screen_main_chart_scale_x, &lv_font_chinese_14_14, 0);
+
+	// Call after scale_x is created and before chart_refresh to initialize range and labels
+	update_chart_x_axis_and_labels(chart_obj, screen_main_chart_scale_x, 0, 100);
 }
 
 /**
@@ -126,6 +160,11 @@ void chart_style_init(lv_obj_t *chart_obj)
 void chart_set_style(void)
 {
 	// 清除图表数据
+	lv_chart_series_t * ser = lv_chart_get_series_next(screen_main_chart_show_tab1, NULL);
+	while(ser != NULL) {
+		lv_chart_set_all_value(screen_main_chart_show_tab1, ser, LV_CHART_POINT_NONE);
+		ser = lv_chart_get_series_next(screen_main_chart_show_tab1, ser);
+	}
 
 	// 设置样式
 	if (lv_ui_data.chart_selection == 0)  // 脉冲波形	折线图
