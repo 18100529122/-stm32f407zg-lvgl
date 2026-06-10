@@ -473,7 +473,7 @@
 #define LV_USE_MATRIX           0
 
 /*Include `lvgl_private.h` in `lvgl.h` to access internal data and functions by default*/
-#define LV_USE_PRIVATE_API		0
+#define LV_USE_PRIVATE_API		1
 
 /*==================
  *   FONT USAGE
@@ -643,7 +643,7 @@
 
 #define LV_USE_ROLLER     0   /*Requires: lv_label*/
 
-#define LV_USE_SCALE      0
+#define LV_USE_SCALE      1
 
 #define LV_USE_SLIDER     1   /*Requires: lv_bar*/
 

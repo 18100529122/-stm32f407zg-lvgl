@@ -1311,10 +1311,10 @@
                   "name": "chart_show_tab1",
                   "id": "e8a82216-80d2-42ca-967e-b81df71555a2",
                   "type": "chart",
-                  "left": 60,
+                  "left": 110,
                   "top": 20,
                   "visible": true,
-                  "width": 400,
+                  "width": 350,
                   "height": 300,
                   "scrollbar_mode": "OFF",
                   "range_s": 0,
@@ -3064,10 +3064,6 @@
           "commCmds": [],
           "commEvts": [],
           "objFlags": [
-            {
-              "flag": "LV_OBJ_FLAG_CLICKABLE",
-              "action": "remove"
-            },
             {
               "flag": "LV_OBJ_FLAG_SNAPPABLE",
               "action": "remove"

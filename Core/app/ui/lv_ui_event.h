@@ -9,6 +9,9 @@ extern "C"
 {
 #endif
 
+#define Y_AXIS_GLOBAL_MAX 5000
+#define Y_AXIS_GLOBAL_MIN -5000
+
 
 void screen_main_btn_tail_01_event_cb(lv_event_t *e);
 void screen_main_btn_set_09_01_event_cb(lv_event_t *e);

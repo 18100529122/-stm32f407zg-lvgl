@@ -1621,15 +1621,15 @@ static lv_obj_t * create_ui(void) {
     ui_flag_modify(screen_main_cont_show_tab1, LV_OBJ_FLAG_SCROLL_CHAIN, UI_FLAG_ACTION_REMOVE);
     // Create screen_main_chart_show_tab1
     screen_main_chart_show_tab1 = lv_chart_create(screen_main_cont_show_tab1);
-    lv_obj_set_x(screen_main_chart_show_tab1, 60);
+    lv_obj_set_x(screen_main_chart_show_tab1, 110);
     lv_obj_set_y(screen_main_chart_show_tab1, 20);
-    lv_obj_set_width(screen_main_chart_show_tab1, 400);
+    lv_obj_set_width(screen_main_chart_show_tab1, 350);
     lv_obj_set_height(screen_main_chart_show_tab1, 300);
     lv_obj_set_scrollbar_mode(screen_main_chart_show_tab1, LV_SCROLLBAR_MODE_OFF);
     lv_chart_set_type(screen_main_chart_show_tab1, LV_CHART_TYPE_LINE);
     lv_chart_set_div_line_count(screen_main_chart_show_tab1, 10, 10);
     lv_chart_set_point_count(screen_main_chart_show_tab1, 100);
-    lv_chart_set_range(screen_main_chart_show_tab1, LV_CHART_AXIS_PRIMARY_Y, 0, 100);
+
     ui_flag_modify(screen_main_chart_show_tab1, LV_OBJ_FLAG_CLICKABLE, UI_FLAG_ACTION_REMOVE);
     ui_flag_modify(screen_main_chart_show_tab1, LV_OBJ_FLAG_SNAPPABLE, UI_FLAG_ACTION_REMOVE);
     ui_flag_modify(screen_main_chart_show_tab1, LV_OBJ_FLAG_CLICK_FOCUSABLE, UI_FLAG_ACTION_REMOVE);
