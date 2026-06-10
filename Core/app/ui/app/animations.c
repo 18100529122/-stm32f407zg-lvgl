@@ -13,7 +13,3 @@
  */
 
 #include "animations.h"
-
-
-
-

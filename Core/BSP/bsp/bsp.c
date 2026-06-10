@@ -3,11 +3,11 @@
 #include "lcd.h"
 #include "touch.h"
 #include "bsp_adc.h"
-#include "bsp_time.h" // Add bsp_time.h include
+#include "bsp_time.h"  // Add bsp_time.h include
 #include "bsp_dac.h"
 #include "driver_w25qxx_basic.h"
 
-#include "elog.h" //特别拿到最前面初始化
+#include "elog.h"  //特别拿到最前面初始化
 
 /**
  * @brief 硬件抽象层初始化 (板级支持包初始化)

@@ -145,7 +145,7 @@ uint8_t w25qxx_interface_spi_qspi_write_read(uint8_t instruction, uint8_t instru
 	if (dummy > 0)
 	{
 		uint8_t dummy_bytes = dummy / 8;
-		if (dummy_bytes == 0 && dummy > 0) dummy_bytes = 1; // 至少发送 1 字节如果是奇数位
+		if (dummy_bytes == 0 && dummy > 0) dummy_bytes = 1;	 // 至少发送 1 字节如果是奇数位
 
 		memset(temp, 0x00, sizeof(temp));
 		for (uint8_t i = 0; i < dummy_bytes; i++)

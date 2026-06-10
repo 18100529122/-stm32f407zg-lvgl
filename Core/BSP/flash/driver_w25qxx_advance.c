@@ -36,7 +36,7 @@
 
 #include "driver_w25qxx_advance.h"
 
-static w25qxx_handle_t gs_handle;		  /**< w25qxx handle */
+static w25qxx_handle_t gs_handle; /**< w25qxx handle */
 
 /**
  * @brief     advance example init

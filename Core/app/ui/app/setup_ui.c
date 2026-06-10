@@ -14,7 +14,8 @@
 
 #include "setup_ui.h"
 
-void setupUi(void) {
-    lv_obj_t * screen_main = setup_screen_main();
-    lv_scr_load(screen_main);
+void setupUi(void)
+{
+	lv_obj_t *screen_main = setup_screen_main();
+	lv_scr_load(screen_main);
 }

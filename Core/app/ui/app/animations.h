@@ -15,17 +15,12 @@
 #ifndef __ANIMATIONS_H__
 #define __ANIMATIONS_H__
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "lvgl.h"
 #include "sdk.h"
-
-
-
-
-
-
 
 #ifdef __cplusplus
 }

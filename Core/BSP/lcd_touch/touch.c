@@ -16,7 +16,7 @@
 #include "gt9xxx.h"
 
 _m_tp_dev tp_dev = {
-	tp_init, gt9xxx_scan, {0}, {0}, 0, 0x80,	 /* 默认电容屏 */
+	tp_init, gt9xxx_scan, {0}, {0}, 0, 0x80, /* 默认电容屏 */
 };
 
 /**
@@ -30,7 +30,7 @@ uint8_t tp_init(void)
 	if (gt9xxx_init() == 0)
 	{
 		tp_dev.scan = gt9xxx_scan;
-		tp_dev.touchtype = 0x80 | lcddev.dir;    /* 电容屏标记, 并根据lcddev.dir设置方向 */
+		tp_dev.touchtype = 0x80 | lcddev.dir; /* 电容屏标记, 并根据lcddev.dir设置方向 */
 		return 0;
 	}
 

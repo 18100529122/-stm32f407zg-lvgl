@@ -61,56 +61,56 @@ extern "C"
  * @brief w25qxx write status register timeout definition
  */
 #ifndef W25QXX_WRITE_STATUS_TIMEOUT_MS
-#define W25QXX_WRITE_STATUS_TIMEOUT_MS (1000U)		   /**< max 1000ms */
+#define W25QXX_WRITE_STATUS_TIMEOUT_MS (1000U) /**< max 1000ms */
 #endif
 
 /**
  * @brief w25qxx erase chip timeout definition
  */
 #ifndef W25QXX_ERASE_CHIP_TIMEOUT_MS
-#define W25QXX_ERASE_CHIP_TIMEOUT_MS (1000U * 1000U)		 /**< max 1000s */
+#define W25QXX_ERASE_CHIP_TIMEOUT_MS (1000U * 1000U) /**< max 1000s */
 #endif
 
 /**
  * @brief w25qxx erase security timeout definition
  */
 #ifndef W25QXX_ERASE_SECURITY_TIMEOUT_MS
-#define W25QXX_ERASE_SECURITY_TIMEOUT_MS (100U)		/**< max 100ms */
+#define W25QXX_ERASE_SECURITY_TIMEOUT_MS (100U) /**< max 100ms */
 #endif
 
 /**
  * @brief w25qxx program security timeout definition
  */
 #ifndef W25QXX_PROGRAM_SECURITY_TIMEOUT_MS
-#define W25QXX_PROGRAM_SECURITY_TIMEOUT_MS (3U)		/**< max 3ms */
+#define W25QXX_PROGRAM_SECURITY_TIMEOUT_MS (3U) /**< max 3ms */
 #endif
 
 /**
  * @brief w25qxx page program timeout definition
  */
 #ifndef W25QXX_PAGE_PROGRAM_TIMEOUT_MS
-#define W25QXX_PAGE_PROGRAM_TIMEOUT_MS (3U)		/**< max 3ms */
+#define W25QXX_PAGE_PROGRAM_TIMEOUT_MS (3U) /**< max 3ms */
 #endif
 
 /**
  * @brief w25qxx erase 4k timeout definition
  */
 #ifndef W25QXX_ERASE_4K_TIMEOUT_MS
-#define W25QXX_ERASE_4K_TIMEOUT_MS (400U)	  /**< max 400ms */
+#define W25QXX_ERASE_4K_TIMEOUT_MS (400U) /**< max 400ms */
 #endif
 
 /**
  * @brief w25qxx erase 32k timeout definition
  */
 #ifndef W25QXX_ERASE_32K_TIMEOUT_MS
-#define W25QXX_ERASE_32K_TIMEOUT_MS (1600U)		/**< max 1600ms */
+#define W25QXX_ERASE_32K_TIMEOUT_MS (1600U) /**< max 1600ms */
 #endif
 
 /**
  * @brief w25qxx erase 64k timeout definition
  */
 #ifndef W25QXX_ERASE_64K_TIMEOUT_MS
-#define W25QXX_ERASE_64K_TIMEOUT_MS (2000U)		/**< max 2000ms */
+#define W25QXX_ERASE_64K_TIMEOUT_MS (2000U) /**< max 2000ms */
 #endif
 
 /**
@@ -118,18 +118,18 @@ extern "C"
  */
 typedef enum
 {
-	W25Q10 = 0XEF10U,		  /**< w25q10, 1Mb */
-	W25Q20 = 0XEF11U,		  /**< w25q20, 2Mb */
-	W25Q40 = 0XEF12U,		  /**< w25q40, 4Mb */
-	W25Q80 = 0XEF13U,		  /**< w25q80, 8Mb */
-	W25Q16 = 0XEF14U,		  /**< w25q16, 16Mb */
-	W25Q32 = 0XEF15U,		  /**< w25q32, 32Mb */
-	W25Q64 = 0XEF16U,		  /**< w25q64, 64Mb */
-	W25Q128 = 0XEF17U,		   /**< w25q128, 128Mb */
-	W25Q256 = 0XEF18U,		   /**< w25q256, 256Mb */
-	W25Q512 = 0XEF19U,		   /**< w25q512, 512Mb */
-	W25Q01 = 0XEF20U,		  /**< w25q01, 1Gb */
-	W25Q02 = 0XEF21U,		  /**< w25q02, 2Gb */
+	W25Q10 = 0XEF10U,  /**< w25q10, 1Mb */
+	W25Q20 = 0XEF11U,  /**< w25q20, 2Mb */
+	W25Q40 = 0XEF12U,  /**< w25q40, 4Mb */
+	W25Q80 = 0XEF13U,  /**< w25q80, 8Mb */
+	W25Q16 = 0XEF14U,  /**< w25q16, 16Mb */
+	W25Q32 = 0XEF15U,  /**< w25q32, 32Mb */
+	W25Q64 = 0XEF16U,  /**< w25q64, 64Mb */
+	W25Q128 = 0XEF17U, /**< w25q128, 128Mb */
+	W25Q256 = 0XEF18U, /**< w25q256, 256Mb */
+	W25Q512 = 0XEF19U, /**< w25q512, 512Mb */
+	W25Q01 = 0XEF20U,  /**< w25q01, 1Gb */
+	W25Q02 = 0XEF21U,  /**< w25q02, 2Gb */
 } w25qxx_type_t;
 
 /**
@@ -137,8 +137,8 @@ typedef enum
  */
 typedef enum
 {
-	W25QXX_INTERFACE_SPI = 0x00,		 /**< spi interface */
-	W25QXX_INTERFACE_QSPI = 0x01,		  /**< dspi qspi interface */
+	W25QXX_INTERFACE_SPI = 0x00,  /**< spi interface */
+	W25QXX_INTERFACE_QSPI = 0x01, /**< dspi qspi interface */
 } w25qxx_interface_t;
 
 /**
@@ -146,8 +146,8 @@ typedef enum
  */
 typedef enum
 {
-	W25QXX_BOOL_FALSE = 0x00,		  /**< false */
-	W25QXX_BOOL_TRUE = 0x01,		 /**< true */
+	W25QXX_BOOL_FALSE = 0x00, /**< false */
+	W25QXX_BOOL_TRUE = 0x01,  /**< true */
 } w25qxx_bool_t;
 
 /**
@@ -155,8 +155,8 @@ typedef enum
  */
 typedef enum
 {
-	W25QXX_ADDRESS_MODE_3_BYTE = 0x00,		   /**< 3 byte mode */
-	W25QXX_ADDRESS_MODE_4_BYTE = 0x01,		   /**< 4 byte mode */
+	W25QXX_ADDRESS_MODE_3_BYTE = 0x00, /**< 3 byte mode */
+	W25QXX_ADDRESS_MODE_4_BYTE = 0x01, /**< 4 byte mode */
 } w25qxx_address_mode_t;
 
 /**
@@ -173,10 +173,10 @@ typedef enum
  */
 typedef enum
 {
-	W25QXX_QSPI_READ_DUMMY_2_33MHZ = 0x00,		   /**< qspi read dummy 2 max 33 MHz */
-	W25QXX_QSPI_READ_DUMMY_4_55MHZ = 0x01,		   /**< qspi read dummy 4 max 55 MHz */
-	W25QXX_QSPI_READ_DUMMY_6_80MHZ = 0x02,		   /**< qspi read dummy 6 max 80 MHz */
-	W25QXX_QSPI_READ_DUMMY_8_80MHZ = 0x03,		   /**< qspi read dummy 8 max 80 MHz */
+	W25QXX_QSPI_READ_DUMMY_2_33MHZ = 0x00, /**< qspi read dummy 2 max 33 MHz */
+	W25QXX_QSPI_READ_DUMMY_4_55MHZ = 0x01, /**< qspi read dummy 4 max 55 MHz */
+	W25QXX_QSPI_READ_DUMMY_6_80MHZ = 0x02, /**< qspi read dummy 6 max 80 MHz */
+	W25QXX_QSPI_READ_DUMMY_8_80MHZ = 0x03, /**< qspi read dummy 8 max 80 MHz */
 } w25qxx_qspi_read_dummy_t;
 
 /**
@@ -184,10 +184,10 @@ typedef enum
  */
 typedef enum
 {
-	W25QXX_QSPI_READ_WRAP_LENGTH_8_BYTE = 0x00,		/**< read wrap length 8 byte */
-	W25QXX_QSPI_READ_WRAP_LENGTH_16_BYTE = 0x01,		 /**< read wrap length 16 byte */
-	W25QXX_QSPI_READ_WRAP_LENGTH_32_BYTE = 0x02,		 /**< read wrap length 32 byte */
-	W25QXX_QSPI_READ_WRAP_LENGTH_64_BYTE = 0x03,		 /**< read wrap length 64 byte */
+	W25QXX_QSPI_READ_WRAP_LENGTH_8_BYTE = 0x00,	 /**< read wrap length 8 byte */
+	W25QXX_QSPI_READ_WRAP_LENGTH_16_BYTE = 0x01, /**< read wrap length 16 byte */
+	W25QXX_QSPI_READ_WRAP_LENGTH_32_BYTE = 0x02, /**< read wrap length 32 byte */
+	W25QXX_QSPI_READ_WRAP_LENGTH_64_BYTE = 0x03, /**< read wrap length 64 byte */
 } w25qxx_qspi_read_wrap_length_t;
 
 /**
@@ -195,9 +195,9 @@ typedef enum
  */
 typedef enum
 {
-	W25QXX_SECURITY_REGISTER_1 = 0x10,		   /**< security register 1 */
-	W25QXX_SECURITY_REGISTER_2 = 0x20,		   /**< security register 2 */
-	W25QXX_SECURITY_REGISTER_3 = 0x30,		   /**< security register 3 */
+	W25QXX_SECURITY_REGISTER_1 = 0x10, /**< security register 1 */
+	W25QXX_SECURITY_REGISTER_2 = 0x20, /**< security register 2 */
+	W25QXX_SECURITY_REGISTER_3 = 0x30, /**< security register 3 */
 } w25qxx_security_register_t;
 
 /**
@@ -205,11 +205,11 @@ typedef enum
  */
 typedef enum
 {
-	W25QXX_BURST_WRAP_NONE = 0x10,		   /**< no burst wrap */
-	W25QXX_BURST_WRAP_8_BYTE = 0x00,		 /**< 8 byte burst wrap */
-	W25QXX_BURST_WRAP_16_BYTE = 0x20,		  /**< 16 byte burst wrap */
-	W25QXX_BURST_WRAP_32_BYTE = 0x40,		  /**< 32 byte burst wrap */
-	W25QXX_BURST_WRAP_64_BYTE = 0x60,		  /**< 64 byte burst wrap */
+	W25QXX_BURST_WRAP_NONE = 0x10,	  /**< no burst wrap */
+	W25QXX_BURST_WRAP_8_BYTE = 0x00,  /**< 8 byte burst wrap */
+	W25QXX_BURST_WRAP_16_BYTE = 0x20, /**< 16 byte burst wrap */
+	W25QXX_BURST_WRAP_32_BYTE = 0x40, /**< 32 byte burst wrap */
+	W25QXX_BURST_WRAP_64_BYTE = 0x60, /**< 64 byte burst wrap */
 } w25qxx_burst_wrap_t;
 
 /**
@@ -217,14 +217,14 @@ typedef enum
  */
 typedef enum
 {
-	W25QXX_STATUS1_STATUS_REGISTER_PROTECT_0 = (1 << 7),		 /**< status register protect 0 */
-	W25QXX_STATUS1_SECTOR_PROTECT_OR_TOP_BOTTOM_PROTECT = (1 << 6),		/**< sector protect bit or top / bottom protect bit */
-	W25QXX_STATUS1_TOP_BOTTOM_PROTECT_OR_BLOCK_PROTECT_3 = (1 << 5),		 /**< top / bottom protect bit or block 3 protect bit */
-	W25QXX_STATUS1_BLOCK_PROTECT_2 = (1 << 4),		   /**< block 2 protect bit */
-	W25QXX_STATUS1_BLOCK_PROTECT_1 = (1 << 3),		   /**< block 1 protect bit */
-	W25QXX_STATUS1_BLOCK_PROTECT_0 = (1 << 2),		   /**< block 0 protect bit */
-	W25QXX_STATUS1_WRITE_ENABLE_LATCH = (1 << 1),		  /**< write enable latch */
-	W25QXX_STATUS1_ERASE_WRITE_PROGRESS = (1 << 0),		/**< erase / write in progress */
+	W25QXX_STATUS1_STATUS_REGISTER_PROTECT_0 = (1 << 7),			 /**< status register protect 0 */
+	W25QXX_STATUS1_SECTOR_PROTECT_OR_TOP_BOTTOM_PROTECT = (1 << 6),	 /**< sector protect bit or top / bottom protect bit */
+	W25QXX_STATUS1_TOP_BOTTOM_PROTECT_OR_BLOCK_PROTECT_3 = (1 << 5), /**< top / bottom protect bit or block 3 protect bit */
+	W25QXX_STATUS1_BLOCK_PROTECT_2 = (1 << 4),						 /**< block 2 protect bit */
+	W25QXX_STATUS1_BLOCK_PROTECT_1 = (1 << 3),						 /**< block 1 protect bit */
+	W25QXX_STATUS1_BLOCK_PROTECT_0 = (1 << 2),						 /**< block 0 protect bit */
+	W25QXX_STATUS1_WRITE_ENABLE_LATCH = (1 << 1),					 /**< write enable latch */
+	W25QXX_STATUS1_ERASE_WRITE_PROGRESS = (1 << 0),					 /**< erase / write in progress */
 } w25qxx_status1_t;
 
 /**
@@ -232,13 +232,13 @@ typedef enum
  */
 typedef enum
 {
-	W25QXX_STATUS2_SUSPEND_STATUS = (1 << 7),		  /**< suspend status */
-	W25QXX_STATUS2_COMPLEMENT_PROTECT = (1 << 6),		  /**< complement protect */
-	W25QXX_STATUS2_SECURITY_REGISTER_3_LOCK_BITS = (1 << 5),		 /**< security register 3 lock bits */
-	W25QXX_STATUS2_SECURITY_REGISTER_2_LOCK_BITS = (1 << 4),		 /**< security register 2 lock bits */
-	W25QXX_STATUS2_SECURITY_REGISTER_1_LOCK_BITS = (1 << 3),		 /**< security register 1 lock bits */
-	W25QXX_STATUS2_QUAD_ENABLE = (1 << 1),		   /**< quad enable */
-	W25QXX_STATUS2_STATUS_REGISTER_PROTECT_1 = (1 << 0),		 /**< status register protect 1 */
+	W25QXX_STATUS2_SUSPEND_STATUS = (1 << 7),				 /**< suspend status */
+	W25QXX_STATUS2_COMPLEMENT_PROTECT = (1 << 6),			 /**< complement protect */
+	W25QXX_STATUS2_SECURITY_REGISTER_3_LOCK_BITS = (1 << 5), /**< security register 3 lock bits */
+	W25QXX_STATUS2_SECURITY_REGISTER_2_LOCK_BITS = (1 << 4), /**< security register 2 lock bits */
+	W25QXX_STATUS2_SECURITY_REGISTER_1_LOCK_BITS = (1 << 3), /**< security register 1 lock bits */
+	W25QXX_STATUS2_QUAD_ENABLE = (1 << 1),					 /**< quad enable */
+	W25QXX_STATUS2_STATUS_REGISTER_PROTECT_1 = (1 << 0),	 /**< status register protect 1 */
 } w25qxx_status2_t;
 
 /**
@@ -246,14 +246,14 @@ typedef enum
  */
 typedef enum
 {
-	W25QXX_STATUS3_HOLD_RESET_FUNCTION = (1 << 7),		   /**< HOLD or RESET function */
-	W25QXX_STATUS3_OUTPUT_DRIVER_STRENGTH_100_PERCENTAGE = (0 << 5),		 /**< output driver strength 100% */
-	W25QXX_STATUS3_OUTPUT_DRIVER_STRENGTH_75_PERCENTAGE = (1 << 5),		/**< output driver strength 75% */
-	W25QXX_STATUS3_OUTPUT_DRIVER_STRENGTH_50_PERCENTAGE = (2 << 5),		/**< output driver strength 50% */
-	W25QXX_STATUS3_OUTPUT_DRIVER_STRENGTH_25_PERCENTAGE = (3 << 5),		/**< output driver strength 25% */
-	W25QXX_STATUS3_WRITE_PROTECT_SELECTION = (1 << 2),		   /**< write protect selection */
-	W25QXX_STATUS3_POWER_UP_ADDRESS_MODE = (1 << 1),		 /**< power up address mode */
-	W25QXX_STATUS3_CURRENT_ADDRESS_MODE = (1 << 0),		/**< current address mode */
+	W25QXX_STATUS3_HOLD_RESET_FUNCTION = (1 << 7),					 /**< HOLD or RESET function */
+	W25QXX_STATUS3_OUTPUT_DRIVER_STRENGTH_100_PERCENTAGE = (0 << 5), /**< output driver strength 100% */
+	W25QXX_STATUS3_OUTPUT_DRIVER_STRENGTH_75_PERCENTAGE = (1 << 5),	 /**< output driver strength 75% */
+	W25QXX_STATUS3_OUTPUT_DRIVER_STRENGTH_50_PERCENTAGE = (2 << 5),	 /**< output driver strength 50% */
+	W25QXX_STATUS3_OUTPUT_DRIVER_STRENGTH_25_PERCENTAGE = (3 << 5),	 /**< output driver strength 25% */
+	W25QXX_STATUS3_WRITE_PROTECT_SELECTION = (1 << 2),				 /**< write protect selection */
+	W25QXX_STATUS3_POWER_UP_ADDRESS_MODE = (1 << 1),				 /**< power up address mode */
+	W25QXX_STATUS3_CURRENT_ADDRESS_MODE = (1 << 0),					 /**< current address mode */
 } w25qxx_status3_t;
 
 /**
@@ -270,23 +270,23 @@ typedef enum
  */
 typedef struct w25qxx_handle_s
 {
-	uint8_t (*spi_qspi_init)(void);																	/**< point to a spi_qspi_init function address */
-	uint8_t (*spi_qspi_deinit)(void);																  /**< point to a spi_qspi_deinit function address */
+	uint8_t (*spi_qspi_init)(void);	  /**< point to a spi_qspi_init function address */
+	uint8_t (*spi_qspi_deinit)(void); /**< point to a spi_qspi_deinit function address */
 	uint8_t (*spi_qspi_write_read)(uint8_t instruction, uint8_t instruction_line, uint32_t address, uint8_t address_line, uint8_t address_len, uint32_t alternate, uint8_t alternate_line,
 								   uint8_t alternate_len, uint8_t dummy, uint8_t *in_buf, uint32_t in_len, uint8_t *out_buf, uint32_t out_len,
-								   uint8_t data_line);			   /**< point to a spi_qspi_write_read function address */
-	void (*delay_ms)(uint32_t ms);																	 /**< point to a delay_ms function address */
-	void (*delay_us)(uint32_t us);																	 /**< point to a delay_us function address */
-	void (*debug_print)(const char *const fmt, ...);													 /**< point to a debug_print function address */
-	uint8_t inited;																					/**< inited flag */
-	uint16_t type;																					 /**< chip type */
-	uint8_t address_mode;																			  /**< address mode */
-	uint8_t param;																					 /**< param */
-	uint8_t dummy;																					 /**< dummy */
-	uint8_t dual_quad_spi_enable;																	  /**< dual spi and quad spi enable */
-	uint8_t spi_qspi;																				  /**< spi qspi interface type */
-	uint8_t buf[256 + 6];																			  /**< inner buffer */
-	uint8_t buf_4k[4096 + 1];																		  /**< 4k inner buffer */
+								   uint8_t data_line); /**< point to a spi_qspi_write_read function address */
+	void (*delay_ms)(uint32_t ms);					   /**< point to a delay_ms function address */
+	void (*delay_us)(uint32_t us);					   /**< point to a delay_us function address */
+	void (*debug_print)(const char *const fmt, ...);   /**< point to a debug_print function address */
+	uint8_t inited;									   /**< inited flag */
+	uint16_t type;									   /**< chip type */
+	uint8_t address_mode;							   /**< address mode */
+	uint8_t param;									   /**< param */
+	uint8_t dummy;									   /**< dummy */
+	uint8_t dual_quad_spi_enable;					   /**< dual spi and quad spi enable */
+	uint8_t spi_qspi;								   /**< spi qspi interface type */
+	uint8_t buf[256 + 6];							   /**< inner buffer */
+	uint8_t buf_4k[4096 + 1];						   /**< 4k inner buffer */
 } w25qxx_handle_t;
 
 /**
@@ -294,15 +294,15 @@ typedef struct w25qxx_handle_s
  */
 typedef struct w25qxx_info_s
 {
-	char chip_name[32];				/**< chip name */
-	char manufacturer_name[32];		/**< manufacturer name */
-	char interface[16];				/**< chip interface name */
-	float supply_voltage_min_v;		/**< chip min supply voltage */
-	float supply_voltage_max_v;		/**< chip max supply voltage */
-	float max_current_ma;			  /**< chip max current */
-	float temperature_min;			   /**< chip min operating temperature */
-	float temperature_max;			   /**< chip max operating temperature */
-	uint32_t driver_version;			 /**< driver version */
+	char chip_name[32];			/**< chip name */
+	char manufacturer_name[32]; /**< manufacturer name */
+	char interface[16];			/**< chip interface name */
+	float supply_voltage_min_v; /**< chip min supply voltage */
+	float supply_voltage_max_v; /**< chip max supply voltage */
+	float max_current_ma;		/**< chip max current */
+	float temperature_min;		/**< chip min operating temperature */
+	float temperature_max;		/**< chip max operating temperature */
+	uint32_t driver_version;	/**< driver version */
 } w25qxx_info_t;
 
 /**

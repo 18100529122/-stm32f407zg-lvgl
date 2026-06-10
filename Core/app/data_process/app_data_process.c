@@ -36,19 +36,19 @@ void app_data_process_init(void)
 	app_data_create_init();
 
 	/* 初始化数据处理结果结构体中的各项参数 */
-	g_app_data_result.trigger_thr_mv = 5.0f;  /* 触发阈值设为 5.0mV，适应 0-20mV 图谱范围 */
-	g_app_data_result.note_thr_mv = 20.0f;    /* 注意阈值(mV) 0-70 默认20.0 */
-	g_app_data_result.alarm_thr_mv = 20.0f;   /* 告警阈值(mV) 0-70 默认20.0 */
-	g_app_data_result.count_thr = 5;          /* 计数阈值 0-160 默认 5 */
-	g_app_data_result.phase_offset = 0;       /* 相位偏移 0-360 默认0 */
-	g_app_data_result.gain_type_auto = false; /* 增益类型 true自动 false手动 默认手动 */
-	g_app_data_result.gain = 40;              /* 信号增益 40 60 80 默认40 */
-	g_app_data_result.unit_select_dBuV = true; /* 单位选择 true:dBuV false:uV 默认dBuV */
-	g_app_data_result.flight_period = 2;      /* 飞行周期 2T 5T 10T 默认2T */
+	g_app_data_result.trigger_thr_mv = 5.0f;	 /* 触发阈值设为 5.0mV，适应 0-20mV 图谱范围 */
+	g_app_data_result.note_thr_mv = 20.0f;		 /* 注意阈值(mV) 0-70 默认20.0 */
+	g_app_data_result.alarm_thr_mv = 20.0f;		 /* 告警阈值(mV) 0-70 默认20.0 */
+	g_app_data_result.count_thr = 5;			 /* 计数阈值 0-160 默认 5 */
+	g_app_data_result.phase_offset = 0;			 /* 相位偏移 0-360 默认0 */
+	g_app_data_result.gain_type_auto = false;	 /* 增益类型 true自动 false手动 默认手动 */
+	g_app_data_result.gain = 40;				 /* 信号增益 40 60 80 默认40 */
+	g_app_data_result.unit_select_dBuV = true;	 /* 单位选择 true:dBuV false:uV 默认dBuV */
+	g_app_data_result.flight_period = 2;		 /* 飞行周期 2T 5T 10T 默认2T */
 	g_app_data_result.channel_select_int = true; /* 通道选择 true:内置超声 false:外置超声 默认内置超声 */
 
-	g_app_data_result.adc_restart_cnt = 0;   /* 初始化 ADC 重启计数 */
-	g_app_data_result.adc_sample_cnt = 0;	  /* 初始化 ADC 采样点计数 */
+	g_app_data_result.adc_restart_cnt = 0;		/* 初始化 ADC 重启计数 */
+	g_app_data_result.adc_sample_cnt = 0;		/* 初始化 ADC 采样点计数 */
 	g_app_data_result.adc_valid_sample_cnt = 0; /* 初始化 ADC 有效采样点计数 */
 
 	/* 将外部 SRAM 数组的地址赋值给结构体中的指针 */
@@ -110,7 +110,6 @@ void app_data_process_inc_adc_sample_cnt(uint32_t add)
 // 	return rms_data;
 // }
 
-
 /**
  * @brief 数据处理任务主体
  */
@@ -143,7 +142,7 @@ static void app_data_process_task(void *argument)
 				app_data_fft_compute(f32_data, ADC_DMA_BUFF_SIZE);
 
 				uint32_t current_base_sample_idx = g_app_data_result.adc_valid_sample_cnt;
-				g_app_data_result.adc_valid_sample_cnt += ADC_DMA_BUFF_SIZE;// 有效采样点计数
+				g_app_data_result.adc_valid_sample_cnt += ADC_DMA_BUFF_SIZE;  // 有效采样点计数
 
 				/* 3. 直接使用 float32_t 数据进行峰值和 RMS 计算 */
 				float32_t current_max_val = 0;
@@ -176,7 +175,7 @@ static void app_data_process_task(void *argument)
 				{
 					app_data_process_reset_tof();
 					app_data_process_reset_prpd();
-					g_app_data_result.adc_valid_sample_cnt = 0; // 重置计数
+					g_app_data_result.adc_valid_sample_cnt = 0;	 // 重置计数
 				}
 
 				/* 清除该块的已满标志 */
@@ -228,7 +227,7 @@ static void app_data_process_update_tof(float32_t *data, uint32_t len, uint32_t 
 					int time_idx = ((base_sample_idx + i) % total_tof_samples) / (total_tof_samples / TOF_TIME_BINS);
 
 					/* 映射到幅值矩阵索引 (0-20mV -> 40 bins, 0.5mV/bin) */
-					int amp_idx = (int)(mv * 2.0f); // mv / 0.5f 等价于 mv * 2.0f
+					int amp_idx = (int)(mv * 2.0f);	 // mv / 0.5f 等价于 mv * 2.0f
 
 					if (amp_idx < TOF_AMP_BINS && time_idx < TOF_TIME_BINS)
 					{
@@ -261,7 +260,7 @@ static void app_data_process_update_prpd(float32_t *data, uint32_t len, uint32_t
 {
 	for (uint32_t i = 0; i < len; i++)
 	{
-		float32_t mv = data[i] * 0.0040283203f; // 转换为 mV (同 tof 转换方式)
+		float32_t mv = data[i] * 0.0040283203f;	 // 转换为 mV (同 tof 转换方式)
 
 		/* 脉冲峰值检测 (同 tof 逻辑) */
 		if (mv > g_app_data_result.trigger_thr_mv)
@@ -279,7 +278,7 @@ static void app_data_process_update_prpd(float32_t *data, uint32_t len, uint32_t
 					int phase_idx = adjusted_sample_pos / (SAMPLES_PER_50HZ_CYCLE / PRPD_PHASE_BINS);
 
 					/* 映射到幅值矩阵索引 (0-20mV -> PRPD_AMP_BINS bins, 0.5mV/bin) */
-					int amp_idx = (int)(mv * 2.0f); // mv / 0.5f 等价于 mv * 2.0f
+					int amp_idx = (int)(mv * 2.0f);	 // mv / 0.5f 等价于 mv * 2.0f
 
 					if (amp_idx < PRPD_AMP_BINS && phase_idx < PRPD_PHASE_BINS)
 					{

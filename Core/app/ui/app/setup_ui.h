@@ -15,22 +15,19 @@
 #ifndef __SETUP_UI_H__
 #define __SETUP_UI_H__
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "lvgl.h"
 #include "sdk.h"
 #include "animations.h"
 
-
 extern lv_img_dsc_t const battery_1_30x30;
-
 
 LV_FONT_DECLARE(lv_font_chinese_14_14);
 
-lv_obj_t * setup_screen_main(void);
-
-
+lv_obj_t *setup_screen_main(void);
 
 #ifdef __cplusplus
 }

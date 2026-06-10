@@ -60,7 +60,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 		HAL_UART_AbortReceive(huart);
 		__HAL_UART_CLEAR_IDLEFLAG(huart);
 		__HAL_UART_CLEAR_OREFLAG(huart);
-		(void)huart->Instance->DR; // 清除数据寄存器残留
+		(void)huart->Instance->DR;	// 清除数据寄存器残留
 
 		/* 4. 清空缓冲区并重启 DMA 接收 */
 		memset(g_usart_rx_buf, 0, USART_RX_BUF_SIZE);

@@ -41,8 +41,8 @@ void bsp_adc_init(void)
 	}
 
 	/* 动态调整 ADC1 配置以支持 Timer2 触发 and DMA 连续请求 */
-	hadc1.Instance->CR2 &= ~ADC_CR2_CONT;	  /* 关闭连续转换模式，改为触发模式 */
-	hadc1.Instance->CR2 |= ADC_CR2_DDS;		/* 开启 DMA 连续请求 (DDS位) */
+	hadc1.Instance->CR2 &= ~ADC_CR2_CONT; /* 关闭连续转换模式，改为触发模式 */
+	hadc1.Instance->CR2 |= ADC_CR2_DDS;	  /* 开启 DMA 连续请求 (DDS位) */
 
 	/* 设置外部触发源为 Timer2 TRGO，并使能上升沿触发 */
 	hadc1.Instance->CR2 &= ~ADC_CR2_EXTSEL;
@@ -133,19 +133,19 @@ static inline void bsp_adc_signal_from_isr(void)
  */
 static void bsp_adc_extract_to_fifo(uint32_t start_idx)
 {
-	static uint32_t s_rem = 0;			   /* 累计未抽取的点数偏移 */
-	static uint32_t s_sample_idx = 0;	  /* 当前 FIFO 块内的采样点索引 */
+	static uint32_t s_rem = 0;		  /* 累计未抽取的点数偏移 */
+	static uint32_t s_sample_idx = 0; /* 当前 FIFO 块内的采样点索引 */
 
 	bsp_adc_fifo_t *fifo = bsp_adc_get_fifo_dev();
 	uint8_t w_idx = fifo->write_idx;
 
 	if (fifo->status[w_idx].is_full)
 	{
-		bsp_adc_stop();// 停止采集，防止数据溢出
-		memset(bsp_adc_get_fifo_dev(), 0, sizeof(bsp_adc_fifo_t));// 清空 FIFO 状态
-		s_rem = 0;// 重置累计偏移
-		s_sample_idx = 0;// 重置采样点索引
-		app_data_process_inc_adc_restart_cnt();// 增加重启次数
+		bsp_adc_stop();												// 停止采集，防止数据溢出
+		memset(bsp_adc_get_fifo_dev(), 0, sizeof(bsp_adc_fifo_t));	// 清空 FIFO 状态
+		s_rem = 0;													// 重置累计偏移
+		s_sample_idx = 0;											// 重置采样点索引
+		app_data_process_inc_adc_restart_cnt();						// 增加重启次数
 		bsp_adc_signal_from_isr();
 		return;
 	}
@@ -153,7 +153,7 @@ static void bsp_adc_extract_to_fifo(uint32_t start_idx)
 	/* 处理半个缓冲区的数据量 */
 	uint32_t process_len = ADC_BUFF_SIZE / 2;
 
-	app_data_process_inc_adc_sample_cnt(process_len);// 增加采样点计数
+	app_data_process_inc_adc_sample_cnt(process_len);  // 增加采样点计数
 
 	for (int i = (ADC_DECIMATION_FACTOR - 1 - s_rem); i < process_len; i += ADC_DECIMATION_FACTOR)
 	{

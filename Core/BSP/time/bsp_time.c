@@ -1,5 +1,5 @@
 #include "bsp_time.h"
-#include "tim.h" // 包含CubeMX生成的tim.h，其中包含了htim5句柄的声明
+#include "tim.h"  // 包含CubeMX生成的tim.h，其中包含了htim5句柄的声明
 
 // 声明 CubeMX 生成的 TIM5 句柄
 extern TIM_HandleTypeDef htim5;
@@ -10,7 +10,7 @@ extern TIM_HandleTypeDef htim5;
  */
 void bsp_time_init(void)
 {
-	HAL_TIM_Base_Start(&htim5); // 启动TIM5定时器
+	HAL_TIM_Base_Start(&htim5);	 // 启动TIM5定时器
 }
 
 /**

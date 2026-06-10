@@ -47,15 +47,15 @@ void ct_iic_init(void)
 	/* SCL/SDA 引脚已在 MX_GPIO_Init 中启用时钟 */
 	/* 强制将 SCL/SDA 设置为开漏输出模式，以便进行软件 I2C 双向通信 */
 	gpio_init_struct.Pin = CT_IIC_SCL_GPIO_PIN;
-	gpio_init_struct.Mode = GPIO_MODE_OUTPUT_OD;			 /* 开漏输出 */
-	gpio_init_struct.Pull = GPIO_PULLUP;					 /* 上拉 */
-	gpio_init_struct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;		/* 高速 */
+	gpio_init_struct.Mode = GPIO_MODE_OUTPUT_OD;		/* 开漏输出 */
+	gpio_init_struct.Pull = GPIO_PULLUP;				/* 上拉 */
+	gpio_init_struct.Speed = GPIO_SPEED_FREQ_VERY_HIGH; /* 高速 */
 	HAL_GPIO_Init(CT_IIC_SCL_GPIO_PORT, &gpio_init_struct);
 
 	gpio_init_struct.Pin = CT_IIC_SDA_GPIO_PIN;
 	HAL_GPIO_Init(CT_IIC_SDA_GPIO_PORT, &gpio_init_struct);
 
-	ct_iic_stop();  /* 停止总线上所有设备 */
+	ct_iic_stop(); /* 停止总线上所有设备 */
 }
 
 /**
@@ -68,9 +68,9 @@ void ct_iic_start(void)
 	CT_IIC_SDA(1);
 	CT_IIC_SCL(1);
 	ct_iic_delay();
-	CT_IIC_SDA(0);	   /* START信号: 当SCL为高时, SDA从高变成低, 表示起始信号 */
+	CT_IIC_SDA(0); /* START信号: 当SCL为高时, SDA从高变成低, 表示起始信号 */
 	ct_iic_delay();
-	CT_IIC_SCL(0);	   /* 钳住I2C总线，准备发送或接收数据 */
+	CT_IIC_SCL(0); /* 钳住I2C总线，准备发送或接收数据 */
 	ct_iic_delay();
 }
 
@@ -81,11 +81,11 @@ void ct_iic_start(void)
  */
 void ct_iic_stop(void)
 {
-	CT_IIC_SDA(0);	   /* STOP信号: 当SCL为高时, SDA从低变成高, 表示停止信号 */
+	CT_IIC_SDA(0); /* STOP信号: 当SCL为高时, SDA从低变成高, 表示停止信号 */
 	ct_iic_delay();
 	CT_IIC_SCL(1);
 	ct_iic_delay();
-	CT_IIC_SDA(1);	   /* 发送I2C总线结束信号 */
+	CT_IIC_SDA(1); /* 发送I2C总线结束信号 */
 	ct_iic_delay();
 }
 
@@ -100,9 +100,9 @@ uint8_t ct_iic_wait_ack(void)
 	uint8_t waittime = 0;
 	uint8_t rack = 0;
 
-	CT_IIC_SDA(1);	   /* 主机释放SDA线(此时外部器件可以拉低SDA线) */
+	CT_IIC_SDA(1); /* 主机释放SDA线(此时外部器件可以拉低SDA线) */
 	ct_iic_delay();
-	CT_IIC_SCL(1);	   /* SCL=1, 此时从机可以返回ACK */
+	CT_IIC_SCL(1); /* SCL=1, 此时从机可以返回ACK */
 	ct_iic_delay();
 
 	while (CT_READ_SDA) /* 等待应答 */
@@ -119,7 +119,7 @@ uint8_t ct_iic_wait_ack(void)
 		ct_iic_delay();
 	}
 
-	CT_IIC_SCL(0);	   /* SCL=0, 结束ACK检查 */
+	CT_IIC_SCL(0); /* SCL=0, 结束ACK检查 */
 	ct_iic_delay();
 	return rack;
 }
@@ -131,13 +131,13 @@ uint8_t ct_iic_wait_ack(void)
  */
 void ct_iic_ack(void)
 {
-	CT_IIC_SDA(0);  /* SCL 0 -> 1  时SDA = 0,表示应答 */
+	CT_IIC_SDA(0); /* SCL 0 -> 1  时SDA = 0,表示应答 */
 	ct_iic_delay();
 	CT_IIC_SCL(1);
 	ct_iic_delay();
 	CT_IIC_SCL(0);
 	ct_iic_delay();
-	CT_IIC_SDA(1);  /* 主机释放SDA线 */
+	CT_IIC_SDA(1); /* 主机释放SDA线 */
 	ct_iic_delay();
 }
 
@@ -148,7 +148,7 @@ void ct_iic_ack(void)
  */
 void ct_iic_nack(void)
 {
-	CT_IIC_SDA(1);  /* SCL 0 -> 1  时 SDA = 1,表示不应答 */
+	CT_IIC_SDA(1); /* SCL 0 -> 1  时 SDA = 1,表示不应答 */
 	ct_iic_delay();
 	CT_IIC_SCL(1);
 	ct_iic_delay();
@@ -172,10 +172,10 @@ void ct_iic_send_byte(uint8_t data)
 		CT_IIC_SCL(1);
 		ct_iic_delay();
 		CT_IIC_SCL(0);
-		data <<= 1;		/* 左移1位,用于下一次发送 */
+		data <<= 1; /* 左移1位,用于下一次发送 */
 	}
 
-	CT_IIC_SDA(1);	   /* 发送完成, 主机释放SDA线 */
+	CT_IIC_SDA(1); /* 发送完成, 主机释放SDA线 */
 }
 
 /**
@@ -187,9 +187,9 @@ uint8_t ct_iic_read_byte(unsigned char ack)
 {
 	uint8_t i, receive = 0;
 
-	for (i = 0; i < 8; i++)	/* 接收1个字节数据 */
+	for (i = 0; i < 8; i++) /* 接收1个字节数据 */
 	{
-		receive <<= 1;		   /* 高位先输出,所以先收到的数据位要左移 */
+		receive <<= 1; /* 高位先输出,所以先收到的数据位要左移 */
 		CT_IIC_SCL(1);
 		ct_iic_delay();
 
@@ -204,11 +204,11 @@ uint8_t ct_iic_read_byte(unsigned char ack)
 
 	if (!ack)
 	{
-		ct_iic_nack();  /* 发送nACK */
+		ct_iic_nack(); /* 发送nACK */
 	}
 	else
 	{
-		ct_iic_ack();	  /* 发送ACK */
+		ct_iic_ack(); /* 发送ACK */
 	}
 
 	return receive;

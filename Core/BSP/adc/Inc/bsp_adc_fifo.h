@@ -17,8 +17,8 @@ typedef struct
 		uint8_t reserved : 7;
 	} status[ADC_FIFO_NUM];
 
-	volatile uint8_t write_idx;	/* 当前正在写入的 FIFO 索引 */
-	volatile uint8_t read_idx;   /* 当前待处理的 FIFO 索引 */
+	volatile uint8_t write_idx; /* 当前正在写入的 FIFO 索引 */
+	volatile uint8_t read_idx;	/* 当前待处理的 FIFO 索引 */
 
 	uint16_t data[ADC_FIFO_NUM][ADC_DMA_BUFF_SIZE];
 } bsp_adc_fifo_t;
