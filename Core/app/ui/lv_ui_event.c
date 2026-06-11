@@ -91,6 +91,12 @@ static void screen_init(void)
 	lv_slider_set_value(screen_main_slider_set_03_01, lv_ui_data.count_threshold, LV_ANIM_OFF);
 	lv_slider_set_value(screen_main_slider_set_04_01, lv_ui_data.phase_offset_angle, LV_ANIM_OFF);
 
+	// Bar
+	bar_set_rms();
+	bar_set_max();
+	bar_set_data50hz();
+	bar_set_data100hz();
+
 	// 图表样式
 	chart_style_init(screen_main_chart_show_tab1);
 	chart_set_style();
@@ -116,6 +122,7 @@ void lv_ui_refresh(void)
 	app_data_result_t *r = app_data_process_get_result();
 	if (r)
 	{
+		// 更新数据 PRPD 图谱 飞行图谱 脉冲波形
 		lv_ui_data.prpd_matrix_ptr = r->prpd_matrix_ptr;
 		lv_ui_data.tof_matrix_ptr = r->tof_matrix_ptr;
 
@@ -124,6 +131,12 @@ void lv_ui_refresh(void)
 			uint32_t src_i = (i * (ADC_WAVE_SIZE - 1)) / (100 - 1);
 			lv_ui_data.adc_wave_100[i] = r->adc_wave[src_i];
 		}
+
+		// 更新四要素图数据
+		lv_ui_data.rms = r->rms;
+		lv_ui_data.max = r->peak;
+		lv_ui_data.data50hz = r->freq_50hz;
+		lv_ui_data.data100hz = r->freq_100hz;
 	}
 
 	updata_chart_data();

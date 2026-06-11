@@ -44,10 +44,10 @@ typedef struct
 	uint16_t (*prpd_matrix_ptr)[PRPD_PHASE_BINS]; /**< PRPD图谱矩阵数据指针 */
 	uint16_t (*tof_matrix_ptr)[TOF_TIME_BINS];	  /**< 飞行图谱矩阵数据指针 */
 	// 四要素图
-	uint8_t rms;	   /**< RMS 值 */
-	uint8_t max;	   /**< 最大值 */
-	uint8_t data50hz;  /**< 50Hz 值 */
-	uint8_t data100hz; /**< 100Hz 值 */
+	float rms;		 /**< RMS 值 */
+	float max;		 /**< 最大值 */
+	float data50hz;	 /**< 50Hz 值 */
+	float data100hz; /**< 100Hz 值 */
 
 	// cont tail 界面显示参数
 	int sync_method;	   /**< 同步方式 0内同步 */
@@ -262,6 +262,12 @@ void screen_main_slider_set_01_01_event_cb(lv_event_t *e);
 void screen_main_slider_set_02_01_event_cb(lv_event_t *e);
 void screen_main_slider_set_03_01_event_cb(lv_event_t *e);
 void screen_main_slider_set_04_01_event_cb(lv_event_t *e);
+
+// Bar
+void bar_set_rms(void);
+void bar_set_max(void);
+void bar_set_data50hz(void);
+void bar_set_data100hz(void);
 
 #ifdef __cplusplus
 } /*extern "C"*/

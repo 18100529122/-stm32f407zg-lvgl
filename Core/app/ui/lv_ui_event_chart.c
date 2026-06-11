@@ -360,7 +360,19 @@ static void update_chart_selection_1(void)
  * 该函数暂未实现，用于未来扩展。
  *
  */
-static void update_chart_selection_2(void) {}
+static void update_chart_selection_2(void)
+{
+	// 根据数据刷新 label
+	label_set_rms();
+	label_set_max();
+	label_set_data50hz();
+	label_set_data100hz();
+	// 修改 bar
+	bar_set_rms();
+	bar_set_max();
+	bar_set_data50hz();
+	bar_set_data100hz();
+}
 
 /*
  * @brief 更新飞行图图表数据

@@ -92,7 +92,7 @@ void label_set_y_axis_range(void)
 void label_set_rms(void)
 {
 	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%d dBuv", lv_ui_data.rms);
+	snprintf(temp_chars, sizeof(temp_chars), "%.1f dBuv", lv_ui_data.rms);
 	lv_label_set_text(screen_main_label_show_tab2_13, temp_chars);
 }
 
@@ -105,7 +105,7 @@ void label_set_rms(void)
 void label_set_max(void)
 {
 	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%d dBuv", lv_ui_data.max);
+	snprintf(temp_chars, sizeof(temp_chars), "%.1f dBuv", lv_ui_data.max);
 	lv_label_set_text(screen_main_label_show_tab2_23, temp_chars);
 }
 
@@ -118,7 +118,7 @@ void label_set_max(void)
 void label_set_data50hz(void)
 {
 	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%d dBuv", lv_ui_data.data50hz);
+	snprintf(temp_chars, sizeof(temp_chars), "%.1f dBuv", lv_ui_data.data50hz);
 	lv_label_set_text(screen_main_label_show_tab2_33, temp_chars);
 }
 
@@ -131,7 +131,7 @@ void label_set_data50hz(void)
 void label_set_data100hz(void)
 {
 	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%d dBuv", lv_ui_data.data100hz);
+	snprintf(temp_chars, sizeof(temp_chars), "%.1f dBuv", lv_ui_data.data100hz);
 	lv_label_set_text(screen_main_label_show_tab2_43, temp_chars);
 }
 
