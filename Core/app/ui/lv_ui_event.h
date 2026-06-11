@@ -19,10 +19,9 @@ extern "C"
 #endif
 
 /*========================= 宏定义 (Macros) ================================*/
-#define ADC_RANGE_MAX 50	// lv_ui_data.y_axis_range * 5000/100 = *50
+#define ADC_RANGE_MAX  50	// lv_ui_data.y_axis_range * 5000/100 = *50
 #define PRPD_RANGE_MAX 0.4	// 40
-#define TOF_RANGE_MAX 0.4	// 40
-
+#define TOF_RANGE_MAX  0.4	// 40
 
 /*========================= 类型定义 (Typedefs) ============================*/
 

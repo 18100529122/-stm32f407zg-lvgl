@@ -285,7 +285,7 @@ void chart_set_style(void)
  * 该函数将 `lv_ui_data.adc_wave_100` 中的前 100 个数据填充到 `screen_main_chart_show_tab1` 的 Y 轴数据数组中。
  * 并将剩余的点设置为 LV_CHART_POINT_NONE，以确保图表在显示时正确处理。
  *
-*/
+ */
 static void update_chart_selection_0(void)
 {
 	lv_chart_series_t *ser = ensure_main_chart_series(screen_main_chart_show_tab1);
@@ -314,7 +314,7 @@ static void update_chart_selection_0(void)
  * 该函数将 `lv_ui_data.prpd_matrix_ptr` 中的 PRPD 数据填充到 `screen_main_chart_show_tab1` 的 X 轴和 Y 轴数据数组中。
  * 并将剩余的点设置为 LV_CHART_POINT_NONE，以确保图表在显示时正确处理。
  *
-*/
+ */
 static void update_chart_selection_1(void)
 {
 	lv_chart_series_t *ser = ensure_main_chart_series(screen_main_chart_show_tab1);
@@ -328,9 +328,9 @@ static void update_chart_selection_1(void)
 	if (x == NULL || y == NULL) return;
 
 	uint16_t (*m)[PRPD_PHASE_BINS] = lv_ui_data.prpd_matrix_ptr;
-	if (m == NULL)return;
+	if (m == NULL) return;
 
-	int y_axis_range_mx = lv_ui_data.y_axis_range*PRPD_RANGE_MAX;
+	int y_axis_range_mx = lv_ui_data.y_axis_range * PRPD_RANGE_MAX;
 	uint32_t out_i = 0;
 	for (uint32_t amp = 0; amp < y_axis_range_mx; amp++)
 	{
@@ -359,10 +359,8 @@ static void update_chart_selection_1(void)
  *
  * 该函数暂未实现，用于未来扩展。
  *
-*/
-static void update_chart_selection_2(void){
-
-}
+ */
+static void update_chart_selection_2(void) {}
 
 /*
  * @brief 更新飞行图图表数据
@@ -370,8 +368,9 @@ static void update_chart_selection_2(void){
  * 该函数将 `lv_ui_data.tof_matrix_ptr` 中的 TOF 数据填充到 `screen_main_chart_show_tab1` 的 X 轴和 Y 轴数据数组中。
  * 并将剩余的点设置为 LV_CHART_POINT_NONE，以确保图表在显示时正确处理。
  *
-*/
-static void update_chart_selection_3(void){
+ */
+static void update_chart_selection_3(void)
+{
 	lv_chart_series_t *ser = ensure_main_chart_series(screen_main_chart_show_tab1);
 	if (ser == NULL) return;
 
@@ -383,9 +382,9 @@ static void update_chart_selection_3(void){
 	if (x == NULL || y == NULL) return;
 
 	uint16_t (*m)[TOF_TIME_BINS] = lv_ui_data.tof_matrix_ptr;
-	if (m == NULL)return;
+	if (m == NULL) return;
 
-	int y_axis_range_mx = lv_ui_data.y_axis_range*PRPD_RANGE_MAX;
+	int y_axis_range_mx = lv_ui_data.y_axis_range * PRPD_RANGE_MAX;
 	uint32_t out_i = 0;
 	for (uint32_t amp = 0; amp < y_axis_range_mx; amp++)
 	{
@@ -408,8 +407,6 @@ static void update_chart_selection_3(void){
 
 	lv_chart_refresh(screen_main_chart_show_tab1);
 }
-
-
 
 /**
  * @brief 更新图表数据
