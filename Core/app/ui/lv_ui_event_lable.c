@@ -191,76 +191,76 @@ void label_set_phase_offset(void)
  * @brief 更新连续尾部同步方法文本内容
  *
  * 该函数根据 `lv_ui_data.sync_method` 的值，
- * 将相应的同步方法文本设置为 `screen_main_label_set_04_01` 标签的文本内容。
+ * 将相应的同步方法文本设置为 `screen_main_label_tail_01` 标签的文本内容。
  */
 void label_set_cont_tail_sync_method(void)
 {
 	char temp_chars[30];
-	snprintf(temp_chars, sizeof(temp_chars), "同步方法: %s", lv_ui_data.sync_method ? "内同步" : "外同步");
-	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
+	snprintf(temp_chars, sizeof(temp_chars), "同步方式: %s", lv_ui_data.sync_method ? "内同步" : "外同步");
+	lv_label_set_text(screen_main_label_tail_01, temp_chars);
 }
 
 /**
  * @brief 更新连续尾部同步频率文本内容
  *
  * 该函数将 `lv_ui_data.sync_frequency` 的值格式化为字符串，
- * 并将其设置为 `screen_main_label_set_04_01` 标签的文本内容。
+ * 并将其设置为 `screen_main_label_tail_02` 标签的文本内容。
  */
 void label_set_cont_tail_sync_frequency(void)
 {
 	char temp_chars[30];
 	snprintf(temp_chars, sizeof(temp_chars), "同步频率: %d Hz", lv_ui_data.sync_frequency);
-	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
+	lv_label_set_text(screen_main_label_tail_02, temp_chars);
 }
 
 /**
  * @brief 更新连续尾部通道增益文本内容
  *
  * 该函数将 `lv_ui_data.channel_gain` 的值格式化为字符串，
- * 并将其设置为 `screen_main_label_set_04_01` 标签的文本内容。
+ * 并将其设置为 `screen_main_label_set_04_03` 标签的文本内容。
  */
 void label_set_cont_tail_channel_gain(void)
 {
 	char temp_chars[30];
 	snprintf(temp_chars, sizeof(temp_chars), "通道增益: %d dB", lv_ui_data.channel_gain);
-	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
+	lv_label_set_text(screen_main_label_set_04_03, temp_chars);
 }
 
 /**
  * @brief 更新连续尾部通道阈值文本内容
  *
  * 该函数将 `lv_ui_data.channel_threshold` 的值格式化为字符串，
- * 并将其设置为 `screen_main_label_set_04_01` 标签的文本内容。
+ * 并将其设置为 `screen_main_label_tail_04` 标签的文本内容。
  */
 void label_set_cont_tail_channel_threshold(void)
 {
 	char temp_chars[30];
 	snprintf(temp_chars, sizeof(temp_chars), "通道阈值: %d", lv_ui_data.channel_threshold);
-	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
+	lv_label_set_text(screen_main_label_tail_04, temp_chars);
 }
 
 /**
  * @brief 更新连续尾部相位偏移文本内容
  *
  * 该函数将 `lv_ui_data.phase_offset_angle` 的值格式化为字符串，
- * 并将其设置为 `screen_main_label_set_04_01` 标签的文本内容。
+ * 并将其设置为 `screen_main_label_tail_05` 标签的文本内容。
  */
 void label_set_cont_tail_phase_offset(void)
 {
 	char temp_chars[30];
 	snprintf(temp_chars, sizeof(temp_chars), "相位偏移: %d", lv_ui_data.phase_offset);
-	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
+	lv_label_set_text(screen_main_label_tail_05, temp_chars);
 }
 
 /**
  * @brief 更新连续尾部滤波器使能文本内容
  *
  * 该函数根据 `lv_ui_data.filter_enabled` 的值，
- * 将相应的滤波器使能文本设置为 `screen_main_label_set_04_01` 标签的文本内容。
+ * 将相应的滤波器使能文本设置为 `screen_main_label_tail_06` 标签的文本内容。
  */
 void label_set_cont_tail_filter_enabled(void)
 {
 	char temp_chars[30];
-	snprintf(temp_chars, sizeof(temp_chars), "滤波器使能: %s", lv_ui_data.filter_enabled ? "开启" : "关闭");
-	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
+	snprintf(temp_chars, sizeof(temp_chars), "滤波: %s", lv_ui_data.filter_enabled ? "开启" : "关闭");
+	lv_label_set_text(screen_main_label_tail_06, temp_chars);
 }

@@ -19,10 +19,13 @@ static void lv_ui_data_init(void)
 
 	// cont show 界面显示与控制参数
 	lv_ui_data.chart_selection = 0;	   /**< 图表选择 0脉冲波形 1PRPD图 2四要素图 3飞行图谱 默认0*/
-	lv_ui_data.y_axis_range = 25;	   /**< Y轴量程0-100 默认25 */
-	lv_ui_data.adc_wave_ptr = NULL;	   /**< ADC 波形数据指针 脉冲波形 */
+	lv_ui_data.y_axis_range = 50;	   /**< Y轴量程0-100 默认50 */
 	lv_ui_data.prpd_matrix_ptr = NULL; /**< PRPD图谱矩阵数据指针 */
 	lv_ui_data.tof_matrix_ptr = NULL;  /**< 飞行图谱矩阵数据指针 */
+	for (int i = 0; i < 100; i++)
+	{
+		lv_ui_data.adc_wave_100[i] = 0;
+	}
 	// 四要素图
 	lv_ui_data.rms = 0;		  /**< RMS 值 */
 	lv_ui_data.max = 0;		  /**< 最大值 */
@@ -108,4 +111,20 @@ void lv_ui_init(void)
 /**
  * @brief 刷新 UI 界面显示 (总刷新入口)
  */
-void lv_ui_refresh(void) {}
+void lv_ui_refresh(void)
+{
+	app_data_result_t *r = app_data_process_get_result();
+	if (r)
+	{
+		lv_ui_data.prpd_matrix_ptr = r->prpd_matrix_ptr;
+		lv_ui_data.tof_matrix_ptr = r->tof_matrix_ptr;
+
+		for (uint32_t i = 0; i < 100; i++)
+		{
+			uint32_t src_i = (i * (ADC_WAVE_SIZE - 1)) / (100 - 1);
+			lv_ui_data.adc_wave_100[i] = r->adc_wave[src_i];
+		}
+	}
+
+	updata_chart_data();
+}

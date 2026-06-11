@@ -197,6 +197,7 @@ static void control_cont_tab1(int tab)
 	default:
 		break;
 	}
+	chart_set_style();
 }
 
 /*========================= 函数实现 (Function Definitions) ================*/

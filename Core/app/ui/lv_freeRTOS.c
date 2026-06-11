@@ -34,7 +34,7 @@ static void lvgl_data_update_timer_cb(lv_timer_t *timer)
 
 	//  更新图表和标签数据
 
-	//刷新 UI 
+	// 刷新 UI
 	lv_ui_refresh();
 }
 

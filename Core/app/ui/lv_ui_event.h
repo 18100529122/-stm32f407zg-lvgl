@@ -38,8 +38,8 @@ typedef struct
 	int pulse;				   /**< 脉冲 */
 	// cont show 界面显示与控制参数
 	int chart_selection;						  /**< 图表选择 0脉冲波形 1PRPD图 2四要素图 3飞行图谱 默认0*/
-	int y_axis_range;							  /**< Y轴量程0-100 默认25 */
-	uint16_t *adc_wave_ptr;						  /**< ADC 波形数据指针 脉冲波形 */
+	int y_axis_range;							  /**< Y轴量程0-100 默认50 */
+	uint16_t adc_wave_100[100];					  /**< ADC 波形数据(100点) 脉冲波形 */
 	uint16_t (*prpd_matrix_ptr)[PRPD_PHASE_BINS]; /**< PRPD图谱矩阵数据指针 */
 	uint16_t (*tof_matrix_ptr)[TOF_TIME_BINS];	  /**< 飞行图谱矩阵数据指针 */
 	// 四要素图
@@ -251,7 +251,7 @@ void screen_main_btn_tab4_event_cb(lv_event_t *e);
 
 // 图表
 void update_chart_y_axis_and_labels(lv_obj_t *chart_obj, lv_obj_t *scale_y_obj);
-void update_chart_x_axis_and_labels(lv_obj_t *chart_obj, lv_obj_t *scale_x_obj, int32_t x_min, int32_t x_max);
+void update_chart_x_axis_and_labels(int data_type);
 void chart_style_init(lv_obj_t *chart_obj);
 void chart_set_style(void);
 void updata_chart_data(void);
