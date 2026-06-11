@@ -18,59 +18,56 @@ lv_obj_t *screen_main_chart_scale_x = NULL;
 static lv_chart_series_t *s_main_chart_ser0 = NULL;
 
 /*========================= 静态函数声明 (Static Function Declarations) ====*/
-static void update_chart_y_axis_and_labels_range(lv_obj_t *chart_obj, lv_obj_t *scale_y_obj, int32_t y_min, int32_t y_max);
 static lv_chart_series_t *ensure_main_chart_series(lv_obj_t *chart_obj);
 static void clear_main_chart_series(lv_obj_t *chart_obj);
-static void fill_scatter_from_matrix_u16(const uint16_t *m, uint32_t amp_bins, uint32_t x_bins, int32_t *x, int32_t *y, uint32_t point_cnt);
 
 /*========================= 函数实现 (Function Definitions) ================*/
 
 /**
  * @brief 更新图表的Y轴范围和标签
- *
- * 根据lv_ui_data.y_axis_range的值计算Y轴的最小值和最大值，
- * 并应用全局限制（Y_AXIS_GLOBAL_MIN和Y_AXIS_GLOBAL_MAX）。
- * 然后，设置图表和Y轴刻度对象的范围，并动态生成Y轴标签。
- * 最后，强制重绘Y轴刻度并刷新图表。
- *
- * @param chart_obj 指向LVGL图表对象的指针。
- * @param scale_y_obj 指向LVGL Y轴刻度对象的指针。
  */
-void update_chart_y_axis_and_labels(lv_obj_t *chart_obj, lv_obj_t *scale_y_obj)
+void update_chart_y_axis_and_labels(void)
 {
 	int32_t current_y_range_val = lv_ui_data.y_axis_range;
-	int32_t y_min = current_y_range_val * -50;
-	int32_t y_max = current_y_range_val * 50;
+	int32_t y_min = 0;
+	int32_t y_max = 0;
 
-	// Apply global limits
-	if (y_max > Y_AXIS_GLOBAL_MAX) y_max = Y_AXIS_GLOBAL_MAX;
-	if (y_min < Y_AXIS_GLOBAL_MIN) y_min = Y_AXIS_GLOBAL_MIN;
+	if (lv_ui_data.chart_selection == 0)
+	{
+		y_min = current_y_range_val * -ADC_RANGE_MAX;
+		y_max = current_y_range_val * ADC_RANGE_MAX;
+	}
+	else if (lv_ui_data.chart_selection == 1)
+	{
+		y_min = 0;
+		y_max = current_y_range_val * PRPD_RANGE_MAX;
+	}
+	else if (lv_ui_data.chart_selection == 3)
+	{
+		y_min = 0;
+		y_max = current_y_range_val * TOF_RANGE_MAX;
+	}
 
-	update_chart_y_axis_and_labels_range(chart_obj, scale_y_obj, y_min, y_max);
-}
-
-static void update_chart_y_axis_and_labels_range(lv_obj_t *chart_obj, lv_obj_t *scale_y_obj, int32_t y_min, int32_t y_max)
-{
-	lv_chart_set_range(chart_obj, LV_CHART_AXIS_PRIMARY_Y, y_min, y_max);
-	lv_scale_set_range(scale_y_obj, y_min, y_max);
+	lv_chart_set_range(screen_main_chart_show_tab1, LV_CHART_AXIS_PRIMARY_Y, y_min, y_max);
+	lv_scale_set_range(screen_main_chart_scale_y, y_min, y_max);
 
 	static char y_labels_buf[3][16];
 	lv_snprintf(y_labels_buf[0], sizeof(y_labels_buf[0]), "%d", y_min);
 	lv_snprintf(y_labels_buf[1], sizeof(y_labels_buf[1]), "%d", (y_min + y_max) / 2);
 	lv_snprintf(y_labels_buf[2], sizeof(y_labels_buf[2]), "%d", y_max);
 	static const char *dynamic_y_labels_str[] = {y_labels_buf[0], y_labels_buf[1], y_labels_buf[2], NULL};
-	lv_scale_set_text_src(scale_y_obj, dynamic_y_labels_str);
+	lv_scale_set_text_src(screen_main_chart_scale_y, dynamic_y_labels_str);
 
-	lv_obj_invalidate(scale_y_obj);
+	lv_obj_invalidate(screen_main_chart_scale_y);
 }
 
 /**
  * @brief 更新图表的X轴范围和标签
  */
-void update_chart_x_axis_and_labels(int data_type)
+void update_chart_x_axis_and_labels(void)
 {
 	static char x_labels_buf[5][16];
-	if (data_type == 0)
+	if (lv_ui_data.chart_selection == 0)
 	{
 		lv_scale_set_range(screen_main_chart_scale_x, 0, 100);
 		lv_snprintf(x_labels_buf[0], sizeof(x_labels_buf[0]), "0");
@@ -79,7 +76,7 @@ void update_chart_x_axis_and_labels(int data_type)
 		lv_snprintf(x_labels_buf[3], sizeof(x_labels_buf[3]), "75");
 		lv_snprintf(x_labels_buf[4], sizeof(x_labels_buf[4]), "100");
 	}
-	else if (data_type == 1)
+	else if (lv_ui_data.chart_selection == 1)
 	{
 		lv_scale_set_range(screen_main_chart_scale_x, 0, 360);
 		lv_snprintf(x_labels_buf[0], sizeof(x_labels_buf[0]), "0");
@@ -88,7 +85,7 @@ void update_chart_x_axis_and_labels(int data_type)
 		lv_snprintf(x_labels_buf[3], sizeof(x_labels_buf[3]), "240");
 		lv_snprintf(x_labels_buf[4], sizeof(x_labels_buf[4]), "360");
 	}
-	else if (data_type == 3)
+	else if (lv_ui_data.chart_selection == 3)
 	{
 		if (lv_ui_data.flight_cycle == 0)
 		{
@@ -125,6 +122,15 @@ void update_chart_x_axis_and_labels(int data_type)
 	lv_obj_invalidate(screen_main_chart_scale_x);  // Force redraw of the scale to apply new labels
 }
 
+/*
+ * @brief 确保图表系列存在
+ *
+ * 该函数检查图表对象是否已添加了主系列（s_main_chart_ser0）。
+ * 如果未添加，则添加一个蓝色的主系列。
+ *
+ * @param chart_obj 指向LVGL图表对象的指针。
+ * @return lv_chart_series_t* 指向主系列的指针。
+ */
 static lv_chart_series_t *ensure_main_chart_series(lv_obj_t *chart_obj)
 {
 	lv_chart_series_t *ser = lv_chart_get_series_next(chart_obj, NULL);
@@ -136,6 +142,14 @@ static lv_chart_series_t *ensure_main_chart_series(lv_obj_t *chart_obj)
 	return ser;
 }
 
+/*
+ * @brief 清除图表系列数据
+ *
+ * 该函数遍历图表对象的所有所有系列，将每个系列的Y轴数据和X轴数据设置为LV_CHART_POINT_NONE。
+ * 并将X轴数据设置为0。
+ *
+ * @param chart_obj 指向LVGL图表对象的指针。
+ */
 static void clear_main_chart_series(lv_obj_t *chart_obj)
 {
 	uint32_t point_cnt = lv_chart_get_point_count(chart_obj);
@@ -164,8 +178,6 @@ static void clear_main_chart_series(lv_obj_t *chart_obj)
  *
  * 该函数设置图表的各种样式属性，例如更新模式、X轴和Y轴范围、分割线数量。
  * 它还计算并创建Y轴和X轴的刻度，设置它们的尺寸、位置、模式、刻度数量和标签。
- * Y轴标签是动态生成的，X轴标签是静态定义的。
- * 最后，调用 `update_chart_y_axis_and_labels` 来初始化Y轴的范围和标签。
  *
  * @param chart_obj 指向LVGL图表对象的指针。
  */
@@ -201,7 +213,7 @@ void chart_style_init(lv_obj_t *chart_obj)
 	lv_obj_set_style_text_font(screen_main_chart_scale_y, &lv_font_chinese_14_14, 0);
 
 	// Call after scale_y is created and before chart_refresh to initialize range and labels
-	update_chart_y_axis_and_labels(chart_obj, screen_main_chart_scale_y);
+	update_chart_y_axis_and_labels();
 
 	// 计算 X 轴 scale 的水平偏移量，使其中心与 Chart 内容区域的中心对齐
 	lv_coord_t x_offset_for_align_to = (pad_left + chart_content_width / 2) - (chart_full_width / 2);
@@ -218,7 +230,7 @@ void chart_style_init(lv_obj_t *chart_obj)
 	lv_obj_set_style_text_font(screen_main_chart_scale_x, &lv_font_chinese_14_14, 0);
 
 	// Call after scale_x is created and before chart_refresh to initialize range and labels
-	update_chart_x_axis_and_labels(lv_ui_data.chart_selection);
+	update_chart_x_axis_and_labels();
 
 	ensure_main_chart_series(chart_obj);
 }
@@ -241,16 +253,16 @@ void chart_set_style(void)
 		lv_chart_set_point_count(screen_main_chart_show_tab1, 100);
 		lv_chart_set_type(screen_main_chart_show_tab1, LV_CHART_TYPE_LINE);
 		lv_obj_set_style_line_opa(screen_main_chart_show_tab1, LV_OPA_COVER, LV_PART_ITEMS);
-		if (screen_main_chart_scale_y) update_chart_y_axis_and_labels(screen_main_chart_show_tab1, screen_main_chart_scale_y);
-		if (screen_main_chart_scale_x) update_chart_x_axis_and_labels(lv_ui_data.chart_selection);
+		if (screen_main_chart_scale_y) update_chart_y_axis_and_labels();
+		if (screen_main_chart_scale_x) update_chart_x_axis_and_labels();
 	}
 	else if (lv_ui_data.chart_selection == 1)  // PRPD图	散点
 	{
 		lv_chart_set_point_count(screen_main_chart_show_tab1, 300);
 		lv_chart_set_type(screen_main_chart_show_tab1, LV_CHART_TYPE_SCATTER);
 		lv_obj_set_style_line_opa(screen_main_chart_show_tab1, LV_OPA_TRANSP, LV_PART_ITEMS);
-		if (screen_main_chart_scale_y) update_chart_y_axis_and_labels_range(screen_main_chart_show_tab1, screen_main_chart_scale_y, 0, 40);
-		if (screen_main_chart_scale_x) update_chart_x_axis_and_labels(lv_ui_data.chart_selection);
+		if (screen_main_chart_scale_y) update_chart_y_axis_and_labels();
+		if (screen_main_chart_scale_x) update_chart_x_axis_and_labels();
 	}
 	else if (lv_ui_data.chart_selection == 2)  // 四要素 无
 	{
@@ -260,39 +272,72 @@ void chart_set_style(void)
 		lv_chart_set_point_count(screen_main_chart_show_tab1, 300);
 		lv_chart_set_type(screen_main_chart_show_tab1, LV_CHART_TYPE_SCATTER);
 		lv_obj_set_style_line_opa(screen_main_chart_show_tab1, LV_OPA_TRANSP, LV_PART_ITEMS);
-		if (screen_main_chart_scale_y) update_chart_y_axis_and_labels_range(screen_main_chart_show_tab1, screen_main_chart_scale_y, 0, 40);
-		if (screen_main_chart_scale_x) update_chart_x_axis_and_labels(lv_ui_data.chart_selection);
+		if (screen_main_chart_scale_y) update_chart_y_axis_and_labels();
+		if (screen_main_chart_scale_x) update_chart_x_axis_and_labels();
 	}
 
 	lv_chart_refresh(screen_main_chart_show_tab1);
 }
 
 /*
- * @brief 从16位矩阵填充散点图数据
+ * @brief 更新脉冲波形图表数据
  *
- * 该函数将16位矩阵中的非零元素转换为散点图数据，
- * 并将结果填充到指定的数组中。
- * 它还处理了矩阵的边界情况，确保数据在图表范围内显示。
+ * 该函数将 `lv_ui_data.adc_wave_100` 中的前 100 个数据填充到 `screen_main_chart_show_tab1` 的 Y 轴数据数组中。
+ * 并将剩余的点设置为 LV_CHART_POINT_NONE，以确保图表在显示时正确处理。
  *
- * @param m 指向16位矩阵的指针。
- * @param amp_bins 矩阵的行数（Y轴）。
- * @param x_bins 矩阵的列数（X轴）。
- * @param x 指向X轴数据数组的指针。
- * @param y 指向Y轴数据数组的指针。
- * @param point_cnt 散点图数据点的数量。
- */
-static void fill_scatter_from_matrix_u16(const uint16_t *m, uint32_t amp_bins, uint32_t x_bins, int32_t *x, int32_t *y, uint32_t point_cnt)
+*/
+static void update_chart_selection_0(void)
 {
-	if (m == NULL || x == NULL || y == NULL || amp_bins == 0 || x_bins == 0 || point_cnt == 0) return;
+	lv_chart_series_t *ser = ensure_main_chart_series(screen_main_chart_show_tab1);
+	if (ser == NULL) return;
 
-	uint32_t out_i = 0;
-	for (uint32_t amp = 0; amp < amp_bins; amp++)
+	uint32_t point_cnt = lv_chart_get_point_count(screen_main_chart_show_tab1);
+	if (point_cnt == 0) return;
+
+	int32_t *y = lv_chart_get_y_array(screen_main_chart_show_tab1, ser);
+	uint32_t cnt = point_cnt;
+	if (cnt > 100) cnt = 100;
+	for (uint32_t i = 0; i < cnt; i++)
 	{
-		const uint32_t row_ofs = amp * x_bins;
-		for (uint32_t xi = 0; xi < x_bins; xi++)
+		y[i] = (int32_t)lv_ui_data.adc_wave_100[i];
+	}
+	for (uint32_t i = cnt; i < point_cnt; i++)
+	{
+		y[i] = LV_CHART_POINT_NONE;
+	}
+	lv_chart_refresh(screen_main_chart_show_tab1);
+}
+
+/*
+ * @brief 更新PRPD图表数据
+ *
+ * 该函数将 `lv_ui_data.prpd_matrix_ptr` 中的 PRPD 数据填充到 `screen_main_chart_show_tab1` 的 X 轴和 Y 轴数据数组中。
+ * 并将剩余的点设置为 LV_CHART_POINT_NONE，以确保图表在显示时正确处理。
+ *
+*/
+static void update_chart_selection_1(void)
+{
+	lv_chart_series_t *ser = ensure_main_chart_series(screen_main_chart_show_tab1);
+	if (ser == NULL) return;
+
+	uint32_t point_cnt = lv_chart_get_point_count(screen_main_chart_show_tab1);
+	if (point_cnt == 0) return;
+
+	int32_t *x = lv_chart_get_x_array(screen_main_chart_show_tab1, ser);
+	int32_t *y = lv_chart_get_y_array(screen_main_chart_show_tab1, ser);
+	if (x == NULL || y == NULL) return;
+
+	uint16_t (*m)[PRPD_PHASE_BINS] = lv_ui_data.prpd_matrix_ptr;
+	if (m == NULL)return;
+
+	int y_axis_range_mx = lv_ui_data.y_axis_range*PRPD_RANGE_MAX;
+	uint32_t out_i = 0;
+	for (uint32_t amp = 0; amp < y_axis_range_mx; amp++)
+	{
+		for (uint32_t xi = 0; xi < PRPD_PHASE_BINS; xi++)
 		{
-			uint16_t c = m[row_ofs + xi];
-			if (c == 0) continue;
+			uint16_t c = m[amp][xi];
+			if (c <= 0) continue;
 			if (out_i >= point_cnt) break;
 			x[out_i] = (int32_t)xi;
 			y[out_i] = (int32_t)amp;
@@ -305,7 +350,66 @@ static void fill_scatter_from_matrix_u16(const uint16_t *m, uint32_t amp_bins, u
 	{
 		y[i] = LV_CHART_POINT_NONE;
 	}
+
+	lv_chart_refresh(screen_main_chart_show_tab1);
 }
+
+/*
+ * @brief 更新四要素图表数据
+ *
+ * 该函数暂未实现，用于未来扩展。
+ *
+*/
+static void update_chart_selection_2(void){
+
+}
+
+/*
+ * @brief 更新飞行图图表数据
+ *
+ * 该函数将 `lv_ui_data.tof_matrix_ptr` 中的 TOF 数据填充到 `screen_main_chart_show_tab1` 的 X 轴和 Y 轴数据数组中。
+ * 并将剩余的点设置为 LV_CHART_POINT_NONE，以确保图表在显示时正确处理。
+ *
+*/
+static void update_chart_selection_3(void){
+	lv_chart_series_t *ser = ensure_main_chart_series(screen_main_chart_show_tab1);
+	if (ser == NULL) return;
+
+	uint32_t point_cnt = lv_chart_get_point_count(screen_main_chart_show_tab1);
+	if (point_cnt == 0) return;
+
+	int32_t *x = lv_chart_get_x_array(screen_main_chart_show_tab1, ser);
+	int32_t *y = lv_chart_get_y_array(screen_main_chart_show_tab1, ser);
+	if (x == NULL || y == NULL) return;
+
+	uint16_t (*m)[TOF_TIME_BINS] = lv_ui_data.tof_matrix_ptr;
+	if (m == NULL)return;
+
+	int y_axis_range_mx = lv_ui_data.y_axis_range*PRPD_RANGE_MAX;
+	uint32_t out_i = 0;
+	for (uint32_t amp = 0; amp < y_axis_range_mx; amp++)
+	{
+		for (uint32_t xi = 0; xi < TOF_TIME_BINS; xi++)
+		{
+			uint16_t c = m[amp][xi];
+			if (c <= 0) continue;
+			if (out_i >= point_cnt) break;
+			x[out_i] = (int32_t)xi;
+			y[out_i] = (int32_t)amp;
+			out_i++;
+		}
+		if (out_i >= point_cnt) break;
+	}
+
+	for (uint32_t i = out_i; i < point_cnt; i++)
+	{
+		y[i] = LV_CHART_POINT_NONE;
+	}
+
+	lv_chart_refresh(screen_main_chart_show_tab1);
+}
+
+
 
 /**
  * @brief 更新图表数据
@@ -315,60 +419,24 @@ static void fill_scatter_from_matrix_u16(const uint16_t *m, uint32_t amp_bins, u
  */
 void updata_chart_data(void)
 {
-	lv_obj_t *chart = screen_main_chart_show_tab1;
-	lv_chart_series_t *ser = ensure_main_chart_series(chart);
-	if (ser == NULL) return;
-
-	uint32_t point_cnt = lv_chart_get_point_count(chart);
-	if (point_cnt == 0) return;
-
 	if (lv_ui_data.chart_selection == 0)
 	{
-		int32_t *y = lv_chart_get_y_array(chart, ser);
-		uint32_t cnt = point_cnt;
-		if (cnt > 100) cnt = 100;
-		for (uint32_t i = 0; i < cnt; i++)
-		{
-			y[i] = (int32_t)lv_ui_data.adc_wave_100[i];
-		}
-		for (uint32_t i = cnt; i < point_cnt; i++)
-		{
-			y[i] = LV_CHART_POINT_NONE;
-		}
-		lv_chart_refresh(chart);
+		update_chart_selection_0();
 		return;
 	}
-
-	if (lv_ui_data.chart_selection == 1 || lv_ui_data.chart_selection == 3)
+	else if (lv_ui_data.chart_selection == 1)
 	{
-		int32_t *x = lv_chart_get_x_array(chart, ser);
-		int32_t *y = lv_chart_get_y_array(chart, ser);
-		if (x == NULL || y == NULL) return;
-
-		if (lv_ui_data.chart_selection == 1)
-		{
-			uint16_t (*m)[PRPD_PHASE_BINS] = lv_ui_data.prpd_matrix_ptr;
-			if (m == NULL)
-			{
-				lv_chart_refresh(chart);
-				return;
-			}
-			fill_scatter_from_matrix_u16((const uint16_t *)m, PRPD_AMP_BINS, PRPD_PHASE_BINS, x, y, point_cnt);
-		}
-		else
-		{
-			uint16_t (*m)[TOF_TIME_BINS] = lv_ui_data.tof_matrix_ptr;
-			if (m == NULL)
-			{
-				lv_chart_refresh(chart);
-				return;
-			}
-			fill_scatter_from_matrix_u16((const uint16_t *)m, TOF_AMP_BINS, TOF_TIME_BINS, x, y, point_cnt);
-		}
-
-		lv_chart_refresh(chart);
+		update_chart_selection_1();
 		return;
 	}
-
-	lv_chart_refresh(chart);
+	else if (lv_ui_data.chart_selection == 2)
+	{
+		update_chart_selection_2();
+		return;
+	}
+	else if (lv_ui_data.chart_selection == 3)
+	{
+		update_chart_selection_3();
+		return;
+	}
 }

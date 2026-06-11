@@ -421,8 +421,8 @@ void screen_main_btn_show_tab1_1_event_cb(lv_event_t *e)
 		log_i("screen_main_btn_show_tab1_1 clicked");
 		if (lv_ui_data.y_axis_range < 100)
 		{
-			lv_ui_data.y_axis_range += 5;
-			update_chart_y_axis_and_labels(screen_main_chart_show_tab1, screen_main_chart_scale_y);
+			lv_ui_data.y_axis_range += 10;
+			update_chart_y_axis_and_labels();
 			label_set_y_axis_range();
 		}
 	}
@@ -434,10 +434,10 @@ void screen_main_btn_show_tab1_2_event_cb(lv_event_t *e)
 	if (code == LV_EVENT_CLICKED)
 	{
 		log_i("screen_main_btn_show_tab1_2 clicked");
-		if (lv_ui_data.y_axis_range > 5)
+		if (lv_ui_data.y_axis_range > 10)
 		{
-			lv_ui_data.y_axis_range -= 5;
-			update_chart_y_axis_and_labels(screen_main_chart_show_tab1, screen_main_chart_scale_y);
+			lv_ui_data.y_axis_range -= 10;
+			update_chart_y_axis_and_labels();
 			label_set_y_axis_range();
 		}
 	}

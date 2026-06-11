@@ -19,8 +19,10 @@ extern "C"
 #endif
 
 /*========================= 宏定义 (Macros) ================================*/
-#define Y_AXIS_GLOBAL_MAX 5000
-#define Y_AXIS_GLOBAL_MIN -5000
+#define ADC_RANGE_MAX 50	// lv_ui_data.y_axis_range * 5000/100 = *50
+#define PRPD_RANGE_MAX 0.4	// 40
+#define TOF_RANGE_MAX 0.4	// 40
+
 
 /*========================= 类型定义 (Typedefs) ============================*/
 
@@ -250,8 +252,8 @@ void screen_main_btn_tab3_event_cb(lv_event_t *e);
 void screen_main_btn_tab4_event_cb(lv_event_t *e);
 
 // 图表
-void update_chart_y_axis_and_labels(lv_obj_t *chart_obj, lv_obj_t *scale_y_obj);
-void update_chart_x_axis_and_labels(int data_type);
+void update_chart_y_axis_and_labels(void);
+void update_chart_x_axis_and_labels(void);
 void chart_style_init(lv_obj_t *chart_obj);
 void chart_set_style(void);
 void updata_chart_data(void);
