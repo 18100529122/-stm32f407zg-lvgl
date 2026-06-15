@@ -29,8 +29,8 @@ static void lvgl_data_update_timer_cb(lv_timer_t *timer)
 	lv_ui_data_t *temp_ui_data = &lv_ui_data;
 	app_data_result_t *temp_app_data = app_data_process_get_result();
 
-	// log_v("rst: %lu adc: %lu data: %lu time: %lu cycles", temp_app_data->adc_restart_cnt, temp_app_data->adc_sample_cnt,
-	// 	  temp_app_data->adc_valid_sample_cnt, temp_app_data->end_time - temp_app_data->start_time);
+	log_v("rst: %lu adc: %lu data: %lu time: %lu cycles", temp_app_data->adc_restart_cnt, temp_app_data->adc_sample_cnt,
+		  temp_app_data->adc_valid_sample_cnt, temp_app_data->end_time - temp_app_data->start_time);
 
 	//  更新图表和标签数据
 
