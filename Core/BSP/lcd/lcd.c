@@ -562,6 +562,7 @@ void lcd_display_off(void)
 	}
 }
 
+#include "elog.h"
 /**
  * @brief       初始化LCD
  * @param       无
@@ -622,6 +623,7 @@ void lcd_init(void)
 		if (lcddev.id == 0x5761) lcddev.id = 0x1963;
 	} while (0);
 
+	log_i("lcd_init done, id = 0x%04X", lcddev.id);
 	if (lcddev.id == 0x7789)
 	{
 		lcd_ex_st7789_reginit(); /* 执行ST7789初始化 */

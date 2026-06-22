@@ -100,6 +100,7 @@ void gt9xxx_rd_reg(uint16_t reg, uint8_t *buf, uint8_t len)
 	ct_iic_stop(); /* 产生一个停止条件 */
 }
 
+#include "elog.h"
 /**
  * @brief       初始化gt9xxx触摸屏
  * @param       无
@@ -120,6 +121,7 @@ uint8_t gt9xxx_init(void)
 	gt9xxx_rd_reg(GT9XXX_PID_REG, temp, 4); /* 读取触摸IC的ID */
 	temp[4] = 0;
 
+	log_i("gt9xxx_init done, id = %s", temp);
 	/* 判断一下是否是特定的触摸屏 */
 	if (strcmp((char *)temp, "911") && strcmp((char *)temp, "9147") && strcmp((char *)temp, "1158") && strcmp((char *)temp, "9271"))
 	{

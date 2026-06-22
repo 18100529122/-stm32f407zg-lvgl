@@ -170,13 +170,15 @@ static void app_data_process_task(void *argument)
 				/* 更新PRPD图谱 */
 				app_data_process_update_prpd(f32_data, ADC_DMA_BUFF_SIZE, current_base_sample_idx);
 
-				// /* 当累计采样点数超过 flight_period 个工频周期时，自动重置图谱 */ //ARM_MATH_CM4
-				// if (g_app_data_result.adc_valid_sample_cnt >= g_app_data_result.flight_period * 2000)
-				// {
-				// 	app_data_process_reset_tof();
-				// 	app_data_process_reset_prpd();
-				// 	g_app_data_result.adc_valid_sample_cnt = 0;	 // 重置计数
-				// }
+				/* 当累计采样点数超过 flight_period 个工频周期时，只重置飞行图（滑动窗口）
+				   PRPD图保持累计以形成稳定的相位分布模式，用于缺陷类型识别
+				 */
+				if (g_app_data_result.adc_valid_sample_cnt >= g_app_data_result.flight_period * 20000)
+				{
+					app_data_process_reset_tof();
+					app_data_process_reset_prpd();
+					g_app_data_result.adc_valid_sample_cnt = 0;	 // 重置计数
+				}
 
 				/* 清除该块的已满标志 */
 				fifo->status[r_idx].is_full = 0;
