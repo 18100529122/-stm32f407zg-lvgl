@@ -220,7 +220,7 @@ void screen_main_btn_set_09_01_event_cb(lv_event_t *e)
 		log_i("screen_main_btn_set_09_01 clicked");
 		ui_state_modify(screen_main_btn_set_09_01, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
 		ui_state_modify(screen_main_btn_set_09_02, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
-		lv_ui_data.channel_selection = 0;
+		lv_ui_data.laser_enabled = 1;
 	}
 }
 
@@ -232,7 +232,7 @@ void screen_main_btn_set_09_02_event_cb(lv_event_t *e)
 		log_i("screen_main_btn_set_09_02 clicked");
 		ui_state_modify(screen_main_btn_set_09_01, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
 		ui_state_modify(screen_main_btn_set_09_02, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
-		lv_ui_data.channel_selection = 1;
+		lv_ui_data.laser_enabled = 0;
 	}
 }
 

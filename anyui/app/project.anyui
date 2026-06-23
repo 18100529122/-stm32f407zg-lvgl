@@ -5550,7 +5550,7 @@
                   "width": 80,
                   "height": 40,
                   "scrollbar_mode": "OFF",
-                  "text": "外置超声",
+                  "text": "关激光",
                   "mode": true,
                   "text_width": "60",
                   "text_height": "20",
@@ -5612,7 +5612,7 @@
                   "width": 80,
                   "height": 40,
                   "scrollbar_mode": "OFF",
-                  "text": "内置超声",
+                  "text": "开激光",
                   "mode": true,
                   "text_width": "60",
                   "text_height": "20",
@@ -5684,7 +5684,7 @@
                   "height": 14,
                   "height_unit": "pixel",
                   "scrollbar_mode": "OFF",
-                  "text": "通道选择:",
+                  "text": "激光:",
                   "long_mode": "LV_LABEL_LONG_WRAP",
                   "style": [
                     {
@@ -6427,7 +6427,7 @@
       "bpp": 4,
       "letters": "ascii",
       "range": "0x20-0x7F",
-      "symbols": "通道选择:\n内置超声\n外置超声\n飞行周期:\n单位选择:\n信号增益:\n增益类型:\n自动\n手动\n相位偏移: 0 度\n计数阈值: 5 个\n告警阈值:20.0dBuV\n注意阈值:20.0dBuV\nAA参数设置\n退出\n同步方式:内同步外同步\n同步频率:50 Hz\n通道增益:40dB\n通道阈值:20/29\n相位位移:0\n滤波:关闭开启\n参数\n有效值\n峰值\n频率分量1[50Hz]\n频率成分2[100Hz]\n脉冲波形\nPRPD图\n四要素图\n飞行图\n峰值:  -9.36dBuV\n噪声:  -9.36dBuV\n脉冲:  0\n幅值",
+      "symbols": "通道选择:\n内置超声\n外置超声\n飞行周期:\n单位选择:\n信号增益:\n增益类型:\n自动:\n手动\n相位偏移: 0 度\n计数阈值: 5 个\n告警阈值:20.0dBuV\n注意阈值:20.0dBuV\nAA参数设置\n退出\n同步方式:内同步外同步\n同步频率:50 Hz\n通道增益:40dB\n通道阈值:20/29\n相位位移:0\n滤波:关闭开启\n参数\n有效值\n峰值\n频率分量1[50Hz]\n频率成分2[100Hz]\n脉冲波形\nPRPD图\n四要素图\n飞行图\n峰值:  -9.36dBuV\n噪声:  -9.36dBuV\n脉冲:  0\n幅值:\n激光:\n开激光\n关激光",
       "flags": "--no-compress --no-prefilter"
     }
   ]

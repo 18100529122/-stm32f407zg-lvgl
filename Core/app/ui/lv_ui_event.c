@@ -49,7 +49,7 @@ static void lv_ui_data_init(void)
 	lv_ui_data.signal_gain = 0;				/**< 信号增益 0 40db 1 60db 2 80db 默认0 */
 	lv_ui_data.unit_selection = 0;			/**< 单位选择 0 dbuv 1uv 默认0*/
 	lv_ui_data.flight_cycle = 0;			/**< 飞行周期 0 2T 1 5T 2 10T 默认0*/
-	lv_ui_data.channel_selection = 0;		/**< 通道选择 0内置超声 1外部超声 默认0*/
+	lv_ui_data.laser_enabled = 0;			/**< 激光是否开启 0关闭 1开启 默认0*/
 }
 
 /**

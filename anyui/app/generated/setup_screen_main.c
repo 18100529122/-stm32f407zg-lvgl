@@ -211,7 +211,7 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_width(screen_main_label_set_09_01, 80);
     lv_obj_set_height(screen_main_label_set_09_01, 14);
     lv_obj_set_scrollbar_mode(screen_main_label_set_09_01, LV_SCROLLBAR_MODE_OFF);
-    lv_label_set_text(screen_main_label_set_09_01, "通道选择:");
+    lv_label_set_text(screen_main_label_set_09_01, "激光:");
     lv_label_set_long_mode(screen_main_label_set_09_01, LV_LABEL_LONG_WRAP);
     lv_obj_set_style_text_font(screen_main_label_set_09_01, &lv_font_chinese_14_14, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(screen_main_label_set_09_01, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -227,7 +227,7 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_height(screen_main_btn_set_09_01, 40);
     screen_main_btn_set_09_01_label = lv_label_create(screen_main_btn_set_09_01);
     lv_obj_set_scrollbar_mode(screen_main_btn_set_09_01, LV_SCROLLBAR_MODE_OFF);
-    lv_label_set_text(screen_main_btn_set_09_01_label, "内置超声");
+    lv_label_set_text(screen_main_btn_set_09_01_label, "开激光");
     lv_obj_set_style_pad_all(screen_main_btn_set_09_01, 0, LV_STATE_DEFAULT);
     lv_obj_align(screen_main_btn_set_09_01_label, LV_ALIGN_CENTER, 0, 0);
     // Add style for screen_main_btn_set_09_01 - LV_PART_MAIN | LV_STATE_DEFAULT
@@ -252,7 +252,7 @@ static lv_obj_t * create_ui(void) {
     lv_obj_set_height(screen_main_btn_set_09_02, 40);
     screen_main_btn_set_09_02_label = lv_label_create(screen_main_btn_set_09_02);
     lv_obj_set_scrollbar_mode(screen_main_btn_set_09_02, LV_SCROLLBAR_MODE_OFF);
-    lv_label_set_text(screen_main_btn_set_09_02_label, "外置超声");
+    lv_label_set_text(screen_main_btn_set_09_02_label, "关激光");
     lv_obj_set_style_pad_all(screen_main_btn_set_09_02, 0, LV_STATE_DEFAULT);
     lv_obj_align(screen_main_btn_set_09_02_label, LV_ALIGN_CENTER, 0, 0);
     // Add style for screen_main_btn_set_09_02 - LV_PART_MAIN | LV_STATE_DEFAULT

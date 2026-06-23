@@ -66,7 +66,7 @@ typedef struct
 	uint8_t signal_gain;		 /**< 信号增益 0 40db 1 60db 2 80db 默认0 */
 	int unit_selection;			 /**< 单位选择 0 dbuv 1uv 默认0*/
 	uint8_t flight_cycle;		 /**< 飞行周期 0 2T 1 5T 2 10T 默认0*/
-	int channel_selection;		 /**< 通道选择 0内置超声 1外部超声 默认0*/
+	int laser_enabled;			 /**< 激光是否开启 0关闭 1开启 默认0*/
 } lv_ui_data_t;
 
 /*========================= 全局变量 (Global Variables) ====================*/
