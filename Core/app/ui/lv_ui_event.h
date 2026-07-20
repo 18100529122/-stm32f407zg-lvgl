@@ -10,6 +10,7 @@
 
 #include "elog.h"
 
+#include "app.h"
 #include "app_data_fft.h"
 #include "app_data_process.h"
 
@@ -43,11 +44,6 @@ typedef struct
 	uint16_t adc_wave_100[100];					  /**< ADC 波形数据(100点) 脉冲波形 */
 	uint16_t (*prpd_matrix_ptr)[PRPD_PHASE_BINS]; /**< PRPD图谱矩阵数据指针 */
 	uint16_t (*tof_matrix_ptr)[TOF_TIME_BINS];	  /**< 飞行图谱矩阵数据指针 */
-	// 四要素图
-	float rms;		 /**< RMS 值 */
-	float max;		 /**< 最大值 */
-	float data50hz;	 /**< 50Hz 值 */
-	float data100hz; /**< 100Hz 值 */
 
 	// cont tail 界面显示参数
 	int sync_method;	   /**< 同步方式 0内同步 */
@@ -57,15 +53,9 @@ typedef struct
 	int phase_offset;	   /**< 相位偏移 0-360默认0*/
 	int filter_enabled;	   /**< 滤波是否开启 0关闭 1开启 默认0*/
 
-	// cont set 界面显示与控制参数
-	float attention_threshold;	 /**< 注意阈值 0-70.0 默认20*/
-	float alarm_threshold;		 /**< 告警阈值 0-70.0 默认20*/
-	uint8_t count_threshold;	 /**< 计数阈值 0-160 默认5 */
-	uint16_t phase_offset_angle; /**< 相位偏移角度 0-360默认0*/
-	int gain_type;				 /**< 增益类型 0自动 1手动 默认1*/
-	uint8_t signal_gain;		 /**< 信号增益 0 40db 1 60db 2 80db 默认0 */
-	int unit_selection;			 /**< 单位选择 0 dbuv 1uv 默认0*/
-	uint8_t flight_cycle;		 /**< 飞行周期 0 2T 1 5T 2 10T 默认0*/
+	// 公共数据（四要素+设置参数）
+	app_common_data_t common_data;
+
 	int laser_enabled;			 /**< 激光是否开启 0关闭 1开启 默认0*/
 } lv_ui_data_t;
 

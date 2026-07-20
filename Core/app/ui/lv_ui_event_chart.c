@@ -87,7 +87,7 @@ void update_chart_x_axis_and_labels(void)
 	}
 	else if (lv_ui_data.chart_selection == 3)
 	{
-		if (lv_ui_data.flight_cycle == 0)
+		if (lv_ui_data.common_data.flight_cycle == 0)
 		{
 			lv_scale_set_range(screen_main_chart_scale_x, 0, 2);
 			lv_snprintf(x_labels_buf[0], sizeof(x_labels_buf[0]), "0");
@@ -96,7 +96,7 @@ void update_chart_x_axis_and_labels(void)
 			lv_snprintf(x_labels_buf[3], sizeof(x_labels_buf[3]), "1.5");
 			lv_snprintf(x_labels_buf[4], sizeof(x_labels_buf[4]), "2");
 		}
-		else if (lv_ui_data.flight_cycle == 1)
+		else if (lv_ui_data.common_data.flight_cycle == 1)
 		{
 			lv_scale_set_range(screen_main_chart_scale_x, 0, 5);
 			lv_snprintf(x_labels_buf[0], sizeof(x_labels_buf[0]), "0");
@@ -105,7 +105,7 @@ void update_chart_x_axis_and_labels(void)
 			lv_snprintf(x_labels_buf[3], sizeof(x_labels_buf[3]), "3.75");
 			lv_snprintf(x_labels_buf[4], sizeof(x_labels_buf[4]), "5");
 		}
-		else if (lv_ui_data.flight_cycle == 2)
+		else if (lv_ui_data.common_data.flight_cycle == 2)
 		{
 			lv_scale_set_range(screen_main_chart_scale_x, 0, 10);
 			lv_snprintf(x_labels_buf[0], sizeof(x_labels_buf[0]), "0");

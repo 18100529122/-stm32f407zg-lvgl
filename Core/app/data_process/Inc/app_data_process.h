@@ -3,6 +3,7 @@
 
 #include "main.h"
 #include "app_data_fft.h"
+#include "app.h"
 #include <stdbool.h>  // 添加此行以支持 bool 类型
 
 // 假设采样率为 100kHz，工频为 50Hz
@@ -34,11 +35,8 @@ typedef struct
 	uint16_t (*prpd_matrix_ptr)[PRPD_PHASE_BINS]; /* PRPD图谱统计矩阵指针 */
 	uint32_t prpd_point_cnt;					  /* PRPD图谱总点数 */
 
-	/* 四要素值 */
-	float rms;		  /* 有效值 */
-	float peak;		  /* 周期最大值 */
-	float freq_50hz;  /* 50Hz 分量 */
-	float freq_100hz; /* 100Hz 分量 */
+	/* 公共数据（四要素+设置参数） */
+	app_common_data_t common_data;
 
 	/* 飞行图 */
 	uint16_t (*tof_matrix_ptr)[TOF_TIME_BINS]; /* 飞行图谱统计矩阵指针 */
@@ -47,17 +45,6 @@ typedef struct
 	float trigger_thr_mv;					   /* 触发阈值(mV) */
 
 	uint32_t adc_valid_sample_cnt; /* ADC 有效采样点计数 (自上次重置以来，用于图谱累积周期控制) */
-
-	/* 设置参数 */
-	float note_thr_mv;		 /* 注意阈值(mV) 0-70 默认20.0 */
-	float alarm_thr_mv;		 /* 告警阈值(mV) 0-70 默认20.0 */
-	uint32_t count_thr;		 /* 计数阈值 0-160 默认 5 */
-	uint32_t phase_offset;	 /* 相位偏移 0-360 默认0 */
-	bool gain_type_auto;	 /* 增益类型 true自动 false手动 默认手动 */
-	uint32_t gain;			 /* 信号增益 40 60 80 默认40 */
-	bool unit_select_dBuV;	 /* 单位选择 true:dBuV false:uV 默认dBuV */
-	uint32_t flight_period;	 /* 飞行周期 2T 5T 10T 默认2T */
-	bool channel_select_int; /* 通道选择 true:内置超声 false:外置超声 默认内置超声 */
 
 	/* 统计数据 用于测试*/
 	uint32_t adc_restart_cnt; /* ADC 重启计数 */

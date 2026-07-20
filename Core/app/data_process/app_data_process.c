@@ -37,15 +37,7 @@ void app_data_process_init(void)
 
 	/* 初始化数据处理结果结构体中的各项参数 */
 	g_app_data_result.trigger_thr_mv = 5.0f;	 /* 触发阈值设为 5.0mV，适应 0-20mV 图谱范围 */
-	g_app_data_result.note_thr_mv = 20.0f;		 /* 注意阈值(mV) 0-70 默认20.0 */
-	g_app_data_result.alarm_thr_mv = 20.0f;		 /* 告警阈值(mV) 0-70 默认20.0 */
-	g_app_data_result.count_thr = 5;			 /* 计数阈值 0-160 默认 5 */
-	g_app_data_result.phase_offset = 0;			 /* 相位偏移 0-360 默认0 */
-	g_app_data_result.gain_type_auto = false;	 /* 增益类型 true自动 false手动 默认手动 */
-	g_app_data_result.gain = 40;				 /* 信号增益 40 60 80 默认40 */
-	g_app_data_result.unit_select_dBuV = true;	 /* 单位选择 true:dBuV false:uV 默认dBuV */
-	g_app_data_result.flight_period = 2;		 /* 飞行周期 2T 5T 10T 默认2T */
-	g_app_data_result.channel_select_int = true; /* 通道选择 true:内置超声 false:外置超声 默认内置超声 */
+	g_app_data_result.common_data = g_app_common_data; /* 使用公共数据的默认值 */
 
 	g_app_data_result.adc_restart_cnt = 0;		/* 初始化 ADC 重启计数 */
 	g_app_data_result.adc_sample_cnt = 0;		/* 初始化 ADC 采样点计数 */
@@ -148,14 +140,14 @@ static void app_data_process_task(void *argument)
 				float32_t current_max_val = 0;
 				uint32_t max_idx = 0;
 				arm_max_f32(f32_data, ADC_DMA_BUFF_SIZE, &current_max_val, &max_idx);
-				g_app_data_result.peak = current_max_val;
+				g_app_data_result.common_data.peak = current_max_val;
 
 				/* 使用 CMSIS-DSP 库计算有效值 (RMS) */
-				arm_rms_f32(f32_data, ADC_DMA_BUFF_SIZE, &g_app_data_result.rms);
+				arm_rms_f32(f32_data, ADC_DMA_BUFF_SIZE, &g_app_data_result.common_data.rms);
 
 				/* 更新频率分量 (50Hz 和 100Hz) */
-				g_app_data_result.freq_50hz = app_data_fft_get_freq_value(0);
-				g_app_data_result.freq_100hz = app_data_fft_get_freq_value(1);
+				g_app_data_result.common_data.freq_50hz = app_data_fft_get_freq_value(0);
+				g_app_data_result.common_data.freq_100hz = app_data_fft_get_freq_value(1);
 
 				/* 更新 ADC 波形数据 (用于 UI 显示) */
 				/* 100kHz 采样下，每 4 个点抽取 1 个点，显示前 512 个点 (约 5.12ms) */
@@ -171,9 +163,11 @@ static void app_data_process_task(void *argument)
 				app_data_process_update_prpd(f32_data, ADC_DMA_BUFF_SIZE, current_base_sample_idx);
 
 				/* 当累计采样点数超过 flight_period 个工频周期时，只重置飞行图（滑动窗口）
-				   PRPD图保持累计以形成稳定的相位分布模式，用于缺陷类型识别
-				 */
-				if (g_app_data_result.adc_valid_sample_cnt >= g_app_data_result.flight_period * 20000)
+				PRPD图保持累计以形成稳定的相位分布模式，用于缺陷类型识别
+				*/
+				uint32_t flight_period = (g_app_data_result.common_data.flight_cycle == 0) ? 2 : 
+										(g_app_data_result.common_data.flight_cycle == 1) ? 5 : 10;
+				if (g_app_data_result.adc_valid_sample_cnt >= flight_period * 20000)
 				{
 					app_data_process_reset_tof();
 					app_data_process_reset_prpd();
@@ -201,6 +195,8 @@ static void app_data_process_task(void *argument)
  */
 static void app_data_process_update_tof(float32_t *data, uint32_t len, uint32_t base_sample_idx)
 {
+	uint32_t flight_period = (g_app_data_result.common_data.flight_cycle == 0) ? 2 : 
+	                         (g_app_data_result.common_data.flight_cycle == 1) ? 5 : 10;
 	for (uint32_t i = 0; i < len; i++)
 	{
 		/* 转换为 mV (ADC 12bit, 3.3V基准)
@@ -225,7 +221,7 @@ static void app_data_process_update_tof(float32_t *data, uint32_t len, uint32_t 
 					/* 检测到有效脉冲峰值 */
 
 					/* 计算时间索引 (映射到 flight_period 个工频周期) */
-					uint32_t total_tof_samples = SAMPLES_PER_50HZ_CYCLE * g_app_data_result.flight_period;
+					uint32_t total_tof_samples = SAMPLES_PER_50HZ_CYCLE * flight_period;
 					int time_idx = ((base_sample_idx + i) % total_tof_samples) / (total_tof_samples / TOF_TIME_BINS);
 
 					/* 映射到幅值矩阵索引 (0-20mV -> 40 bins, 0.5mV/bin) */
@@ -275,7 +271,7 @@ static void app_data_process_update_prpd(float32_t *data, uint32_t len, uint32_t
 
 					/* 计算相位索引 (采样率 100,000Hz, 工频 50Hz -> 每周期 2000 个点) */
 					/* 映射到 PRPD_PHASE_BINS 个相位区间 */
-					uint32_t sample_offset_equivalent = (uint32_t)(g_app_data_result.phase_offset * (SAMPLES_PER_50HZ_CYCLE / 360.0f));
+					uint32_t sample_offset_equivalent = (uint32_t)(g_app_data_result.common_data.phase_offset * (SAMPLES_PER_50HZ_CYCLE / 360.0f));
 					int adjusted_sample_pos = ((base_sample_idx + i) % SAMPLES_PER_50HZ_CYCLE + sample_offset_equivalent) % SAMPLES_PER_50HZ_CYCLE;
 					int phase_idx = adjusted_sample_pos / (SAMPLES_PER_50HZ_CYCLE / PRPD_PHASE_BINS);
 

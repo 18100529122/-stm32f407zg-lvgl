@@ -20,7 +20,7 @@
 
 void bar_set_rms(void)
 {
-	int32_t value = (int)(lv_ui_data.rms * 0.02);
+	int32_t value = (int)(lv_ui_data.common_data.rms * 0.02);
 	if (value < 0)
 	{
 		value = 0;
@@ -34,7 +34,7 @@ void bar_set_rms(void)
 
 void bar_set_max(void)
 {
-	int32_t value = (int)(lv_ui_data.max * 0.02);
+	int32_t value = (int)(lv_ui_data.common_data.peak * 0.02);
 	if (value < 0)
 	{
 		value = 0;
@@ -48,7 +48,7 @@ void bar_set_max(void)
 
 void bar_set_data50hz(void)
 {
-	int32_t value = (int)(lv_ui_data.data50hz * 0.02);
+	int32_t value = (int)(lv_ui_data.common_data.freq_50hz * 0.02);
 	if (value < 0)
 	{
 		value = 0;
@@ -62,7 +62,7 @@ void bar_set_data50hz(void)
 
 void bar_set_data100hz(void)
 {
-	int32_t value = (int)(lv_ui_data.data100hz * 0.02);
+	int32_t value = (int)(lv_ui_data.common_data.freq_100hz * 0.02);
 	if (value < 0)
 	{
 		value = 0;

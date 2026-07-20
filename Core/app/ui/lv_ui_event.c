@@ -26,11 +26,6 @@ static void lv_ui_data_init(void)
 	{
 		lv_ui_data.adc_wave_100[i] = 0;
 	}
-	// 四要素图
-	lv_ui_data.rms = 0;		  /**< RMS 值 */
-	lv_ui_data.max = 0;		  /**< 最大值 */
-	lv_ui_data.data50hz = 0;  /**< 50Hz 值 */
-	lv_ui_data.data100hz = 0; /**< 100Hz 值 */
 
 	// cont tail 界面显示参数
 	lv_ui_data.sync_method = 0;		   /**< 同步方式 0内同步 */
@@ -40,15 +35,9 @@ static void lv_ui_data_init(void)
 	lv_ui_data.phase_offset = 0;	   /**< 相位偏移 0-360默认0*/
 	lv_ui_data.filter_enabled = 0;	   /**< 滤波是否开启 0关闭 1开启 默认0*/
 
-	// cont set 界面显示与控制参数
-	lv_ui_data.attention_threshold = 20.0f; /**< 注意阈值 0-70.0 默认20*/
-	lv_ui_data.alarm_threshold = 20.0f;		/**< 告警阈值 0-70.0 默认20*/
-	lv_ui_data.count_threshold = 5;			/**< 计数阈值 0-160 默认5 */
-	lv_ui_data.phase_offset_angle = 0;		/**< 相位偏移角度 0-360默认0*/
-	lv_ui_data.gain_type = 1;				/**< 增益类型 0自动 1手动 默认1*/
-	lv_ui_data.signal_gain = 0;				/**< 信号增益 0 40db 1 60db 2 80db 默认0 */
-	lv_ui_data.unit_selection = 0;			/**< 单位选择 0 dbuv 1uv 默认0*/
-	lv_ui_data.flight_cycle = 0;			/**< 飞行周期 0 2T 1 5T 2 10T 默认0*/
+	// 使用公共数据的默认值
+	lv_ui_data.common_data = g_app_common_data;
+
 	lv_ui_data.laser_enabled = 0;			/**< 激光是否开启 0关闭 1开启 默认0*/
 }
 
@@ -86,10 +75,10 @@ static void screen_init(void)
 	label_set_cont_tail_filter_enabled();
 
 	// 设置滑块值
-	lv_slider_set_value(screen_main_slider_set_01_01, lv_ui_data.attention_threshold * 10.0f, LV_ANIM_OFF);
-	lv_slider_set_value(screen_main_slider_set_02_01, lv_ui_data.alarm_threshold * 10.0f, LV_ANIM_OFF);
-	lv_slider_set_value(screen_main_slider_set_03_01, lv_ui_data.count_threshold, LV_ANIM_OFF);
-	lv_slider_set_value(screen_main_slider_set_04_01, lv_ui_data.phase_offset_angle, LV_ANIM_OFF);
+	lv_slider_set_value(screen_main_slider_set_01_01, lv_ui_data.common_data.attention_threshold * 10.0f, LV_ANIM_OFF);
+	lv_slider_set_value(screen_main_slider_set_02_01, lv_ui_data.common_data.alarm_threshold * 10.0f, LV_ANIM_OFF);
+	lv_slider_set_value(screen_main_slider_set_03_01, lv_ui_data.common_data.count_threshold, LV_ANIM_OFF);
+	lv_slider_set_value(screen_main_slider_set_04_01, lv_ui_data.common_data.phase_offset, LV_ANIM_OFF);
 
 	// Bar
 	bar_set_rms();
@@ -133,10 +122,10 @@ void lv_ui_refresh(void)
 		}
 
 		// 更新四要素图数据
-		lv_ui_data.rms = r->rms;
-		lv_ui_data.max = r->peak;
-		lv_ui_data.data50hz = r->freq_50hz;
-		lv_ui_data.data100hz = r->freq_100hz;
+		lv_ui_data.common_data.rms = r->common_data.rms;
+		lv_ui_data.common_data.peak = r->common_data.peak;
+		lv_ui_data.common_data.freq_50hz = r->common_data.freq_50hz;
+		lv_ui_data.common_data.freq_100hz = r->common_data.freq_100hz;
 	}
 
 	updata_chart_data();

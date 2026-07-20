@@ -247,8 +247,8 @@ void screen_main_btn_set_08_01_event_cb(lv_event_t *e)
 		ui_state_modify(screen_main_btn_set_08_03, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.flight_cycle = 0;
-		g_app_data_result.flight_period = 2;
+		lv_ui_data.common_data.flight_cycle = 0;
+		g_app_data_result.common_data.flight_cycle = 0;
 		__enable_irq();
 	}
 }
@@ -264,8 +264,8 @@ void screen_main_btn_set_08_02_event_cb(lv_event_t *e)
 		ui_state_modify(screen_main_btn_set_08_03, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.flight_cycle = 1;
-		g_app_data_result.flight_period = 5;
+		lv_ui_data.common_data.flight_cycle = 1;
+		g_app_data_result.common_data.flight_cycle = 1;
 		__enable_irq();
 	}
 }
@@ -281,8 +281,8 @@ void screen_main_btn_set_08_03_event_cb(lv_event_t *e)
 		ui_state_modify(screen_main_btn_set_08_03, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.flight_cycle = 2;
-		g_app_data_result.flight_period = 10;
+		lv_ui_data.common_data.flight_cycle = 2;
+		g_app_data_result.common_data.flight_cycle = 2;
 		__enable_irq();
 	}
 }
@@ -297,8 +297,8 @@ void screen_main_btn_set_07_01_event_cb(lv_event_t *e)
 		ui_state_modify(screen_main_btn_set_07_02, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.unit_selection = 0;
-		g_app_data_result.unit_select_dBuV = true;
+		lv_ui_data.common_data.unit_selection = 0;
+		g_app_data_result.common_data.unit_selection = 0;
 		__enable_irq();
 	}
 }
@@ -313,8 +313,8 @@ void screen_main_btn_set_07_02_event_cb(lv_event_t *e)
 		ui_state_modify(screen_main_btn_set_07_02, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.unit_selection = 1;
-		g_app_data_result.unit_select_dBuV = false;
+		lv_ui_data.common_data.unit_selection = 1;
+		g_app_data_result.common_data.unit_selection = 1;
 		__enable_irq();
 	}
 }
@@ -330,8 +330,8 @@ void screen_main_btn_set_06_01_event_cb(lv_event_t *e)
 		ui_state_modify(screen_main_btn_set_06_03, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.signal_gain = 0;
-		g_app_data_result.gain = 40;
+		lv_ui_data.common_data.signal_gain = 0;
+		g_app_data_result.common_data.signal_gain = 0;
 		__enable_irq();
 	}
 }
@@ -347,8 +347,8 @@ void screen_main_btn_set_06_02_event_cb(lv_event_t *e)
 		ui_state_modify(screen_main_btn_set_06_03, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.signal_gain = 1;
-		g_app_data_result.gain = 60;
+		lv_ui_data.common_data.signal_gain = 1;
+		g_app_data_result.common_data.signal_gain = 1;
 		__enable_irq();
 	}
 }
@@ -364,8 +364,8 @@ void screen_main_btn_set_06_03_event_cb(lv_event_t *e)
 		ui_state_modify(screen_main_btn_set_06_03, LV_STATE_CHECKED, UI_STATE_ACTION_ADD);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.signal_gain = 2;
-		g_app_data_result.gain = 80;
+		lv_ui_data.common_data.signal_gain = 2;
+		g_app_data_result.common_data.signal_gain = 2;
 		__enable_irq();
 	}
 }
@@ -380,8 +380,8 @@ void screen_main_btn_set_05_01_event_cb(lv_event_t *e)
 		ui_state_modify(screen_main_btn_set_05_02, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.gain_type = 0;
-		g_app_data_result.gain_type_auto = true;
+		lv_ui_data.common_data.gain_type = 0;
+		g_app_data_result.common_data.gain_type = 0;
 		__enable_irq();
 	}
 }
@@ -396,8 +396,8 @@ void screen_main_btn_set_05_02_event_cb(lv_event_t *e)
 		ui_state_modify(screen_main_btn_set_05_01, LV_STATE_CHECKED, UI_FLAG_ACTION_REMOVE);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.gain_type = 1;
-		g_app_data_result.gain_type_auto = false;
+		lv_ui_data.common_data.gain_type = 1;
+		g_app_data_result.common_data.gain_type = 1;
 		__enable_irq();
 	}
 }

@@ -32,8 +32,8 @@ void screen_main_slider_set_01_01_event_cb(lv_event_t *e)
 		log_i("screen_main_slider_set_01_01 value: %d", value);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.attention_threshold = value * 0.1f;
-		g_app_data_result.note_thr_mv = value * 0.1f;
+		lv_ui_data.common_data.attention_threshold = value * 0.1f;
+		g_app_data_result.common_data.attention_threshold = value * 0.1f;
 		__enable_irq();
 		label_set_attention_threshold();
 	}
@@ -53,8 +53,8 @@ void screen_main_slider_set_02_01_event_cb(lv_event_t *e)
 		log_i("screen_main_slider_set_02_01 value: %d", value);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.alarm_threshold = value * 0.1f;
-		g_app_data_result.alarm_thr_mv = value * 0.1f;
+		lv_ui_data.common_data.alarm_threshold = value * 0.1f;
+		g_app_data_result.common_data.alarm_threshold = value * 0.1f;
 		__enable_irq();
 		label_set_alarm_threshold();
 	}
@@ -74,8 +74,8 @@ void screen_main_slider_set_03_01_event_cb(lv_event_t *e)
 		log_i("screen_main_slider_set_03_01 value: %d", value);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.count_threshold = value;
-		g_app_data_result.count_thr = value;
+		lv_ui_data.common_data.count_threshold = value;
+		g_app_data_result.common_data.count_threshold = value;
 		__enable_irq();
 		label_set_count_threshold();
 	}
@@ -95,8 +95,8 @@ void screen_main_slider_set_04_01_event_cb(lv_event_t *e)
 		log_i("screen_main_slider_set_04_01 value: %d", value);
 		// 关闭开启中断
 		__disable_irq();
-		lv_ui_data.phase_offset_angle = value;
-		g_app_data_result.phase_offset = value;
+		lv_ui_data.common_data.phase_offset = value;
+		g_app_data_result.common_data.phase_offset = value;
 		__enable_irq();
 		label_set_phase_offset();
 	}

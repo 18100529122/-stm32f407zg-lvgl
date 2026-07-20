@@ -86,104 +86,104 @@ void label_set_y_axis_range(void)
 /**
  * @brief 更新RMS文本内容
  *
- * 该函数将 `lv_ui_data.rms` 的值格式化为字符串，
+ * 该函数将 `lv_ui_data.common_data.rms` 的值格式化为字符串，
  * 并将其设置为 `screen_main_label_show_tab2_13` 标签的文本内容。
  */
 void label_set_rms(void)
 {
 	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%.1f dBuv", lv_ui_data.rms);
+	snprintf(temp_chars, sizeof(temp_chars), "%.1f dBuv", lv_ui_data.common_data.rms);
 	lv_label_set_text(screen_main_label_show_tab2_13, temp_chars);
 }
 
 /**
  * @brief 更新最大值文本内容
  *
- * 该函数将 `lv_ui_data.max` 的值格式化为字符串，
+ * 该函数将 `lv_ui_data.common_data.peak` 的值格式化为字符串，
  * 并将其设置为 `screen_main_label_show_tab2_23` 标签的文本内容。
  */
 void label_set_max(void)
 {
 	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%.1f dBuv", lv_ui_data.max);
+	snprintf(temp_chars, sizeof(temp_chars), "%.1f dBuv", lv_ui_data.common_data.peak);
 	lv_label_set_text(screen_main_label_show_tab2_23, temp_chars);
 }
 
 /**
  * @brief 更新50Hz文本内容
  *
- * 该函数将 `lv_ui_data.data50hz` 的值格式化为字符串，
+ * 该函数将 `lv_ui_data.common_data.freq_50hz` 的值格式化为字符串，
  * 并将其设置为 `screen_main_label_show_tab2_33` 标签的文本内容。
  */
 void label_set_data50hz(void)
 {
 	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%.1f dBuv", lv_ui_data.data50hz);
+	snprintf(temp_chars, sizeof(temp_chars), "%.1f dBuv", lv_ui_data.common_data.freq_50hz);
 	lv_label_set_text(screen_main_label_show_tab2_33, temp_chars);
 }
 
 /**
  * @brief 更新100Hz文本内容
  *
- * 该函数将 `lv_ui_data.data100hz` 的值格式化为字符串，
+ * 该函数将 `lv_ui_data.common_data.freq_100hz` 的值格式化为字符串，
  * 并将其设置为 `screen_main_label_show_tab2_43` 标签的文本内容。
  */
 void label_set_data100hz(void)
 {
 	char temp_chars[24];
-	snprintf(temp_chars, sizeof(temp_chars), "%.1f dBuv", lv_ui_data.data100hz);
+	snprintf(temp_chars, sizeof(temp_chars), "%.1f dBuv", lv_ui_data.common_data.freq_100hz);
 	lv_label_set_text(screen_main_label_show_tab2_43, temp_chars);
 }
 
 /**
  * @brief 更新注意阈值文本内容
  *
- * 该函数将 `lv_ui_data.attention_threshold` 的值格式化为字符串，
+ * 该函数将 `lv_ui_data.common_data.attention_threshold` 的值格式化为字符串，
  * 并将其设置为 `screen_main_label_set_01_01` 标签的文本内容。
  */
 void label_set_attention_threshold(void)
 {
 	char temp_chars[30];
-	snprintf(temp_chars, sizeof(temp_chars), "注意阈值:%.1fdBuv", lv_ui_data.attention_threshold);
+	snprintf(temp_chars, sizeof(temp_chars), "注意阈值:%.1fdBuv", lv_ui_data.common_data.attention_threshold);
 	lv_label_set_text(screen_main_label_set_01_01, temp_chars);
 }
 
 /**
  * @brief 更新告警阈值文本内容
  *
- * 该函数将 `lv_ui_data.alarm_threshold` 的值格式化为字符串，
+ * 该函数将 `lv_ui_data.common_data.alarm_threshold` 的值格式化为字符串，
  * 并将其设置为 `screen_main_label_set_02_01` 标签的文本内容。
  */
 void label_set_alarm_threshold(void)
 {
 	char temp_chars[30];
-	snprintf(temp_chars, sizeof(temp_chars), "告警阈值:%.1fdBuv", lv_ui_data.alarm_threshold);
+	snprintf(temp_chars, sizeof(temp_chars), "告警阈值:%.1fdBuv", lv_ui_data.common_data.alarm_threshold);
 	lv_label_set_text(screen_main_label_set_02_01, temp_chars);
 }
 
 /**
  * @brief 更新计数阈值文本内容
  *
- * 该函数将 `lv_ui_data.count_threshold` 的值格式化为字符串，
+ * 该函数将 `lv_ui_data.common_data.count_threshold` 的值格式化为字符串，
  * 并将其设置为 `screen_main_label_set_03_01` 标签的文本内容。
  */
 void label_set_count_threshold(void)
 {
 	char temp_chars[30];
-	snprintf(temp_chars, sizeof(temp_chars), "计数阈值: %d 个", lv_ui_data.count_threshold);
+	snprintf(temp_chars, sizeof(temp_chars), "计数阈值: %d 个", lv_ui_data.common_data.count_threshold);
 	lv_label_set_text(screen_main_label_set_03_01, temp_chars);
 }
 
 /**
  * @brief 更新相位偏移文本内容
  *
- * 该函数将 `lv_ui_data.phase_offset_angle` 的值格式化为字符串，
+ * 该函数将 `lv_ui_data.common_data.phase_offset` 的值格式化为字符串，
  * 并将其设置为 `screen_main_label_set_04_01` 标签的文本内容。
  */
 void label_set_phase_offset(void)
 {
 	char temp_chars[30];
-	snprintf(temp_chars, sizeof(temp_chars), "相位偏移: %d 度", lv_ui_data.phase_offset_angle);
+	snprintf(temp_chars, sizeof(temp_chars), "相位偏移: %d 度", lv_ui_data.common_data.phase_offset);
 	lv_label_set_text(screen_main_label_set_04_01, temp_chars);
 }
 
